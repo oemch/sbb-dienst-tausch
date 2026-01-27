@@ -1,15 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const coopFont = localFont({
+  src: [
+    {
+      path: "../public/fonts/CoopRg.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/CoopIt.ttf",
+      weight: "400",
+      style: "italic",
+    },
+    {
+      path: "../public/fonts/CoopBd.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/CoopBdIt.ttf",
+      weight: "700",
+      style: "italic",
+    },
+  ],
+  variable: "--font-coop",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${coopFont.variable} font-sans antialiased`}
       >
         {children}
       </body>
