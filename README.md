@@ -1,39 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Dienst-Tausch Demo App
 
-## Getting Started
+Eine Demo-App für Workforce Management, die das Verschieben von Diensten zeigt. Diese App demonstriert einen kleinen Funktionsausschnitt einer größeren Anwendung.
 
-First, run the development server:
+## 🚀 Features
 
+- **Welcome Screen**: Begrüßungsseite mit Illustration
+- **Dashboard**: Übersicht über Dienste, Feriensaldo und Ereignisse
+- **Dienst tauschen**: Funktion zum Verschieben von Diensten
+- **Wochenkalender**: Übersicht über die Woche mit Diensten
+- **Formular**: Erfassung von Benutzerdaten (Name, E-Mail, Firma)
+- **Interaktive Overlays**: Schritt-für-Schritt Anleitungen mit Sprechblasen
+
+## 🛠️ Tech Stack
+
+- **Framework**: Next.js 16 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
+- **Database**: Supabase
+- **Deployment**: Vercel
+
+## 📋 Voraussetzungen
+
+- Node.js 18+ 
+- npm oder yarn
+- Supabase Account (für Datenbank)
+
+## 🔧 Installation
+
+1. Repository klonen:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/oemch/dienst-tausch.git
+cd dienst-tausch
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Dependencies installieren:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Umgebungsvariablen einrichten:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. `.env.local` mit deinen Supabase-Credentials füllen:
+```env
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+```
 
-## Learn More
+5. Development Server starten:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+Die App ist dann unter [http://localhost:3000](http://localhost:3000) erreichbar.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run dev` - Startet den Development Server
+- `npm run build` - Erstellt Production Build
+- `npm run start` - Startet Production Server
+- `npm run lint` - Führt ESLint aus
+- `npm run type-check` - Prüft TypeScript-Typen
 
-## Deploy on Vercel
+## 🗂️ Projektstruktur
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/
+├── api/
+│   └── users/          # API Route für Benutzerdaten
+├── components/          # React Components
+│   ├── DashboardOverlay.tsx
+│   ├── DienstTauschOverlay.tsx
+│   └── WochenkalenderOverlay.tsx
+├── dashboard/          # Dashboard Seite
+├── dienst-tausch/      # Dienst tauschen Seite
+├── request-approved/   # Anfrage angenommen Seite
+├── request-denied/     # Anfrage abgelehnt Seite
+├── success/            # Erfolgsseite
+├── welcome/            # Welcome Seite
+└── wochenkalender-1/   # Wochenkalender Seite
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# dienst-tausch
+## 🗄️ Datenbank
 
-Test
+Die App verwendet Supabase für die Datenspeicherung. Die Tabelle `users` benötigt folgende Spalten:
+
+- `id` (uuid, primary key)
+- `first_name` (text)
+- `last_name` (text)
+- `email` (text)
+- `firma` (text)
+- `created_at` (timestamp)
+
+## 🚢 Deployment
+
+Die App ist für Vercel optimiert:
+
+1. Repository mit Vercel verbinden
+2. Umgebungsvariablen in Vercel Settings setzen
+3. Automatisches Deployment bei jedem Push auf `main`
+
+## 📄 Lizenz
+
+Private Projekt - Alle Rechte vorbehalten

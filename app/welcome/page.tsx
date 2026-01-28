@@ -13,7 +13,7 @@ export default function WelcomePage() {
         {/* Text Content - oben */}
         <div className="flex flex-col items-start gap-6">
           {/* Headline */}
-          <h1 className="text-3xl font-bold text-black leading-tight">
+          <h1 className="text-[32px] font-bold text-black leading-tight">
             Willkommen zum
             <br />
             Dienst-Tausch Feature
@@ -22,7 +22,7 @@ export default function WelcomePage() {
           </h1>
 
           {/* Sub-headline */}
-          <p className="text-base text-black leading-relaxed">
+          <p className="text-[18px] text-black leading-relaxed">
             Interessiert an einer einfachen Lösung zur Verwaltung von Schichten und Diensten?
           </p>
         </div>
@@ -56,7 +56,7 @@ export default function WelcomePage() {
 
       {/* Footer - Fixed */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e7e6e5] border-solid flex h-[48px] items-end justify-center pb-[12px] px-[24px] z-10">
-        <div className="flex items-center gap-2 text-gray-400 text-sm">
+        <div className="flex items-center gap-2 text-gray-400 text-[16px]">
           <svg
             width="12"
             height="12"

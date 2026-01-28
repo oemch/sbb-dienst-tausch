@@ -12,7 +12,7 @@ export default function DashboardPage() {
         <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
           {/* Header */}
           <div className="flex h-[48px] items-center justify-center px-[24px] relative shrink-0 w-full">
-            <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px]">
+            <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[18px]">
               Mitarbeiterportal
             </p>
             <div className="flex gap-[24px] items-center relative shrink-0">
@@ -58,7 +58,7 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-[8px] items-start pb-[16px] relative w-full">
             {/* Days */}
             <div className="h-[40px] relative shrink-0 w-full">
-              <p className="absolute font-normal leading-normal left-0 text-[22px] text-black top-0">
+              <p className="absolute font-normal leading-normal left-0 text-[26px] text-black top-0">
                 Montag, 30.03.2026
               </p>
               {/* More Menu - ganz rechts mit padding */}
@@ -100,10 +100,10 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex flex-1 flex-col items-start justify-center min-h-px min-w-px relative">
-                        <p className="font-bold leading-[1.4] min-w-full not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                        <p className="font-bold leading-[1.4] min-w-full not-italic relative shrink-0 text-[#100c08] text-[18px]">
                           Dienst tauschen
                         </p>
-                        <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                        <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                           1 Anfrage an mich
                         </p>
                       </div>
@@ -131,11 +131,11 @@ export default function DashboardPage() {
                         </div>
                       </div>
                       <div className="flex flex-1 flex-col items-start justify-center min-h-px min-w-px relative">
-                        <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                        <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                           14:00 - 22:00
                         </p>
                         <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                          <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                          <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[18px]">
                             Spätschicht
                           </p>
                         </div>
@@ -162,10 +162,10 @@ export default function DashboardPage() {
                   </div>
                 </div>
                 <div className="flex flex-row gap-[8px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#55514d] text-[12px]">
+                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#55514d] text-[18px]">
                     Dauer: 8:00 h
                   </p>
-                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#55514d] text-[12px]">
+                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#55514d] text-[18px]">
                     Pause: 0:20 h
                   </p>
                 </div>
@@ -182,7 +182,7 @@ export default function DashboardPage() {
                     height={24}
                     className="relative shrink-0"
                   />
-                  <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                  <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                     Einsatzplanung
                   </p>
                 </div>
@@ -196,7 +196,7 @@ export default function DashboardPage() {
                     height={24}
                     className="relative shrink-0"
                   />
-                  <p className="font-bold leading-[1.4] min-w-full not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                  <p className="font-bold leading-[1.4] min-w-full not-italic relative shrink-0 text-[#100c08] text-[18px]">
                     Ferien & Absenzen
                   </p>
                 </div>
@@ -204,25 +204,25 @@ export default function DashboardPage() {
 
               {/* Feriensaldo Card */}
               <div className="bg-white flex flex-col gap-[16px] items-start overflow-clip px-[20px] py-[18px] relative rounded-[8px] shrink-0 w-full" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
-                <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[14px] w-full">
+                <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[18px] w-full">
                   Feriensaldo
                 </p>
                 <div className="flex gap-[8px] items-center relative shrink-0 w-full">
                   {/* Verfügbar: 18 Tage - proportional länger (18/31 = ~58% der Gesamtbreite) */}
                   <div className="bg-[#8bc34a] flex items-center justify-end overflow-clip px-[6px] py-[4px] relative rounded-[4px] shrink-0" style={{ width: 'calc((100% - 16px) * 18 / 31)' }}>
-                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[14px] text-black">
+                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[18px] text-black">
                       18
                     </p>
                   </div>
                   {/* Beantragt: 5 Tage */}
                   <div className="bg-[#cfcbc7] flex items-center justify-end overflow-clip px-[11px] py-[4px] relative rounded-[4px] shrink-0" style={{ width: 'calc((100% - 16px) * 5 / 31)' }}>
-                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[14px] text-black">
+                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[18px] text-black">
                       5
                     </p>
                   </div>
                   {/* Bezogen: 8 Tage */}
                   <div className="bg-white border border-[#cfcbc7] border-solid flex flex-1 items-center justify-end min-h-px min-w-px overflow-clip px-[8px] py-[4px] relative rounded-[4px]" style={{ width: 'calc((100% - 16px) * 8 / 31)' }}>
-                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[14px] text-black">
+                    <p className="font-bold leading-normal not-italic relative shrink-0 text-[18px] text-black">
                       8
                     </p>
                   </div>
@@ -230,19 +230,19 @@ export default function DashboardPage() {
                 <div className="flex items-center justify-between relative shrink-0 w-full">
                   <div className="flex gap-[8px] items-center relative shrink-0">
                     <div className="bg-[#8bc34a] h-[12px] rounded-[2px] shrink-0 w-[20px]" />
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[12px]">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                       Verfügbar
                     </p>
                   </div>
                   <div className="flex gap-[8px] items-center relative shrink-0">
                     <div className="bg-[#cfcbc7] h-[12px] rounded-[2px] shrink-0 w-[20px]" />
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[12px]">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                       Beantragt
                     </p>
                   </div>
                   <div className="flex gap-[8px] items-center relative shrink-0">
                     <div className="bg-white border border-[#cfcbc7] border-solid h-[12px] rounded-[2px] shrink-0 w-[20px]" />
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[12px]">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                       Bezogen
                     </p>
                   </div>
@@ -267,7 +267,7 @@ export default function DashboardPage() {
                   className="w-full h-full"
                 />
               </div>
-              <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+              <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[18px]">
                 Ereignisse
               </p>
             </div>
@@ -284,18 +284,18 @@ export default function DashboardPage() {
                     height={18}
                     className="relative shrink-0"
                   />
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[18px]">
                     Achtung, Planungsänderung
                   </p>
                 </div>
-                <div className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] w-full">
+                <div className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px] w-full">
                   <p className="mb-0">Ihre Planung in der KW 52</p>
                   <p>wurde geändert.</p>
                 </div>
               </div>
 
               {/* Ferien Card */}
-              <div className="bg-white flex flex-col gap-[8px] items-start leading-[1.4] not-italic pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] self-stretch shrink-0 text-[#100c08] text-[14px] w-[273px] min-w-[273px]" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
+              <div className="bg-white flex flex-col gap-[8px] items-start leading-[1.4] not-italic pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] self-stretch shrink-0 text-[#100c08] text-[18px] w-[273px] min-w-[273px]" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
                 <p className="font-bold h-[20px] relative shrink-0 w-[225px]">
                   Ferien 2025 eintragen
                 </p>

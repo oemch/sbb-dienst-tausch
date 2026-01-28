@@ -31,7 +31,7 @@ export default function DienstTauschPage() {
               </div>
             </button>
             {/* Title */}
-            <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px] text-center">
+            <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[18px] text-center">
               Dienst tauschen
             </p>
             {/* Spacer */}
@@ -47,19 +47,19 @@ export default function DienstTauschPage() {
       <div className="border-b border-[#cfcbc7] border-solid flex items-start relative shrink-0 w-full">
         {/* Tauschbörse Tab */}
         <div className="flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px] text-center">
+          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
             Tauschbörse
           </p>
         </div>
         {/* An mich Tab - Active */}
         <div className="border-b-4 border-[#04775b] border-solid flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#04775b] text-[16px] text-center">
+          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#04775b] text-[18px] text-center">
             An mich
           </p>
         </div>
         {/* Von mir Tab */}
         <div className="flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px] text-center">
+          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
             Von mir
           </p>
         </div>
@@ -67,7 +67,7 @@ export default function DienstTauschPage() {
 
       {/* Calendar Row */}
       <div className="bg-[#f3f2f2] flex gap-[8px] h-[40px] items-center overflow-clip pl-[24px] pr-[12px] py-[8px] relative shrink-0 w-full">
-        <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[14px]">
+        <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[18px]">
           KW 15 / 06. – 12. April 2026
         </p>
         <div className="flex flex-1 items-center justify-end min-h-px min-w-px relative">
@@ -87,7 +87,7 @@ export default function DienstTauschPage() {
       {/* Content */}
       <div className="bg-[#f3f2f2] flex flex-col gap-[24px] items-end pb-[160px] pt-[12px] px-[24px] relative shrink-0 w-full flex-1">
         {/* Request Header */}
-        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[14px] w-full">
+        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[18px] w-full">
           <div className="flex flex-col h-[16px] justify-center leading-[0] relative shrink-0 w-full">
             <p className="font-normal leading-[1.4]">Mia Steiner fragt an für</p>
           </div>
@@ -100,10 +100,10 @@ export default function DienstTauschPage() {
         <div className="flex gap-[8px] items-start relative shrink-0 w-full">
           {/* Short Date */}
           <div className="flex flex-col items-start justify-center leading-[1.4] not-italic relative shrink-0">
-            <p className="font-normal relative shrink-0 text-[#55514d] text-[14px]">
+            <p className="font-normal relative shrink-0 text-[#55514d] text-[18px]">
               DI
             </p>
-            <p className="font-bold relative shrink-0 text-[#100c08] text-[20px] w-[32px]">
+            <p className="font-bold relative shrink-0 text-[#100c08] text-[26px] w-[32px]">
               07
             </p>
           </div>
@@ -126,11 +126,11 @@ export default function DienstTauschPage() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[18px]">
                     Spätdienst
                   </p>
                 </div>
@@ -139,7 +139,7 @@ export default function DienstTauschPage() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[18px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -157,11 +157,11 @@ export default function DienstTauschPage() {
                     className="w-full h-full"
                   />
                 </div>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[12px] text-black">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[18px] text-black">
                   Im Tausch für:
                 </p>
               </div>
-              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pl-[24px] pr-[0px] relative text-[#100c08] text-[12px]">
+              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pl-[24px] pr-[0px] relative text-[#100c08] text-[18px]">
                 <p className="font-normal relative shrink-0">
                   Mi, 08.04.
                 </p>
@@ -183,7 +183,7 @@ export default function DienstTauschPage() {
                 onClick={() => router.push("/request-denied")}
                 className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px]"
               >
-                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
                   Ablehnen
                 </p>
               </button>
@@ -192,7 +192,7 @@ export default function DienstTauschPage() {
                 onClick={() => router.push("/request-approved")}
                 className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-px px-[24px] relative rounded-[8px]"
               >
-                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
                   Annehmen
                 </p>
               </button>
@@ -226,7 +226,7 @@ export default function DienstTauschPage() {
               className="w-full h-full"
             />
           </div>
-          <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+          <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
             <p className="leading-[1.4]">Dienstplan einblenden</p>
           </div>
         </button>
