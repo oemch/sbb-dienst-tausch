@@ -12,10 +12,10 @@ export default function SuccessPage() {
       <div className="flex flex-col gap-[9px] items-center relative shrink-0 w-full mt-[48px] px-[24px]">
         {/* Title Container */}
         <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-black w-full">
-          <p className="font-bold leading-tight relative shrink-0 text-[34px] w-full">
+          <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
             Herzlichen Dank für die Teilnahme.
           </p>
-          <p className="font-bold leading-tight relative shrink-0 text-[26px] w-full">
+          <p className="font-bold leading-tight relative shrink-0 text-[20px] w-full">
             Holen Sie sich Ihren Becher Popcorn ab.
           </p>
         </div>
@@ -50,14 +50,14 @@ export default function SuccessPage() {
             className="w-full h-full"
           />
         </div>
-        <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[18px] text-center">
+        <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
           <p className="leading-[1.4]">Zurück zum Anfang</p>
         </div>
       </button>
 
       {/* Footer - Fixed */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e7e6e5] border-solid flex h-[48px] items-end justify-center pb-[12px] px-[24px]">
-        <div className="flex items-center gap-2 text-gray-400 text-[16px]">
+        <div className="flex items-center gap-2 text-gray-400 text-sm">
           <svg
             width="12"
             height="12"

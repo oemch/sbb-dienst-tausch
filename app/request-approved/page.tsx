@@ -60,10 +60,10 @@ export default function RequestApprovedPage() {
       <div className="flex flex-[1_0_0] flex-col items-start justify-between min-h-px min-w-px pb-[72px] relative w-full mt-[48px]">
         {/* Title Container */}
         <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-black w-full">
-          <p className="font-bold leading-tight relative shrink-0 text-[34px] w-full">
+          <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
             Sie haben Mias Anfrage angenommen.
           </p>
-          <div className="font-normal leading-[0] relative shrink-0 text-[18px] w-full">
+          <div className="font-normal leading-[0] relative shrink-0 text-[16px] w-full">
             <p className="leading-normal mb-0">Der Diensttausch wurde erfolgreich bestätigt.</p>
             <p className="leading-normal mb-0">&nbsp;</p>
             <p>
@@ -81,56 +81,56 @@ export default function RequestApprovedPage() {
         <div className="bg-white flex flex-col gap-[4px] items-start overflow-clip p-[12px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] shrink-0 w-full">
           {/* Vorname */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
-            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[18px] text-[#55514d] w-full">
+            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-[#55514d] w-full">
               <p className="leading-[1.4]">Vorname *</p>
             </div>
             <input
               type="text"
               value={formData.first_name}
               onChange={(e) => handleInputChange("first_name", e.target.value)}
-              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[18px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
+              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[14px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
               placeholder=""
             />
           </div>
 
           {/* Name */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
-            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[18px] text-[#55514d] w-full">
+            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-[#55514d] w-full">
               <p className="leading-[1.4]">Name *</p>
             </div>
             <input
               type="text"
               value={formData.last_name}
               onChange={(e) => handleInputChange("last_name", e.target.value)}
-              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[18px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
+              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[14px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
               placeholder=""
             />
           </div>
 
           {/* E-Mail Adresse */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
-            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[18px] text-[#55514d] w-full">
+            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-[#55514d] w-full">
               <p className="leading-[1.4]">E-Mail Adresse *</p>
             </div>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[18px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
+              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[14px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
               placeholder=""
             />
           </div>
 
           {/* Firma */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
-            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[18px] text-[#55514d] w-full">
+            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-[#55514d] w-full">
               <p className="leading-[1.4]">Firma *</p>
             </div>
             <input
               type="text"
               value={formData.firma}
               onChange={(e) => handleInputChange("firma", e.target.value)}
-              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[18px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
+              className="bg-white border-[1.5px] border-[#b5b1ad] border-solid flex gap-[8px] h-[32px] items-center justify-end max-h-[32px] pl-[8px] pr-[8px] relative rounded-[4px] shrink-0 w-full text-[14px] text-[#100c08] focus:outline-none focus:border-[#100c08]"
               placeholder=""
             />
           </div>
@@ -140,7 +140,7 @@ export default function RequestApprovedPage() {
         <button
           onClick={handleSubmit}
           disabled={!isFormValid()}
-          className={`flex h-[48px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px] shrink-0 w-full font-bold leading-[1.4] not-italic text-[18px] text-center text-white ${
+          className={`flex h-[48px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px] shrink-0 w-full font-bold leading-[1.4] not-italic text-[14px] text-center text-white ${
             isFormValid()
               ? "bg-[#100c08] hover:bg-[#2a2a2a] cursor-pointer"
               : "bg-[#b5b1ad] cursor-not-allowed"
@@ -152,7 +152,7 @@ export default function RequestApprovedPage() {
 
       {/* Footer - Fixed */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e7e6e5] border-solid flex h-[48px] items-end justify-center pb-[12px] px-[24px]">
-        <div className="flex items-center gap-2 text-gray-400 text-[16px]">
+        <div className="flex items-center gap-2 text-gray-400 text-sm">
           <svg
             width="12"
             height="12"
