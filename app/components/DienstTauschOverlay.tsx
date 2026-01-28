@@ -61,8 +61,8 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
           type="button"
         >
           <div className="absolute bg-[rgba(0,0,0,0.2)] h-full left-0 overflow-clip top-0 w-full">
-            {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel */}
-            <div className="absolute bottom-[24px] right-[24px] w-full max-w-[345px]">
+            {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt */}
+            <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] z-[70]">
               <Image
                 src="/images/speech-bubble-overlay-3.svg"
                 alt="Speech Bubble Overlay 3"
@@ -94,8 +94,8 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
             />
           </div>
 
-          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, auf oberster Ebene */}
-          <div className="absolute bottom-[24px] right-[24px] w-full max-w-[345px] pointer-events-auto">
+          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt, auf oberster Ebene */}
+          <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] pointer-events-auto z-[100]">
             <Image
               src="/images/speech-bubble-overlay-4.svg"
               alt="Speech Bubble Overlay 4"

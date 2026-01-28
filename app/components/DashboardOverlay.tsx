@@ -45,8 +45,8 @@ export default function DashboardOverlay({ onClose }: DashboardOverlayProps) {
       {/* Overlay 1 */}
       {overlayState === 1 && (
         <div className="absolute bg-[rgba(0,0,0,0.2)] h-full left-0 overflow-clip top-0 w-full">
-          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel */}
-          <div className="absolute bottom-[24px] right-[24px] w-full max-w-[345px]">
+          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt */}
+          <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] z-[60]">
             <Image
               src="/images/speech-bubble-overlay-1.svg"
               alt="Speech Bubble Overlay 1"
@@ -77,8 +77,8 @@ export default function DashboardOverlay({ onClose }: DashboardOverlayProps) {
             />
           </div>
 
-          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel */}
-          <div className="absolute bottom-[24px] right-[24px] w-full max-w-[345px] z-10">
+          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt */}
+          <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] z-[60]">
             <Image
               src="/images/speech-bubble-overlay-2.svg"
               alt="Speech Bubble Overlay 2"

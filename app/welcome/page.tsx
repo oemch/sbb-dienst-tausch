@@ -7,11 +7,11 @@ export default function WelcomePage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-[#f3f2f2] flex flex-col px-[24px] pt-12">
+    <div className="h-screen bg-[#f3f2f2] flex flex-col px-[24px] pt-12 overflow-hidden" style={{ paddingBottom: '72px' }}>
       {/* Status Bar Simulation - wird auf echten Geräten automatisch angezeigt */}
-      <div className="w-full max-w-sm mx-auto flex flex-col flex-1 min-h-0">
-        {/* Text Content - oben */}
-        <div className="flex flex-col items-start gap-6">
+      <div className="w-full max-w-sm mx-auto flex flex-col h-full min-h-0">
+        {/* Text Content - oben, fester Bereich */}
+        <div className="flex flex-col items-start gap-6 flex-shrink-0">
           {/* Headline */}
           <h1 className="text-3xl font-bold text-black leading-tight">
             Willkommen zum
@@ -22,29 +22,29 @@ export default function WelcomePage() {
           </h1>
 
           {/* Sub-headline */}
-          <p className="text-base text-black leading-relaxed">
+          <p className="text-[18px] text-black leading-relaxed">
             Interessiert an einer einfachen Lösung zur Verwaltung von Schichten und Diensten?
           </p>
         </div>
 
-        {/* Flexibler Abstand - begrenzt */}
-        <div className="flex-grow min-h-0" style={{ maxHeight: '150px' }}></div>
-
-        {/* Bottom Section - mit festem Abstand zum Footer */}
-        <div className="w-full flex flex-col items-center pb-[96px]">
-          {/* Illustration */}
-          <div className="w-full flex justify-center mb-6">
+        {/* Flexibler Bereich für Illustration - nimmt verfügbaren Platz ein */}
+        <div className="flex-grow flex flex-col items-center justify-center min-h-0 overflow-hidden py-4">
+          {/* Illustration - skaliert sich automatisch */}
+          <div className="w-full flex justify-center items-center h-full">
             <Image
               src="/images/mascot-1.png"
               alt="Mascot Illustration"
               width={280}
               height={320}
               className="object-contain"
+              style={{ maxHeight: '100%', maxWidth: '100%', height: 'auto', width: 'auto' }}
               priority
             />
           </div>
+        </div>
 
-          {/* Start Button */}
+        {/* Start Button - immer sichtbar über Footer, fester Platz reserviert */}
+        <div className="w-full flex-shrink-0 mb-6">
           <button
             onClick={() => router.push("/dashboard")}
             className="w-full h-[48px] bg-black text-white font-bold rounded-lg hover:bg-gray-800 transition-colors"

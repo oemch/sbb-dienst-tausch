@@ -67,7 +67,7 @@ export default function DienstTauschPage() {
 
       {/* Calendar Row */}
       <div className="bg-[#f3f2f2] flex gap-[8px] h-[40px] items-center overflow-clip pl-[24px] pr-[12px] py-[8px] relative shrink-0 w-full">
-        <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[14px]">
+        <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px]">
           KW 15 / 06. – 12. April 2026
         </p>
         <div className="flex flex-1 items-center justify-end min-h-px min-w-px relative">
@@ -87,7 +87,7 @@ export default function DienstTauschPage() {
       {/* Content */}
       <div className="bg-[#f3f2f2] flex flex-col gap-[24px] items-end pb-[160px] pt-[12px] px-[24px] relative shrink-0 w-full flex-1">
         {/* Request Header */}
-        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[14px] w-full">
+        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[16px] w-full">
           <div className="flex flex-col h-[16px] justify-center leading-[0] relative shrink-0 w-full">
             <p className="font-normal leading-[1.4]">Mia Steiner fragt an für</p>
           </div>
