@@ -74,7 +74,7 @@ export default function Wochenkalender1Page() {
 
         {/* Calendar Row */}
         <div className="bg-[#f3f2f2] flex gap-[8px] h-[40px] items-center overflow-clip pl-[24px] pr-[12px] py-[8px] relative shrink-0 w-full">
-          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[14px]">
+          <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px]">
             KW 15 / 06. – 12. April 2026
           </p>
           <div className="flex flex-1 items-center justify-end min-h-px min-w-px relative">
@@ -124,11 +124,11 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
                     Spätdienst
                   </p>
                 </div>
@@ -137,7 +137,7 @@ export default function Wochenkalender1Page() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -159,7 +159,7 @@ export default function Wochenkalender1Page() {
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             {/* Neu Tag */}
-            <div className="absolute right-[-12px] w-[62px] h-[24px] top-[-6px]">
+            <div className="absolute right-[6px] w-[62px] h-[24px] top-[6px]">
               <Image
                 src="/images/tag-neu.svg"
                 alt="Neu"
@@ -185,11 +185,11 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
                     Spätdienst
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default function Wochenkalender1Page() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -216,14 +216,11 @@ export default function Wochenkalender1Page() {
                     className="w-full h-full"
                   />
                 </div>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[12px] text-black">
-                  Im Tausch für:
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-black">
+                  Im Tausch für: Mi, 08.04.
                 </p>
               </div>
-              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pl-[24px] pr-[0px] relative text-[#100c08] text-[12px]">
-                <p className="font-normal relative shrink-0">
-                  Mi, 08.04.
-                </p>
+              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pr-[0px] relative text-[#100c08] text-[14px]">
                 <div className="flex flex-col items-end relative shrink-0">
                   <p className="font-bold relative shrink-0">
                     Spätdienst
@@ -274,7 +271,7 @@ export default function Wochenkalender1Page() {
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             {/* Tag "Würde wegfallen" */}
-            <div className="absolute bg-[#696561] flex h-[24px] items-center justify-center overflow-clip rounded-[12px] right-[-12px] top-[-6px] w-[130px]">
+            <div className="absolute bg-[#696561] flex h-[24px] items-center justify-center overflow-clip rounded-[12px] right-[6px] top-[6px] w-[130px]">
               <div className="flex flex-[1_0_0] h-full items-center min-h-px min-w-px px-[8px] relative">
                 <p className="flex-1 font-normal leading-[1.4] min-h-px min-w-px not-italic relative text-[14px] text-center text-white">
                   Würde wegfallen
@@ -298,7 +295,7 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#b5b1ad] text-[14px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#b5b1ad] text-[16px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
@@ -348,11 +345,11 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
                     Spätdienst
                   </p>
                 </div>
@@ -361,7 +358,7 @@ export default function Wochenkalender1Page() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -396,11 +393,11 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px]">
+                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
                   Ganzer Tag
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
                     Frei
                   </p>
                 </div>
@@ -409,7 +406,7 @@ export default function Wochenkalender1Page() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>

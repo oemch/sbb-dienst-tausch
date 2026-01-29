@@ -55,7 +55,7 @@ export default function RequestDeniedPage() {
   };
 
   return (
-    <div className="bg-[#f3f2f2] flex flex-col gap-[48px] items-center pb-[72px] px-[24px] pt-0 min-h-screen w-full relative">
+    <div className="bg-[#f3f2f2] flex flex-col gap-[48px] items-center pb-[104px] px-[24px] pt-0 min-h-screen w-full relative">
       {/* Content Container */}
       <div className="flex flex-[1_0_0] flex-col items-start justify-between min-h-px min-w-px relative w-full mt-[48px]">
         {/* Title Container */}
@@ -63,7 +63,7 @@ export default function RequestDeniedPage() {
           <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
             Sie haben Mias Anfrage abgelehnt.
           </p>
-          <div className="font-normal leading-[0] relative shrink-0 text-[16px] w-full">
+          <div className="font-normal leading-[0] relative shrink-0 text-[18px] w-full">
             <p className="leading-normal mb-0">Kein Problem – ein Diensttausch ist jederzeit möglich.</p>
             <p className="leading-normal mb-0">&nbsp;</p>
             <p>
@@ -135,39 +135,20 @@ export default function RequestDeniedPage() {
             />
           </div>
         </div>
-
-        {/* Button */}
-        <button
-          onClick={handleSubmit}
-          disabled={!isFormValid()}
-          className={`flex h-[48px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px] shrink-0 w-full font-bold leading-[1.4] not-italic text-[14px] text-center text-white ${
-            isFormValid()
-              ? "bg-[#100c08] hover:bg-[#2a2a2a] cursor-pointer"
-              : "bg-[#b5b1ad] cursor-not-allowed"
-          }`}
-        >
-          Geschenk abholen
-        </button>
       </div>
 
-      {/* Footer - Fixed */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e7e6e5] border-solid flex h-[48px] items-end justify-center pb-[12px] px-[24px]">
-        <div className="flex items-center gap-2 text-gray-400 text-sm">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 1C4.9 1 4 1.9 4 3V4H3C2.4 4 2 4.4 2 5V9C2 9.6 2.4 10 3 10H9C9.6 10 10 9.6 10 9V5C10 4.4 9.6 4 9 4H8V3C8 1.9 7.1 1 6 1ZM6 2C6.6 2 7 2.4 7 3V4H5V3C5 2.4 5.4 2 6 2ZM3 5H9V9H3V5Z"
-              fill="currentColor"
-            />
-          </svg>
-          <span>jazz mitarbeiterportal</span>
-        </div>
-      </div>
+      {/* Button - Fixed 32px vom unteren Rand */}
+      <button
+        onClick={handleSubmit}
+        disabled={!isFormValid()}
+        className={`fixed bottom-[32px] left-[24px] right-[24px] flex h-[48px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] rounded-[8px] font-bold leading-[1.4] not-italic text-[14px] text-center text-white ${
+          isFormValid()
+            ? "bg-[#100c08] hover:bg-[#2a2a2a] cursor-pointer"
+            : "bg-[#b5b1ad] cursor-not-allowed"
+        }`}
+      >
+        Geschenk abholen
+      </button>
     </div>
   );
 }

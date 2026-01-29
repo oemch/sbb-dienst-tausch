@@ -130,7 +130,7 @@ export default function DienstTauschPage() {
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
                     Spätdienst
                   </p>
                 </div>
@@ -139,7 +139,7 @@ export default function DienstTauschPage() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#55514d] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -157,14 +157,11 @@ export default function DienstTauschPage() {
                     className="w-full h-full"
                   />
                 </div>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[12px] text-black">
-                  Im Tausch für:
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-black">
+                  Im Tausch für: Mi, 08.04.
                 </p>
               </div>
-              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pl-[24px] pr-[0px] relative text-[#100c08] text-[12px]">
-                <p className="font-normal relative shrink-0">
-                  Mi, 08.04.
-                </p>
+              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pr-[0px] relative text-[#100c08] text-[14px]">
                 <div className="flex flex-col items-end relative shrink-0">
                   <p className="font-bold relative shrink-0">
                     Spätdienst
@@ -198,8 +195,8 @@ export default function DienstTauschPage() {
               </button>
             </div>
 
-            {/* Blue Tag "Neu" - 12px nach rechts über die Kachel ragend */}
-            <div className="absolute right-[-12px] w-[62px] h-[24px] top-[-6px]">
+            {/* Blue Tag "Neu" - innerhalb der Kachel, rechts oben mit 6px Abstand */}
+            <div className="absolute right-[6px] w-[62px] h-[24px] top-[6px]">
               <Image
                 src="/images/tag-neu.svg"
                 alt="Neu"
@@ -214,7 +211,7 @@ export default function DienstTauschPage() {
         {/* Dienstplan einblenden */}
         <button
           onClick={() => router.push("/wochenkalender-1")}
-          className="flex gap-[8px] h-[32px] items-center justify-end pl-[12px] relative shrink-0 cursor-pointer z-[60]"
+          className="flex gap-[8px] h-[32px] items-center justify-end pl-[12px] relative shrink-0 cursor-pointer z-[60] -mt-[8px]"
         >
           {/* Calendar Icon */}
           <div className="relative shrink-0 size-[16px]">
