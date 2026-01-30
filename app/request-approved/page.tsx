@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RequestApprovedPage() {
   const router = useRouter();
@@ -56,7 +57,7 @@ export default function RequestApprovedPage() {
   return (
     <div className="bg-[#5A012A] flex flex-col gap-[48px] items-center px-[24px] pt-0 min-h-screen w-full relative">
       {/* Content Container */}
-      <div className="flex flex-[1_0_0] flex-col items-start justify-between min-h-px min-w-px pb-[104px] relative w-full mt-[48px]">
+      <div className="flex flex-col items-start min-h-px min-w-px pb-[104px] relative w-full mt-[48px]">
         {/* Title Container */}
         <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-white w-full">
           <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
@@ -72,8 +73,8 @@ export default function RequestApprovedPage() {
           </div>
         </div>
 
-        {/* Form – Absatz davor, keine Kachel, Inputs 40px hoch, keine Outline */}
-        <div className="mt-[24px] flex flex-col gap-[8px] items-start relative shrink-0 w-full">
+        {/* Form – 24px Abstand unter Firma-Inputfeld */}
+        <div className="mt-[24px] mb-[24px] flex flex-col gap-[8px] items-start relative shrink-0 w-full">
           {/* Vorname */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
             <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-white w-full">
@@ -131,11 +132,21 @@ export default function RequestApprovedPage() {
           </div>
         </div>
 
-        {/* Button – 32px Abstand nach Firma-Inputfeld */}
+        {/* Link Angaben zum Datenschutz – rechtsbündig (24px Abstand durch Form mb-[24px]) */}
+        <div className="w-full flex justify-end">
+          <Link
+            href="/datenschutz"
+            className="font-normal text-[16px] text-white hover:underline"
+          >
+            Angaben zum Datenschutz
+          </Link>
+        </div>
+
+        {/* Button Geschenk abholen */}
         <button
           onClick={handleSubmit}
           disabled={!isFormValid()}
-          className={`mt-[32px] flex h-[48px] min-h-[48px] w-full items-center justify-center rounded-[8px] font-bold leading-[1.4] not-italic text-[14px] text-center ${
+          className={`mt-[24px] flex h-[48px] min-h-[48px] w-full items-center justify-center rounded-[8px] font-bold leading-[1.4] not-italic text-[14px] text-center ${
             isFormValid()
               ? "bg-white text-black hover:bg-gray-100 cursor-pointer"
               : "bg-[#7a0140] text-white/90 cursor-not-allowed"

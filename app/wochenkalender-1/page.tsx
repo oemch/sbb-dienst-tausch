@@ -39,7 +39,7 @@ export default function Wochenkalender1Page() {
               </button>
               {/* Title */}
               <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px] text-center">
-                Dienst tauschen
+                Dienst tauschen: Dienstplan
               </p>
               {/* Spacer */}
               <div className="flex items-center justify-center p-[8px] shrink-0 size-[40px]" />
@@ -253,13 +253,11 @@ export default function Wochenkalender1Page() {
 
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-            {/* Tag "Würde wegfallen" – eine Zeile, nach links verlängert */}
-            <div className="absolute bg-[#696561] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] min-w-[170px]">
-              <div className="flex h-full items-center min-h-px min-w-px px-[8px] relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
-                  Würde wegfallen
-                </p>
-              </div>
+            {/* Tag "Würde übernommen" – absolut, liegt über Zeitangabe bei Überlappung (z.B. Mobile) */}
+            <div className="absolute z-10 bg-[#696561] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] min-w-[170px] px-[8px]">
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
+                Würde übernommen
+              </p>
             </div>
 
             {/* Header */}

@@ -23,13 +23,13 @@ export default function SuccessPage() {
 
       {/* Illustration Container – flexibel, Bild skaliert mit */}
       <div className="flex flex-1 min-h-0 items-center justify-center w-full px-[24px] py-[23px]">
-        <div className="relative w-full max-w-[234px] aspect-[234/401]">
+        <div className="relative w-full max-w-[min(400px,90vw)] aspect-square">
           <Image
-            src="/images/duck-popcorn.png"
-            alt="Duck with Popcorn"
+            src="/images/becher.png"
+            alt="Isolierbecher"
             fill
             className="object-contain"
-            sizes="(max-width: 280px) 100vw, 234px"
+            sizes="(max-width: 480px) 90vw, 400px"
             priority
           />
         </div>

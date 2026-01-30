@@ -57,7 +57,7 @@ export default function WochenkalenderOverlay({ onClose }: WochenkalenderOverlay
       >
         <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0">
           <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
-            Der vorgeschlagene Diensttausch wird im Dienstplan angzeigt. <span className="font-bold">Nehmen Sie nun die Anfrage an oder lehnen Sie sie ab.</span>
+            Anzeige des vorgeschlagenen Tausches im Dienstplan. <span className="font-bold">Nehmen Sie nun die Anfrage an oder lehnen Sie sie ab.</span>
           </p>
         </div>
       </div>
