@@ -96,6 +96,8 @@ Die App verwendet Supabase für die Datenspeicherung. Die Tabelle `users` benöt
 
 ## 🚢 Deployment
 
+**→ Ausführliche Schritt-für-Schritt-Anleitung:** [ANLEITUNG-DEPLOYMENT.md](./ANLEITUNG-DEPLOYMENT.md)
+
 Die App ist für Vercel optimiert:
 
 1. Repository mit Vercel verbinden

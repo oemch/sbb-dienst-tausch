@@ -61,15 +61,23 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
           type="button"
         >
           <div className="absolute bg-[rgba(0,0,0,0.2)] h-full left-0 overflow-clip top-0 w-full">
-            {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt */}
-            <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] z-[70]">
-              <Image
-                src="/images/speech-bubble-overlay-3.svg"
-                alt="Speech Bubble Overlay 3"
-                width={345}
-                height={194}
-                className="w-full h-auto"
-              />
+            {/* Kachel - unten fixiert mit 24px Abstand links, rechts und unten */}
+            <div className="fixed bottom-[24px] left-[24px] right-[24px] z-[70]">
+              <div className="bg-white border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative">
+                <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
+                  In dieser Ansicht sehen Sie <span className="font-bold">Anfragen</span>, die <span className="font-bold">an Sie</span> gerichtet sind, um Dienste zu tauschen.
+                </p>
+                {/* Pfeil rechts unten */}
+                <div className="absolute bottom-[16px] right-[16px]">
+                  <Image
+                    src="/images/icon-pfeil-links.svg"
+                    alt="Pfeil rechts"
+                    width={24}
+                    height={24}
+                    className="rotate-180"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </button>
@@ -94,15 +102,13 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
             />
           </div>
 
-          {/* Speech Bubble SVG - unten fixiert mit 24px Abstand, flexibel wie eine Kachel, fixed damit es immer sichtbar bleibt, auf oberster Ebene */}
-          <div className="fixed bottom-[24px] right-[24px] w-full max-w-[345px] pointer-events-auto z-[100]">
-            <Image
-              src="/images/speech-bubble-overlay-4.svg"
-              alt="Speech Bubble Overlay 4"
-              width={345}
-              height={194}
-              className="w-full h-auto"
-            />
+          {/* Kachel - unten fixiert mit 24px Abstand links, rechts und unten */}
+          <div className="fixed bottom-[24px] left-[24px] right-[24px] pointer-events-auto z-[100]">
+            <div className="bg-white border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0">
+              <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
+                Mia Steiner hat Ihnen diese Anfrage zum Diensttausch gesendet. Sie können diese <span className="font-bold">annehmen</span>, <span className="font-bold">ablehnen</span> oder mit Ihrem <span className="font-bold">Dienstplan abgleichen</span>.
+              </p>
+            </div>
           </div>
         </div>
       )}

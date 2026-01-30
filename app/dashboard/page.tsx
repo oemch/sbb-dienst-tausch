@@ -12,9 +12,14 @@ export default function DashboardPage() {
         <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
           {/* Header */}
           <div className="flex h-[48px] items-center justify-center px-[24px] relative shrink-0 w-full">
-            <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px]">
-              Mitarbeiterportal
-            </p>
+            <div className="flex flex-1 flex-col items-start justify-center min-h-px min-w-px relative">
+              <p className="font-normal leading-normal relative shrink-0 text-[#100c08] text-[12px]">
+                ZESAM
+              </p>
+              <p className="font-bold leading-normal relative shrink-0 text-[#100c08] text-[16px] -mt-1">
+                Mitarbeiterportal
+              </p>
+            </div>
             <div className="flex gap-[24px] items-center relative shrink-0">
               {/* E-Mail Icon */}
               <div className="relative shrink-0 size-[24px] ml-[12px]">

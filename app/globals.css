@@ -19,7 +19,11 @@
 }
 
 body {
-  background: var(--background);
+  background: #ffffff;
   color: var(--foreground);
   font-family: var(--font-coop), Arial, Helvetica, sans-serif;
+}
+
+html {
+  background: #ffffff;
 }

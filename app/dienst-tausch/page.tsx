@@ -87,7 +87,7 @@ export default function DienstTauschPage() {
       {/* Content */}
       <div className="bg-[#f3f2f2] flex flex-col gap-[24px] items-end pb-[160px] pt-[12px] px-[24px] relative shrink-0 w-full flex-1">
         {/* Request Header */}
-        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[16px] w-full">
+        <div className="flex flex-col gap-[4px] items-start not-italic relative shrink-0 text-[#100c08] text-[18px] w-full">
           <div className="flex flex-col h-[16px] justify-center leading-[0] relative shrink-0 w-full">
             <p className="font-normal leading-[1.4]">Mia Steiner fragt an für</p>
           </div>
@@ -158,7 +158,7 @@ export default function DienstTauschPage() {
                   />
                 </div>
                 <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-black">
-                  Im Tausch für: Mi, 08.04.
+                  Im Tausch für:
                 </p>
               </div>
               <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pr-[0px] relative text-[#100c08] text-[14px]">
@@ -167,7 +167,7 @@ export default function DienstTauschPage() {
                     Spätdienst
                   </p>
                   <p className="font-normal relative shrink-0">
-                    14:00 - 22:00
+                    Mi, 08.04., 14:00 - 22:00
                   </p>
                 </div>
               </div>
@@ -195,6 +195,28 @@ export default function DienstTauschPage() {
               </button>
             </div>
 
+            {/* Dienstplan einblenden - innerhalb der Kachel, rechtsbündig */}
+            <div className="flex justify-end pt-[8px] relative shrink-0 w-full">
+              <button
+                onClick={() => router.push("/wochenkalender-1")}
+                className="flex gap-[8px] h-[32px] items-center justify-end relative shrink-0 cursor-pointer"
+              >
+                {/* Calendar Icon */}
+                <div className="relative shrink-0 size-[16px]">
+                  <Image
+                    src="/images/icon-calendar.svg"
+                    alt="Kalender"
+                    width={16}
+                    height={16}
+                    className="w-full h-full"
+                  />
+                </div>
+                <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                  <p className="leading-[1.4]">Dienstplan anzeigen</p>
+                </div>
+              </button>
+            </div>
+
             {/* Blue Tag "Neu" - innerhalb der Kachel, rechts oben mit 6px Abstand */}
             <div className="absolute right-[6px] w-[62px] h-[24px] top-[6px]">
               <Image
@@ -207,26 +229,6 @@ export default function DienstTauschPage() {
             </div>
           </div>
         </div>
-
-        {/* Dienstplan einblenden */}
-        <button
-          onClick={() => router.push("/wochenkalender-1")}
-          className="flex gap-[8px] h-[32px] items-center justify-end pl-[12px] relative shrink-0 cursor-pointer z-[60] -mt-[8px]"
-        >
-          {/* Calendar Icon */}
-          <div className="relative shrink-0 size-[16px]">
-            <Image
-              src="/images/icon-calendar.svg"
-              alt="Kalender"
-              width={16}
-              height={16}
-              className="w-full h-full"
-            />
-          </div>
-          <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
-            <p className="leading-[1.4]">Dienstplan einblenden</p>
-          </div>
-        </button>
       </div>
 
       {/* Overlay */}
