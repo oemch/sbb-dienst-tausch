@@ -204,32 +204,15 @@ export default function Wochenkalender1Page() {
             </div>
 
             {/* Tausch Section */}
-            <div className="bg-[#FEFBE9] flex gap-[10px] items-start overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full">
-              <div className="flex gap-[8px] items-center relative shrink-0">
-                {/* Swap Icon */}
-                <div className="overflow-clip relative shrink-0 size-[16px]">
-                  <Image
-                    src="/images/icon-tausch.svg"
-                    alt="Tausch"
-                    width={16}
-                    height={16}
-                    className="w-full h-full"
-                  />
-                </div>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-black">
-                  Im Tausch für: Mi, 08.04.
-                </p>
-              </div>
-              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pr-[0px] relative text-[#100c08] text-[14px]">
-                <div className="flex flex-col items-end relative shrink-0">
-                  <p className="font-bold relative shrink-0">
-                    Spätdienst
-                  </p>
-                  <p className="font-normal relative shrink-0">
-                    14:00 - 22:00
-                  </p>
-                </div>
-              </div>
+            <div className="bg-[#E7E6E5] flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full">
+              {/* Zeile 1: Mia Steiner übernimmt dafür: */}
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                Mia Steiner übernimmt dafür:
+              </p>
+              {/* Zeile 2: Spätdienst (fett) vom Mi, 08. April, 14:00 - 22:00 */}
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                <span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00
+              </p>
             </div>
 
             {/* Buttons */}
@@ -270,10 +253,10 @@ export default function Wochenkalender1Page() {
 
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-            {/* Tag "Würde wegfallen" */}
-            <div className="absolute bg-[#696561] flex h-[24px] items-center justify-center overflow-clip rounded-[12px] right-[6px] top-[6px] w-[130px]">
-              <div className="flex flex-[1_0_0] h-full items-center min-h-px min-w-px px-[8px] relative">
-                <p className="flex-1 font-normal leading-[1.4] min-h-px min-w-px not-italic relative text-[14px] text-center text-white">
+            {/* Tag "Würde wegfallen" – eine Zeile, nach links verlängert */}
+            <div className="absolute bg-[#696561] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] min-w-[170px]">
+              <div className="flex h-full items-center min-h-px min-w-px px-[8px] relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
                   Würde wegfallen
                 </p>
               </div>
@@ -415,25 +398,6 @@ export default function Wochenkalender1Page() {
       </div>
 
       {showOverlay && <WochenkalenderOverlay onClose={handleCloseOverlay} />}
-
-      {/* Footer - Fixed */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#e7e6e5] border-solid flex h-[48px] items-end justify-center pb-[12px] px-[24px] z-10">
-        <div className="flex items-center gap-2 text-gray-400 text-sm">
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M6 1C4.9 1 4 1.9 4 3V4H3C2.4 4 2 4.4 2 5V9C2 9.6 2.4 10 3 10H9C9.6 10 10 9.6 10 9V5C10 4.4 9.6 4 9 4H8V3C8 1.9 7.1 1 6 1ZM6 2C6.6 2 7 2.4 7 3V4H5V3C5 2.4 5.4 2 6 2ZM3 5H9V9H3V5Z"
-              fill="currentColor"
-            />
-          </svg>
-          <span>jazz mitarbeiterportal</span>
-        </div>
-      </div>
     </div>
   );
 }

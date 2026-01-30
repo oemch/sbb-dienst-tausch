@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import DashboardOverlay from "../components/DashboardOverlay";
 
 export default function DashboardPage() {
@@ -85,8 +86,9 @@ export default function DashboardPage() {
 
             {/* Cards */}
             <div className="flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-              {/* Dienst tauschen Card */}
-              <div className="bg-[#f7d526] flex flex-col h-[87px] items-start overflow-clip pb-[20px] pl-[16px] pt-[8px] relative rounded-[8px] shrink-0 w-full" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
+              {/* Dienst tauschen Card – verlinkt zur dienst-tausch Page (bei Overlay 2 muss User hier klicken) */}
+              <Link href="/dienst-tausch" className="block shrink-0 w-full">
+                <div className="bg-[#f7d526] flex flex-col h-[87px] items-start overflow-clip pb-[20px] pl-[16px] pt-[8px] relative rounded-[8px] w-full cursor-pointer" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
                 <div className="flex h-[61px] items-start pr-[12px] relative shrink-0 w-full">
                   <div className="flex flex-1 items-center min-h-px min-w-px pt-[12px] relative">
                     <div className="flex flex-1 gap-[12px] items-center justify-center min-h-px min-w-px relative">
@@ -117,6 +119,7 @@ export default function DashboardPage() {
                   <div className="flex items-center justify-center relative shrink-0 size-[12px]" />
                 </div>
               </div>
+              </Link>
 
               {/* Spätschicht Card */}
               <div className="bg-white flex flex-col gap-[8px] items-start overflow-clip pb-[20px] pl-[16px] pt-[8px] relative rounded-[8px] shrink-0 w-full" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>

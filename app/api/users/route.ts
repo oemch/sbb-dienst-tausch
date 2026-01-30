@@ -30,10 +30,10 @@ export async function POST(req: Request) {
     const email = String(body.email ?? "").trim().toLowerCase();
     const firma = String(body.firma ?? "").trim();
 
-    // Validation
-    if (!first_name || !last_name || !email || !firma) {
+    // Validation – firma ist optional
+    if (!first_name || !last_name || !email) {
       return NextResponse.json(
-        { error: "first_name, last_name, email, firma are required" },
+        { error: "first_name, last_name und email sind Pflichtfelder" },
         { status: 400 }
       );
     }

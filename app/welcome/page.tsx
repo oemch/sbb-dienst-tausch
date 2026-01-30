@@ -7,9 +7,12 @@ export default function WelcomePage() {
   const router = useRouter();
 
   return (
-    <div className="h-screen bg-[#5A012A] flex flex-col pt-12 overflow-hidden relative" style={{ paddingBottom: '96px' }}>
-      {/* Status Bar Simulation - wird auf echten Geräten automatisch angezeigt */}
-      <div className="w-full max-w-sm mx-auto flex flex-col h-full min-h-0 px-[24px]">
+    <div className="min-h-[100dvh] min-h-screen bg-[#5A012A] flex flex-col relative">
+      {/* Scrollbarer Bereich – max-height endet oberhalb des Buttons, Bild erscheint nie unter dem Button */}
+      <div
+        className="w-full max-w-sm mx-auto flex flex-col flex-1 min-h-0 overflow-y-auto pt-12 px-[24px] pb-4"
+        style={{ maxHeight: 'calc(100dvh - 96px - env(safe-area-inset-bottom, 0px))' }}
+      >
         {/* Text Content - oben, fester Bereich */}
         <div className="flex flex-col items-start gap-6 flex-shrink-0">
           {/* Headline */}
@@ -23,8 +26,8 @@ export default function WelcomePage() {
           </p>
         </div>
 
-        {/* Bild - randabfallend, flexibel skalierend, mit 24px Abstand oben */}
-        <div className="flex-grow flex flex-col items-center justify-center min-h-0 overflow-hidden mt-6">
+        {/* Bild – auf Mobile 12px Abstand, ab sm 24px */}
+        <div className="flex-grow flex flex-col items-center justify-center min-h-0 overflow-hidden mt-3 sm:mt-[24px]">
           <div className="w-full flex items-center justify-center h-full">
             <Image
               src="/images/zesam-diensttausch.png"
@@ -44,8 +47,11 @@ export default function WelcomePage() {
         </div>
       </div>
 
-      {/* Button - fixed am unteren Rand mit 24px Abstand */}
-      <div className="fixed bottom-[24px] left-0 right-0 w-full max-w-sm mx-auto px-[24px] z-10">
+      {/* Button – fixer Rahmen 24px oberhalb (mit BG), fixed am unteren Rand, Safe Area für Mobil */}
+      <div
+        className="fixed left-0 right-0 w-full max-w-sm mx-auto px-[24px] pt-[24px] z-10 bg-[#5A012A]"
+        style={{ bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))' }}
+      >
         <button
           onClick={() => router.push("/dashboard")}
           className="w-full h-[48px] bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-colors"

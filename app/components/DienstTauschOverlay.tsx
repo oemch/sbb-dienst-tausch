@@ -31,8 +31,8 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
   };
 
   // Berechne die Position der Aussparung
-  // Beginnt 8px weiter oben als vor "Mia Steiner fragt an für..." = Header (48px) + Line (4px) + Tabs (48px) + Calendar (40px) + Content Padding Top (12px) - 8px
-  const cutoutTop = 48 + 4 + 48 + 40 + 12 - 8; // 144px
+  // Beginnt 8px weiter oben als vor "Mia Steiner fragt an für..." = Header (48px) + Line (4px) + Tabs (48px) + Calendar (40px) + Content Padding Top (12px) - 8px, dann +3px nach unten
+  const cutoutTop = 48 + 4 + 48 + 40 + 12 - 8 + 3; // 147px
   // Endet direkt nach dem "Dienstplan einblenden" Link
   // Die Aussparung geht bis ganz an den Rand (links und rechts)
   // Content-Bereich Höhen (konservativ berechnet):
@@ -47,7 +47,7 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
   const terminCardHeight = 250; // Short Date + Content Card
   const gap2 = 24;
   const linkHeight = 32;
-  const cutoutHeight = requestHeaderHeight + gap1 + terminCardHeight + gap2 + linkHeight; // 366px
+  const cutoutHeight = requestHeaderHeight + gap1 + terminCardHeight + gap2 + linkHeight + 4 + 12; // 382px (Aussparung +4px +12px vergrößert)
 
   return (
     <>
@@ -60,10 +60,10 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
           }`}
           type="button"
         >
-          <div className="absolute bg-[rgba(0,0,0,0.2)] h-full left-0 overflow-clip top-0 w-full">
+          <div className="absolute bg-[rgba(0,0,0,0)] h-full left-0 overflow-clip top-0 w-full">
             {/* Kachel - unten fixiert mit 24px Abstand links, rechts und unten */}
-            <div className="fixed bottom-[24px] left-[24px] right-[24px] z-[70]">
-              <div className="bg-white border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative">
+            <div className="fixed left-[24px] right-[24px] z-[70]" style={{ bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))' }}>
+              <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative">
                 <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
                   In dieser Ansicht sehen Sie <span className="font-bold">Anfragen</span>, die <span className="font-bold">an Sie</span> gerichtet sind, um Dienste zu tauschen.
                 </p>
@@ -90,23 +90,23 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
           <div className="absolute h-full left-0 top-0 w-full pointer-events-none">
             {/* Vollständiger Hintergrund mit Aussparung - verwendet einen transparenten Bereich mit großem Schatten und abgerundeten Ecken */}
             <div 
-              className="absolute bg-transparent"
+              className="absolute bg-transparent pointer-events-none"
               style={{
                 top: `${cutoutTop}px`,
                 left: '0',
                 width: '100%',
                 height: `${cutoutHeight}px`,
                 borderRadius: '8px',
-                boxShadow: `0 0 0 9999px rgba(0,0,0,0.2)`,
+                boxShadow: `0 0 0 9999px rgba(0,0,0,0)`,
               }}
             />
           </div>
 
           {/* Kachel - unten fixiert mit 24px Abstand links, rechts und unten */}
-          <div className="fixed bottom-[24px] left-[24px] right-[24px] pointer-events-auto z-[100]">
-            <div className="bg-white border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0">
+          <div className="fixed left-[24px] right-[24px] pointer-events-auto z-[100]" style={{ bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))' }}>
+            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0">
               <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
-                Mia Steiner hat Ihnen diese Anfrage zum Diensttausch gesendet. Sie können diese <span className="font-bold">annehmen</span>, <span className="font-bold">ablehnen</span> oder mit Ihrem <span className="font-bold">Dienstplan abgleichen</span>.
+                Mia Steiner hat Ihnen eine Diensttausch-Anfrage gesendet. Bitte <span className="font-bold">gleichen</span> Sie diese zuerst mit Ihrem <span className="font-bold">Dienstplan</span> <span className="font-bold">ab</span>.
               </p>
             </div>
           </div>

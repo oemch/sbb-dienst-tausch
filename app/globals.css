@@ -19,11 +19,13 @@
 }
 
 body {
-  background: #ffffff;
+  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-coop), Arial, Helvetica, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
 }
 
-html {
-  background: #ffffff;
+button, a, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
 }

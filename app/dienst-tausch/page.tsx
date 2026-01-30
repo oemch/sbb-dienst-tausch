@@ -145,48 +145,31 @@ export default function DienstTauschPage() {
             </div>
 
             {/* Tausch Section */}
-            <div className="bg-[#FEFBE9] flex gap-[10px] items-start overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full">
-              <div className="flex gap-[8px] items-center relative shrink-0">
-                {/* Swap Icon */}
-                <div className="overflow-clip relative shrink-0 size-[16px]">
-                  <Image
-                    src="/images/icon-tausch.svg"
-                    alt="Tausch"
-                    width={16}
-                    height={16}
-                    className="w-full h-full"
-                  />
-                </div>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-black">
-                  Im Tausch für:
-                </p>
-              </div>
-              <div className="flex flex-[1_0_0] gap-[10px] items-start justify-end leading-[1.4] min-h-px min-w-px not-italic pr-[0px] relative text-[#100c08] text-[14px]">
-                <div className="flex flex-col items-end relative shrink-0">
-                  <p className="font-bold relative shrink-0">
-                    Spätdienst
-                  </p>
-                  <p className="font-normal relative shrink-0">
-                    Mi, 08.04., 14:00 - 22:00
-                  </p>
-                </div>
-              </div>
+            <div className="bg-[#E7E6E5] flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full">
+              {/* Zeile 1: Mia Steiner übernimmt dafür: */}
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                Mia Steiner übernimmt dafür:
+              </p>
+              {/* Zeile 2: Spätdienst (fett) vom Mi, 08. April, 14:00 - 22:00 */}
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                <span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00
+              </p>
             </div>
 
             {/* Buttons */}
             <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[60]">
-              {/* Ablehnen Button */}
+              {/* Ablehnen Button - nicht verlinkt */}
               <button
-                onClick={() => router.push("/request-denied")}
+                type="button"
                 className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px]"
               >
                 <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
                   Ablehnen
                 </p>
               </button>
-              {/* Annehmen Button */}
+              {/* Annehmen Button - nicht verlinkt */}
               <button
-                onClick={() => router.push("/request-approved")}
+                type="button"
                 className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-px px-[24px] relative rounded-[8px]"
               >
                 <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
@@ -211,7 +194,7 @@ export default function DienstTauschPage() {
                     className="w-full h-full"
                   />
                 </div>
-                <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                <div className="flex flex-col font-normal justify-center leading-[0] not-italic relative shrink-0 text-[#100c08] text-[15px] text-center">
                   <p className="leading-[1.4]">Dienstplan anzeigen</p>
                 </div>
               </button>

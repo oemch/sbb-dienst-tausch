@@ -1,6 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import ThemeColorSync from "./components/ThemeColorSync";
+
+export const viewport: Viewport = {
+  themeColor: "#f3f2f2",
+};
 
 const coopFont = localFont({
   src: [
@@ -41,9 +46,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
+        />
+      </head>
       <body
         className={`${coopFont.variable} font-sans antialiased`}
       >
+        <ThemeColorSync />
         {children}
       </body>
     </html>
