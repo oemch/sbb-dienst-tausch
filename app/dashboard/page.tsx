@@ -8,15 +8,17 @@ import DashboardOverlay from "../components/DashboardOverlay";
 export default function DashboardPage() {
   const [overlayState, setOverlayState] = useState<0 | 1 | 2>(0);
 
-  // Overlay 1 nach 5 Sekunden einblenden
+  // Overlay 1 nach 5 Sekunden einblenden – startet neu wenn overlayState auf 0 zurückgesetzt wird
   useEffect(() => {
-    const timer = setTimeout(() => setOverlayState(1), 5000);
-    return () => clearTimeout(timer);
-  }, []);
+    if (overlayState === 0) {
+      const timer = setTimeout(() => setOverlayState(1), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [overlayState]);
 
   const handleHeaderLinkClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    setOverlayState(0); // Overlay schliessen, direkt zu Dashboard ohne Overlay
+    setOverlayState(0); // Overlay schliessen, Timer startet automatisch neu
   };
 
   return (
@@ -108,8 +110,8 @@ export default function DashboardPage() {
 
             {/* Cards */}
             <div className="flex flex-col gap-[8px] items-start relative shrink-0 w-full">
-              {/* Dienst tauschen Card – verlinkt zur dienst-tausch Page (bei Overlay 2 muss User hier klicken) */}
-              <Link href="/dienst-tausch" className="block shrink-0 w-full">
+              {/* Dienst tauschen Card – verlinkt zur Wochenkalender Page */}
+              <Link href="/wochenkalender-1" className="block shrink-0 w-full">
                 <div className="bg-[#f7d526] flex flex-col h-[87px] items-start overflow-clip pb-[20px] pl-[16px] pt-[8px] relative rounded-[8px] w-full cursor-pointer" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
                 <div className="flex h-[61px] items-start pr-[12px] relative shrink-0 w-full">
                   <div className="flex flex-1 items-center min-h-px min-w-px pt-[12px] relative">

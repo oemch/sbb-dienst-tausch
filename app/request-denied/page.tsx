@@ -8,9 +8,68 @@ const STORAGE_KEY = "request-denied-form";
 
 const INITIAL_FORM = { first_name: "", last_name: "", email: "", firma: "" };
 
+// E-Mail-Validierung
+const validateEmail = (email: string): string | null => {
+  if (!email || email.trim() === "") {
+    return "Bitte ausfüllen";
+  }
+  
+  const trimmedEmail = email.trim();
+  
+  // Grundlegende Format-Prüfung
+  if (!trimmedEmail.includes("@")) {
+    return "E-Mail-Adresse muss ein @-Zeichen enthalten";
+  }
+  
+  const parts = trimmedEmail.split("@");
+  if (parts.length !== 2) {
+    return "Ungültiges E-Mail-Format";
+  }
+  
+  const [localPart, domain] = parts;
+  
+  // Lokaler Teil (vor @)
+  if (!localPart || localPart.length === 0) {
+    return "E-Mail-Adresse muss einen Teil vor dem @-Zeichen haben";
+  }
+  
+  if (localPart.length > 64) {
+    return "Der Teil vor dem @-Zeichen ist zu lang (max. 64 Zeichen)";
+  }
+  
+  // Domain-Teil (nach @)
+  if (!domain || domain.length === 0) {
+    return "Ungültiges E-Mail-Format";
+  }
+  
+  if (domain.length > 255) {
+    return "Ungültiges E-Mail-Format";
+  }
+  
+  // Domain muss einen Punkt enthalten
+  if (!domain.includes(".")) {
+    return "Ungültiges E-Mail-Format";
+  }
+  
+  // Domain darf nicht mit Punkt beginnen oder enden
+  if (domain.startsWith(".") || domain.endsWith(".")) {
+    return "Ungültiges E-Mail-Format";
+  }
+  
+  // Einfache Regex für gültiges E-Mail-Format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(trimmedEmail)) {
+    return "Ungültiges E-Mail-Format (z.B. name@example.com)";
+  }
+  
+  return null; // Keine Fehler
+};
+
 export default function RequestDeniedPage() {
   const router = useRouter();
   const [formData, setFormData] = useState(INITIAL_FORM);
+  const [errors, setErrors] = useState<{ first_name?: string; last_name?: string; email?: string }>({});
+  const [touched, setTouched] = useState<{ first_name?: boolean; last_name?: boolean; email?: boolean }>({});
   const skipFirstSaveRef = useRef(true);
 
   // Nach Hydration: gespeicherte Daten aus sessionStorage laden
@@ -35,10 +94,49 @@ export default function RequestDeniedPage() {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
   }, [formData]);
 
+  const validateField = (field: keyof typeof formData, value: string): string | null => {
+    if (field === "first_name") {
+      if (!value || value.trim() === "") {
+        return "Bitte ausfüllen";
+      }
+      return null;
+    }
+    if (field === "last_name") {
+      if (!value || value.trim() === "") {
+        return "Bitte ausfüllen";
+      }
+      return null;
+    }
+    if (field === "email") {
+      return validateEmail(value);
+    }
+    return null;
+  };
+
   const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData((prev: typeof formData) => ({
       ...prev,
       [field]: value,
+    }));
+    
+    // Validierung für alle Felder
+    if (field === "first_name" || field === "last_name" || field === "email") {
+      if (touched[field]) {
+        const error = validateField(field, value);
+        setErrors((prev) => ({
+          ...prev,
+          [field]: error || undefined,
+        }));
+      }
+    }
+  };
+  
+  const handleFieldBlur = (field: keyof typeof formData) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    const error = validateField(field, formData[field]);
+    setErrors((prev) => ({
+      ...prev,
+      [field]: error || undefined,
     }));
   };
 
@@ -47,11 +145,27 @@ export default function RequestDeniedPage() {
       formData.first_name.trim() !== "" &&
       formData.last_name.trim() !== "" &&
       formData.email.trim() !== "" &&
-      formData.email.includes("@")
+      validateEmail(formData.email) === null
     );
   };
 
   const handleSubmit = async () => {
+    // Alle Felder als touched markieren und validieren
+    const fieldsToValidate: Array<"first_name" | "last_name" | "email"> = ["first_name", "last_name", "email"];
+    const newTouched: typeof touched = {};
+    const newErrors: typeof errors = {};
+    
+    fieldsToValidate.forEach((field) => {
+      newTouched[field] = true;
+      const error = validateField(field, formData[field]);
+      if (error) {
+        newErrors[field] = error;
+      }
+    });
+    
+    setTouched((prev) => ({ ...prev, ...newTouched }));
+    setErrors((prev) => ({ ...prev, ...newErrors }));
+    
     if (!isFormValid()) {
       return;
     }
@@ -91,7 +205,7 @@ export default function RequestDeniedPage() {
               Kein Problem – ein Diensttausch ist jederzeit möglich.
               <br />
               <span className="leading-normal">Hinterlassen Sie Ihren Namen und Ihre E-Mail-Adresse und </span>
-              <span className="font-bold leading-normal not-italic">holen Sie sich Ihren Isolierbecher ab.</span>
+              <span className="font-bold leading-normal not-italic">holen Sie sich Ihren Kaffeebecher ab.</span>
             </p>
           </div>
         </div>
@@ -107,9 +221,18 @@ export default function RequestDeniedPage() {
               type="text"
               value={formData.first_name}
               onChange={(e) => handleInputChange("first_name", e.target.value)}
-              className="bg-white border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              onBlur={() => handleFieldBlur("first_name")}
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+                touched.first_name && errors.first_name ? "border-2 border-red-500" : ""
+              }`}
+              style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""
             />
+            {touched.first_name && errors.first_name && (
+              <p className="text-white text-[12px] mt-[4px] leading-[1.4]">
+                {errors.first_name}
+              </p>
+            )}
           </div>
 
           {/* Name */}
@@ -121,9 +244,18 @@ export default function RequestDeniedPage() {
               type="text"
               value={formData.last_name}
               onChange={(e) => handleInputChange("last_name", e.target.value)}
-              className="bg-white border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              onBlur={() => handleFieldBlur("last_name")}
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+                touched.last_name && errors.last_name ? "border-2 border-red-500" : ""
+              }`}
+              style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""
             />
+            {touched.last_name && errors.last_name && (
+              <p className="text-white text-[12px] mt-[4px] leading-[1.4]">
+                {errors.last_name}
+              </p>
+            )}
           </div>
 
           {/* E-Mail Adresse */}
@@ -135,9 +267,18 @@ export default function RequestDeniedPage() {
               type="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="bg-white border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              onBlur={() => handleFieldBlur("email")}
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+                touched.email && errors.email ? "border-2 border-red-500" : ""
+              }`}
+              style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""
             />
+            {touched.email && errors.email && (
+              <p className="text-white text-[12px] mt-[4px] leading-[1.4]">
+                {errors.email}
+              </p>
+            )}
           </div>
 
           {/* Firma (optional) */}
@@ -149,7 +290,8 @@ export default function RequestDeniedPage() {
               type="text"
               value={formData.firma}
               onChange={(e) => handleInputChange("firma", e.target.value)}
-              className="bg-white border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              className="border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""
             />
           </div>

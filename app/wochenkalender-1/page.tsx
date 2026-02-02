@@ -3,20 +3,29 @@
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import WochenkalenderOverlay from "../components/WochenkalenderOverlay";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Wochenkalender1Page() {
   const router = useRouter();
-  const [showOverlay, setShowOverlay] = useState(true);
+  const [overlayState, setOverlayState] = useState<0 | 1 | 2>(0);
 
-  const handleCloseOverlay = () => {
-    setShowOverlay(false);
-  };
+  // Overlay 1 nach 5 Sekunden einblenden – startet neu wenn overlayState auf 0 zurückgesetzt wird
+  useEffect(() => {
+    if (overlayState === 0) {
+      const timer = setTimeout(() => setOverlayState(1), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [overlayState]);
+
+  // Beim Laden: Scroll-Position auf 115px setzen, damit DI-07 als erste Kachel sichtbar ist
+  useEffect(() => {
+    window.scrollTo({ top: 115, behavior: 'instant' });
+  }, []);
 
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
-      {/* Header Toolbar */}
-      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-10">
+      {/* Header Toolbar – z-index über Overlay, damit Zurück-Button immer klickbar */}
+      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[250]">
         <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
           {/* Base Header */}
           <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
@@ -24,7 +33,13 @@ export default function Wochenkalender1Page() {
             <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full">
               {/* Back Button */}
               <button
-                onClick={() => router.back()}
+                onClick={() => {
+                  if (overlayState === 2) {
+                    setOverlayState(1);
+                  } else {
+                    router.push("/dashboard");
+                  }
+                }}
                 className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
               >
                 <div className="flex items-center justify-center relative shrink-0 size-[24px]">
@@ -39,7 +54,7 @@ export default function Wochenkalender1Page() {
               </button>
               {/* Title */}
               <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px] text-center">
-                Dienst tauschen: Dienstplan
+                Dienst tauschen
               </p>
               {/* Spacer */}
               <div className="flex items-center justify-center p-[8px] shrink-0 size-[40px]" />
@@ -159,14 +174,10 @@ export default function Wochenkalender1Page() {
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             {/* Neu Tag */}
-            <div className="absolute right-[6px] w-[62px] h-[24px] top-[6px]">
-              <Image
-                src="/images/tag-neu.svg"
-                alt="Neu"
-                width={62}
-                height={24}
-                className="w-full h-full"
-              />
+            <div className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px]">
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
+                Neu
+              </p>
             </div>
 
             {/* Header */}
@@ -216,7 +227,7 @@ export default function Wochenkalender1Page() {
             </div>
 
             {/* Buttons */}
-            <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[110]">
+            <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[220]">
               {/* Ablehnen Button */}
               <button
                 onClick={() => router.push("/request-denied")}
@@ -252,11 +263,11 @@ export default function Wochenkalender1Page() {
           </div>
 
           {/* Content Card */}
-          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-            {/* Tag "Würde übernommen" – absolut, liegt über Zeitangabe bei Überlappung (z.B. Mobile) */}
-            <div className="absolute z-10 bg-[#696561] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] min-w-[170px] px-[8px]">
+          <div className="bg-[#BEBAB6] flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            {/* Tag "Entfällt" – absolut, liegt über Zeitangabe bei Überlappung (z.B. Mobile) */}
+            <div className="absolute z-20 bg-[#696561] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px]">
               <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
-                Würde übernommen
+                Entfällt
               </p>
             </div>
 
@@ -276,11 +287,11 @@ export default function Wochenkalender1Page() {
               </div>
               {/* Text */}
               <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#b5b1ad] text-[16px]">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
                   14:00 - 22:00
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#b5b1ad] text-[14px]">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
                     Spätdienst
                   </p>
                 </div>
@@ -289,7 +300,7 @@ export default function Wochenkalender1Page() {
 
             {/* Body */}
             <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#b5b1ad] text-[12px]">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-[#100c08] text-[12px]">
                 Dauer: 8:00 h    Pause: 0:20 h
               </p>
             </div>
@@ -395,7 +406,9 @@ export default function Wochenkalender1Page() {
         </div>
       </div>
 
-      {showOverlay && <WochenkalenderOverlay onClose={handleCloseOverlay} />}
+      {overlayState > 0 && (
+        <WochenkalenderOverlay overlayState={overlayState as 1 | 2} setOverlayState={setOverlayState} />
+      )}
     </div>
   );
 }

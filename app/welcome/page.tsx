@@ -15,18 +15,27 @@ export default function WelcomePage() {
       >
         {/* Text Content - oben, fester Bereich (Abstand Titel → Lauftext: 16px) */}
         <div className="flex flex-col items-start gap-[16px] flex-shrink-0">
-          {/* Übertitel + Titel – Abstand 8px (auch bei Umbruch sichtbar) */}
-          <h1
-            className="flex flex-wrap items-baseline text-white leading-tight"
-            style={{ gap: "8px" }}
-          >
-            <span className="font-bold text-[18px] shrink-0">ZESAM-APP</span>
-            <span className="font-bold text-3xl">Willkommen zum Test des Dienst-Tausch-Features</span>
-          </h1>
+          {/* Übertitel + Titel – 3 Zeilen, Font skaliert mit Bildschirmgrösse */}
+          <div className="flex flex-col items-start gap-[8px]">
+            <span
+              className="font-bold text-white shrink-0"
+              style={{ fontSize: 'clamp(0.875rem, 2.5vw + 0.75rem, 1.125rem)' }}
+            >
+              ZESAM-APP
+            </span>
+            <div
+              className="flex flex-col items-start font-bold text-white leading-tight [&>span]:whitespace-nowrap"
+              style={{ fontSize: 'clamp(1.25rem, 4vw + 1rem, 1.875rem)' }}
+            >
+              <span>Willkommen</span>
+              <span>zum Test der</span>
+              <span>Dienst-Tausch-Funktion</span>
+            </div>
+          </div>
 
           {/* Sub-headline */}
           <p className="text-[18px] text-white leading-relaxed">
-            Der Test dauert nur 2 Minuten. Als Dankeschön erhalten Sie von uns einen Isolierbecher.
+            Der Test dauert nur 2 Minuten. Als Dankeschön erhalten Sie von uns einen Kaffeebecher.
           </p>
         </div>
 

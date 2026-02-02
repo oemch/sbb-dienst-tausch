@@ -16,7 +16,7 @@ export default function SuccessPage() {
             Das ZESAM-Team dankt Ihnen herzlich für die Teilnahme.
           </p>
           <p className="font-normal leading-tight relative shrink-0 text-[20px] w-full">
-            Holen Sie sich Ihren Isolierbecher am Stand 999 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
+            Holen Sie sich Ihren Kaffeebecher am Stand 999 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
           </p>
         </div>
       </div>
@@ -26,7 +26,7 @@ export default function SuccessPage() {
         <div className="relative w-full max-w-[min(400px,90vw)] aspect-square">
           <Image
             src="/images/becher.png"
-            alt="Isolierbecher"
+            alt="Kaffeebecher"
             fill
             className="object-contain"
             sizes="(max-width: 480px) 90vw, 400px"
