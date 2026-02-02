@@ -13,11 +13,15 @@ export default function WelcomePage() {
         className="w-full max-w-sm mx-auto flex flex-col flex-1 min-h-0 overflow-y-auto pt-12 px-[24px] pb-4"
         style={{ maxHeight: 'calc(100dvh - 96px - env(safe-area-inset-bottom, 0px))' }}
       >
-        {/* Text Content - oben, fester Bereich */}
-        <div className="flex flex-col items-start gap-6 flex-shrink-0">
-          {/* Headline */}
-          <h1 className="text-3xl font-bold text-white leading-tight">
-            Willkommen zum Test des Dienst-Tausch-Features in der ZESAM-App
+        {/* Text Content - oben, fester Bereich (Abstand Titel → Lauftext: 16px) */}
+        <div className="flex flex-col items-start gap-[16px] flex-shrink-0">
+          {/* Übertitel + Titel – Abstand 8px (auch bei Umbruch sichtbar) */}
+          <h1
+            className="flex flex-wrap items-baseline text-white leading-tight"
+            style={{ gap: "8px" }}
+          >
+            <span className="font-bold text-[18px] shrink-0">ZESAM-APP</span>
+            <span className="font-bold text-3xl">Willkommen zum Test des Dienst-Tausch-Features</span>
           </h1>
 
           {/* Sub-headline */}

@@ -15,14 +15,14 @@ export default function SuccessPage() {
           <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
             Das ZESAM-Team dankt Ihnen herzlich für die Teilnahme.
           </p>
-          <p className="font-bold leading-tight relative shrink-0 text-[20px] w-full">
-            Holen Sie sich Ihren Isolierbecher ab.
+          <p className="font-normal leading-tight relative shrink-0 text-[20px] w-full">
+            Holen Sie sich Ihren Isolierbecher am Stand 999 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
           </p>
         </div>
       </div>
 
-      {/* Illustration Container – flexibel, Bild skaliert mit */}
-      <div className="flex flex-1 min-h-0 items-center justify-center w-full px-[24px] py-[23px]">
+      {/* Illustration Container – flexibel, Bild skaliert mit, 16px weniger Abstand zum Text oben */}
+      <div className="flex flex-1 min-h-0 items-center justify-center w-full px-[24px] pt-[7px] pb-[23px]">
         <div className="relative w-full max-w-[min(400px,90vw)] aspect-square">
           <Image
             src="/images/becher.png"

@@ -1,23 +1,43 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import DienstTauschOverlay from "../components/DienstTauschOverlay";
 
 export default function DienstTauschPage() {
   const router = useRouter();
+  const [overlayState, setOverlayState] = useState<0 | 1 | 2>(0);
+
+  // Overlay 1 nach 5 Sekunden einblenden
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOverlayState(1);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleBackClick = () => {
+    if (overlayState === 2) {
+      setOverlayState(1);
+    } else if (overlayState === 1) {
+      setOverlayState(0);
+    } else {
+      router.back();
+    }
+  };
 
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
-      {/* Header Toolbar */}
-      <div className="flex flex-col items-start relative shrink-0 w-full">
+      {/* Header Toolbar – z-index über Overlay, damit Zurück-Button immer klickbar */}
+      <div className="flex flex-col items-start relative shrink-0 w-full z-[110]">
         {/* Base Header - Status Bar entfernt */}
         <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
           {/* Header */}
           <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full">
             {/* Back Button */}
             <button
-              onClick={() => router.back()}
+              onClick={handleBackClick}
               className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
             >
               <div className="flex items-center justify-center relative shrink-0 size-[24px]">
@@ -214,8 +234,10 @@ export default function DienstTauschPage() {
         </div>
       </div>
 
-      {/* Overlay */}
-      <DienstTauschOverlay />
+      {/* Overlay – nur bei Status 1 oder 2 */}
+      {overlayState > 0 && (
+        <DienstTauschOverlay overlayState={overlayState as 1 | 2} setOverlayState={setOverlayState} />
+      )}
     </div>
   );
 }

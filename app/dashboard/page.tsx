@@ -14,12 +14,30 @@ export default function DashboardPage() {
           {/* Header */}
           <div className="flex h-[48px] items-center justify-center px-[24px] relative shrink-0 w-full">
             <div className="flex flex-1 flex-col items-start justify-center min-h-px min-w-px relative">
-              <p className="font-normal leading-normal relative shrink-0 text-[#100c08] text-[12px]">
+              <Link
+                href="/dashboard"
+                onClick={(e) => {
+                  if (typeof window !== "undefined" && window.location.pathname === "/dashboard") {
+                    e.preventDefault();
+                    window.location.reload();
+                  }
+                }}
+                className="font-normal leading-normal relative shrink-0 text-[#100c08] text-[12px] hover:underline no-underline"
+              >
                 ZESAM
-              </p>
-              <p className="font-bold leading-normal relative shrink-0 text-[#100c08] text-[16px] -mt-1">
+              </Link>
+              <Link
+                href="/dashboard"
+                onClick={(e) => {
+                  if (typeof window !== "undefined" && window.location.pathname === "/dashboard") {
+                    e.preventDefault();
+                    window.location.reload();
+                  }
+                }}
+                className="font-bold leading-normal relative shrink-0 text-[#100c08] text-[16px] -mt-1 hover:underline no-underline"
+              >
                 Mitarbeiterportal
-              </p>
+              </Link>
             </div>
             <div className="flex gap-[24px] items-center relative shrink-0">
               {/* E-Mail Icon */}

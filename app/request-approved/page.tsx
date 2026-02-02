@@ -1,19 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const STORAGE_KEY = "request-approved-form";
+
+const INITIAL_FORM = { first_name: "", last_name: "", email: "", firma: "" };
+
 export default function RequestApprovedPage() {
   const router = useRouter();
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    firma: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM);
+  const skipFirstSaveRef = useRef(true);
 
-  const handleInputChange = (field: string, value: string) => {
+  // Nach Hydration: gespeicherte Daten aus sessionStorage laden
+  useEffect(() => {
+    const saved = sessionStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        setFormData((prev) => ({ ...prev, ...parsed }));
+      } catch {
+        /* ungültiges JSON */
+      }
+    }
+  }, []);
+
+  // Bei jeder Änderung: Formulardaten in sessionStorage speichern (ersten Lauf überspringen, da Load noch nicht angewendet)
+  useEffect(() => {
+    if (skipFirstSaveRef.current) {
+      skipFirstSaveRef.current = false;
+      return;
+    }
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+  }, [formData]);
+
+  const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
@@ -44,6 +66,7 @@ export default function RequestApprovedPage() {
       });
 
       if (response.ok) {
+        sessionStorage.removeItem(STORAGE_KEY);
         router.push("/success");
       } else {
         const errorData = await response.json();

@@ -4,23 +4,17 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface DienstTauschOverlayProps {
-  onClose?: () => void;
+  overlayState: 1 | 2;
+  setOverlayState: (state: 1 | 2) => void;
 }
 
-export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProps) {
-  const [overlayState, setOverlayState] = useState<1 | 2>(1);
+export default function DienstTauschOverlay({ overlayState, setOverlayState }: DienstTauschOverlayProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Overlay nach 5 Sekunden einblenden
-    const timer = setTimeout(() => {
-      // requestAnimationFrame sichert, dass die Transition startet
-      requestAnimationFrame(() => {
-        setIsVisible(true);
-      });
-    }, 5000);
-
-    return () => clearTimeout(timer);
+    // Kurze Verzögerung für Fade-in-Transition
+    const frame = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const handleClick = () => {
@@ -106,7 +100,7 @@ export default function DienstTauschOverlay({ onClose }: DienstTauschOverlayProp
           <div className="fixed left-[24px] right-[24px] pointer-events-auto z-[100]" style={{ bottom: 'calc(24px + env(safe-area-inset-bottom, 0px))' }}>
             <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0">
               <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
-                Mia Steiner hat Ihnen eine Diensttausch-Anfrage gesendet. Bitte <span className="font-bold">gleichen</span> Sie diese zuerst mit Ihrem <span className="font-bold">Dienstplan</span> <span className="font-bold">ab</span>.
+                Bitte <span className="font-bold">gleichen</span> Sie die Anfrage zuerst mit Ihrem <span className="font-bold">Dienstplan</span> <span className="font-bold">ab</span>.
               </p>
             </div>
           </div>
