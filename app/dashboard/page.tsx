@@ -1,14 +1,28 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import DashboardOverlay from "../components/DashboardOverlay";
 
 export default function DashboardPage() {
+  const [overlayState, setOverlayState] = useState<0 | 1 | 2>(0);
+
+  // Overlay 1 nach 5 Sekunden einblenden
+  useEffect(() => {
+    const timer = setTimeout(() => setOverlayState(1), 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleHeaderLinkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setOverlayState(0); // Overlay schliessen, direkt zu Dashboard ohne Overlay
+  };
+
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
-      {/* Header Toolbar */}
-      <div className="flex flex-col items-start relative shrink-0 w-full">
+      {/* Header Toolbar – z-index über Overlay, damit ZESAM/Mitarbeiterportal immer klickbar */}
+      <div className="flex flex-col items-start relative shrink-0 w-full z-[110]">
         {/* Base Header - Status Bar entfernt */}
         <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
           {/* Header */}
@@ -16,24 +30,14 @@ export default function DashboardPage() {
             <div className="flex flex-1 flex-col items-start justify-center min-h-px min-w-px relative">
               <Link
                 href="/dashboard"
-                onClick={(e) => {
-                  if (typeof window !== "undefined" && window.location.pathname === "/dashboard") {
-                    e.preventDefault();
-                    window.location.reload();
-                  }
-                }}
+                onClick={handleHeaderLinkClick}
                 className="font-normal leading-normal relative shrink-0 text-[#100c08] text-[12px] hover:underline no-underline"
               >
                 ZESAM
               </Link>
               <Link
                 href="/dashboard"
-                onClick={(e) => {
-                  if (typeof window !== "undefined" && window.location.pathname === "/dashboard") {
-                    e.preventDefault();
-                    window.location.reload();
-                  }
-                }}
+                onClick={handleHeaderLinkClick}
                 className="font-bold leading-normal relative shrink-0 text-[#100c08] text-[16px] -mt-1 hover:underline no-underline"
               >
                 Mitarbeiterportal
@@ -298,10 +302,13 @@ export default function DashboardPage() {
               </p>
             </div>
 
-            {/* Event Cards */}
-            <div className="flex gap-[8px] items-start relative shrink-0 w-full overflow-x-auto">
+            {/* Event Cards – 50:50, min-width 264px, horizontales Scrollen (touch-optimiert) */}
+            <div
+              className="flex gap-[8px] items-stretch w-full overflow-x-auto overflow-y-hidden"
+              style={{ WebkitOverflowScrolling: 'touch', overscrollBehaviorX: 'contain', touchAction: 'pan-x' }}
+            >
               {/* Achtung Card */}
-              <div className="bg-white flex flex-col gap-[8px] items-start overflow-clip pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] shrink-0 w-[273px] min-w-[273px]" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
+              <div className="bg-white flex flex-col gap-[8px] items-start overflow-clip pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] shrink-0 w-[264px] min-w-[264px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[8px] items-center justify-center relative shrink-0 w-full">
                   <Image
                     src="/images/icon-warning.svg"
@@ -321,7 +328,7 @@ export default function DashboardPage() {
               </div>
 
               {/* Ferien Card */}
-              <div className="bg-white flex flex-col gap-[8px] items-start leading-[1.4] not-italic pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] self-stretch shrink-0 text-[#100c08] text-[14px] w-[273px] min-w-[273px]" style={{ boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)' }}>
+              <div className="bg-white flex flex-col gap-[8px] items-start leading-[1.4] not-italic pb-[32px] pl-[20px] pr-[24px] pt-[24px] relative rounded-[12px] shrink-0 text-[#100c08] text-[14px] w-[264px] min-w-[264px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <p className="font-bold h-[20px] relative shrink-0 w-[225px]">
                   Ferien 2025 eintragen
                 </p>
@@ -335,8 +342,10 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Overlay */}
-      <DashboardOverlay />
+      {/* Overlay – nur bei Status 1 oder 2 */}
+      {overlayState > 0 && (
+        <DashboardOverlay overlayState={overlayState as 1 | 2} setOverlayState={setOverlayState} />
+      )}
     </div>
   );
 }

@@ -4,23 +4,16 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface DashboardOverlayProps {
-  onClose?: () => void;
+  overlayState: 1 | 2;
+  setOverlayState: (state: 1 | 2) => void;
 }
 
-export default function DashboardOverlay({ onClose }: DashboardOverlayProps) {
-  const [overlayState, setOverlayState] = useState<1 | 2>(1);
+export default function DashboardOverlay({ overlayState, setOverlayState }: DashboardOverlayProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Overlay nach 5 Sekunden einblenden
-    const timer = setTimeout(() => {
-      // requestAnimationFrame sichert, dass die Transition startet
-      requestAnimationFrame(() => {
-        setIsVisible(true);
-      });
-    }, 5000);
-
-    return () => clearTimeout(timer);
+    const frame = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   const handleClick = () => {
