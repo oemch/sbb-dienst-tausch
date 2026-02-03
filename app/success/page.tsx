@@ -9,7 +9,7 @@ export default function SuccessPage() {
   return (
     <div className="bg-[#5A012A] flex flex-col min-h-screen w-full">
       {/* Content Container */}
-      <div className="flex flex-col gap-[9px] items-center relative shrink-0 w-full mt-[48px] px-[24px]">
+      <div className="flex flex-col gap-[9px] items-center relative shrink-0 w-full mt-[48px] px-[24px] pb-[24px]">
         {/* Title Container */}
         <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-white w-full">
           <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
@@ -21,29 +21,29 @@ export default function SuccessPage() {
         </div>
       </div>
 
-      {/* Illustration Container – flexibel, Bild skaliert mit, 16px weniger Abstand zum Text oben */}
-      <div className="flex flex-1 min-h-0 items-center justify-center w-full px-[24px] pt-[7px] pb-[23px]">
-        <div className="relative w-full max-w-[min(400px,90vw)] aspect-square">
-          <Image
-            src="/images/becher.png"
-            alt="Kaffeebecher"
-            fill
-            className="object-contain"
-            sizes="(max-width: 480px) 90vw, 400px"
-            priority
-          />
-        </div>
+      {/* Bild – skaliert und flexibel über den ganzen Screen */}
+      <div className="flex-1 relative w-full overflow-hidden">
+        <Image
+          src="/images/isolierbecher-01.jpg"
+          alt="Kaffeebecher"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
       </div>
 
-      {/* Zurück zum Anfang Link */}
-      <button
-        onClick={() => router.push("/welcome")}
-        className="flex h-[32px] items-center justify-center px-[12px] relative shrink-0 cursor-pointer pb-[24px]"
-      >
-        <span className="font-normal leading-[1.4] not-italic relative shrink-0 text-white text-[14px] text-center">
-          Zurück zum Anfang
-        </span>
-      </button>
+      {/* Weißer Hintergrund mit Link */}
+      <div className="bg-white flex flex-col items-center justify-center py-[24px] relative shrink-0 w-full">
+        <button
+          onClick={() => router.push("/welcome")}
+          className="flex h-[32px] items-center justify-center px-[12px] relative shrink-0 cursor-pointer"
+        >
+          <span className="font-normal leading-[1.4] not-italic relative shrink-0 text-black text-[14px] text-center">
+            Zurück zum Anfang
+          </span>
+        </button>
+      </div>
     </div>
   );
 }
