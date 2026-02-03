@@ -219,6 +219,7 @@ export default function RequestApprovedPage() {
             </div>
             <input
               type="text"
+              autoComplete="given-name"
               value={formData.first_name}
               onChange={(e) => handleInputChange("first_name", e.target.value)}
               onBlur={() => handleFieldBlur("first_name")}
@@ -242,6 +243,7 @@ export default function RequestApprovedPage() {
             </div>
             <input
               type="text"
+              autoComplete="family-name"
               value={formData.last_name}
               onChange={(e) => handleInputChange("last_name", e.target.value)}
               onBlur={() => handleFieldBlur("last_name")}
@@ -265,6 +267,7 @@ export default function RequestApprovedPage() {
             </div>
             <input
               type="email"
+              autoComplete="email"
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               onBlur={() => handleFieldBlur("email")}

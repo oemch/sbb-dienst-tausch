@@ -7,7 +7,7 @@ export default function SuccessPage() {
   const router = useRouter();
 
   return (
-    <div className="bg-[#5A012A] flex flex-col min-h-screen w-full">
+    <div className="bg-[#5A012A] flex flex-col min-h-[100dvh] min-h-screen w-full overflow-hidden">
       {/* Content Container */}
       <div className="flex flex-col gap-[9px] items-center relative shrink-0 w-full mt-[48px] px-[24px] pb-[24px]">
         {/* Title Container */}
@@ -22,7 +22,7 @@ export default function SuccessPage() {
       </div>
 
       {/* Bild – skaliert und flexibel über den ganzen Screen */}
-      <div className="flex-1 relative w-full overflow-hidden">
+      <div className="flex-1 relative w-full overflow-hidden min-h-0">
         <Image
           src="/images/isolierbecher-01.jpg"
           alt="Kaffeebecher"

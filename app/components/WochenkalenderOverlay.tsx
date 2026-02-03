@@ -5,7 +5,7 @@ import Image from "next/image";
 
 interface WochenkalenderOverlayProps {
   overlayState: 1 | 2;
-  setOverlayState: (state: 1 | 2) => void;
+  setOverlayState: (state: 0 | 1 | 2) => void;
 }
 
 const SLIDE_TRANSITION = "transform 500ms ease-out";
@@ -34,8 +34,8 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
   };
 
   // Berechne die Position der Aussparung für Overlay 2 (Buttons)
-  // Header (48px) + Line (4px) + Tabs (48px) + Calendar (40px) + Content Padding Top (12px) + MO 06 Kachel (~100px) + Gap (12px) - 8px - 3px + 3px
-  const cutoutTop = 48 + 4 + 48 + 40 + 12 + 100 + 12 - 8 - 3 + 3; // 256px
+  // Header (48px) + Line (4px) + Calendar (40px) + Content Padding Top (12px) + MO 06 Kachel (~100px) + Gap (12px) - 8px - 3px + 3px
+  const cutoutTop = 48 + 4 + 40 + 12 + 100 + 12 - 8 - 3 + 3; // 208px
   // Höhe: 236px + 12px + 12px + 12px - 3px
   const cutoutHeight = 236 + 12 + 12 + 12 - 3; // 269px
 
@@ -45,7 +45,7 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
       {overlayState === 1 && (
         <button
           onClick={handleClick}
-          className={`absolute inset-0 z-[200] w-full h-full cursor-pointer transition-opacity duration-500 ease-out ${
+          className={`absolute inset-0 z-[400] w-full h-full cursor-pointer transition-opacity duration-500 ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
           type="button"
@@ -54,7 +54,7 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
 
       {overlayState === 2 && (
         <div
-          className={`absolute inset-0 z-[200] w-full h-full pointer-events-none transition-opacity duration-500 ease-out ${
+          className={`absolute inset-0 z-[400] w-full h-full pointer-events-none transition-opacity duration-500 ease-out ${
             isVisible ? "opacity-100" : "opacity-0"
           }`}
         >
@@ -74,7 +74,7 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
 
       {/* Kachel-Container – beide Kacheln unten bündig, 24px Abstand */}
       <div
-        className="fixed left-[24px] right-[24px] z-[210] pointer-events-auto"
+        className="fixed left-[24px] right-[24px] z-[410] pointer-events-auto"
         style={{
           bottom: "calc(24px + env(safe-area-inset-bottom, 0px))",
           overflowX: "hidden",
@@ -125,8 +125,22 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
               transition: FADE_TRANSITION,
             }}
           >
-            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-[8px]">
-              <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left">
+            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-[8px] relative">
+              {/* Schließen-Button oben rechts */}
+              <button
+                onClick={() => setOverlayState(0)}
+                className="absolute top-[16px] right-[16px] flex items-center justify-center w-[24px] h-[24px] cursor-pointer hover:opacity-70 transition-opacity"
+                aria-label="Overlay schließen"
+              >
+                <Image
+                  src="/images/icon-close.svg"
+                  alt="Schließen"
+                  width={24}
+                  height={24}
+                  className="w-full h-full"
+                />
+              </button>
+              <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left pr-[40px]">
                 <span className="font-bold">Nehmen</span> Sie die <span className="font-bold">Anfrage</span> <span className="font-bold">an</span> oder <span className="font-bold">lehnen</span> Sie sie <span className="font-bold">ab</span>.
               </p>
             </div>

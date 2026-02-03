@@ -17,15 +17,15 @@ export default function Wochenkalender1Page() {
     }
   }, [overlayState]);
 
-  // Beim Laden: Scroll-Position auf 115px setzen, damit DI-07 als erste Kachel sichtbar ist
+  // Beim Laden: Scroll-Position auf 120px setzen, damit die erste Kachel von DI-07 als erste sichtbare Kachel angezeigt wird
   useEffect(() => {
-    window.scrollTo({ top: 115, behavior: 'instant' });
+    window.scrollTo({ top: 120, behavior: 'instant' });
   }, []);
 
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
       {/* Header Toolbar – z-index über Overlay, damit Zurück-Button immer klickbar */}
-      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[250]">
+      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[450]">
         <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
           {/* Base Header */}
           <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
@@ -63,28 +63,6 @@ export default function Wochenkalender1Page() {
 
           {/* Line Separator */}
           <div className="bg-[#e7e6e5] h-[4px] shrink-0 w-full" />
-        </div>
-
-        {/* Tabs */}
-        <div className="bg-white border-b border-[#cfcbc7] border-solid flex items-start relative shrink-0 w-full">
-          {/* Tauschbörse Tab */}
-          <div className="flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-            <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px] text-center">
-              Tauschbörse
-            </p>
-          </div>
-          {/* An mich Tab - Active */}
-          <div className="border-b-4 border-[#04775b] border-solid flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-            <p className="font-bold leading-normal not-italic relative shrink-0 text-[#04775b] text-[16px] text-center">
-              An mich
-            </p>
-          </div>
-          {/* Von mir Tab */}
-          <div className="flex flex-1 h-[48px] items-center justify-center pt-[4px] px-[24px] relative shrink-0">
-            <p className="font-bold leading-normal not-italic relative shrink-0 text-[#100c08] text-[16px] text-center">
-              Von mir
-            </p>
-          </div>
         </div>
 
         {/* Calendar Row */}
@@ -159,7 +137,7 @@ export default function Wochenkalender1Page() {
           </div>
         </div>
 
-        {/* DI 07 - Termin Card mit Tausch */}
+        {/* DI 07 - Erste Kachel (Frei, identisch zu FR-10) */}
         <div className="flex items-start relative shrink-0 w-full">
           {/* Short Date */}
           <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
@@ -173,9 +151,51 @@ export default function Wochenkalender1Page() {
 
           {/* Content Card */}
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            {/* Header */}
+            <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
+              {/* Icon */}
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[32px]">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
+                      15
+                    </p>
+                  </div>
+                </div>
+              </div>
+              {/* Text */}
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
+                  Ganzer Tag
+                </p>
+                <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
+                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
+                    Frei
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                Dauer: 8:00 h    Pause: 0:20 h
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* DI 07 - Zweite Kachel (Tausch, identisch zur bisherigen DI-07) */}
+        <div className="flex items-start relative shrink-0 w-full">
+          {/* Short Date - leerer Platzhalter */}
+          <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
+          </div>
+
+          {/* Content Card */}
+          <div className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]" style={{ backgroundColor: '#FEFBE9', border: '2px solid #F7D526' }}>
             {/* Neu Tag */}
-            <div className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px]">
-              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
+            <div className="absolute z-20 bg-[#F7D526] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px]">
+              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-black whitespace-nowrap">
                 Neu
               </p>
             </div>
@@ -215,7 +235,7 @@ export default function Wochenkalender1Page() {
             </div>
 
             {/* Tausch Section */}
-            <div className="bg-[#E7E6E5] flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full">
+            <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#FDF2BE' }}>
               {/* Zeile 1: Mia Steiner übernimmt dafür: */}
               <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
                 Mia Steiner übernimmt dafür:
@@ -227,7 +247,7 @@ export default function Wochenkalender1Page() {
             </div>
 
             {/* Buttons */}
-            <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[220]">
+            <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[10]">
               {/* Ablehnen Button */}
               <button
                 onClick={() => router.push("/request-denied")}
