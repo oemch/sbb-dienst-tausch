@@ -105,7 +105,7 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
               transition: `${SLIDE_TRANSITION}, ${FADE_TRANSITION}`,
             }}
           >
-            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative">
+            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative" style={{ minHeight: '100px' }}>
               {/* Schließen-Button oben rechts */}
               <button
                 onClick={handleCloseClick}
@@ -120,7 +120,7 @@ export default function WochenkalenderOverlay({ overlayState, setOverlayState }:
                   className="w-full h-full"
                 />
               </button>
-              <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left pr-[48px]">
+              <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left pr-[48px] flex-1" style={{ minHeight: '54px' }}>
                 Der vorgeschlagene Tausch wird in Ihrem Dienstplan angezeigt.
               </p>
               <div className="absolute bottom-[16px] right-[16px]">
