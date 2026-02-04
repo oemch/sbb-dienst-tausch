@@ -7,6 +7,20 @@ import { useEffect } from "react";
 export default function SuccessPage() {
   const router = useRouter();
 
+  // Validierung: Prüfen ob der User den Test durchgeführt hat
+  useEffect(() => {
+    const successToken = sessionStorage.getItem("success-token");
+    
+    // Wenn kein Token vorhanden ist, zur WelcomePage weiterleiten
+    if (!successToken) {
+      router.replace("/welcome");
+      return;
+    }
+    
+    // Token nach Anzeige entfernen (optional, für einmaligen Zugriff)
+    // sessionStorage.removeItem("success-token");
+  }, [router]);
+
   // Zoom zurücksetzen beim Laden der Seite
   useEffect(() => {
     // Viewport-Meta-Tag zurücksetzen, um Zoom-Status von vorherigen Seiten zu löschen
@@ -23,7 +37,7 @@ export default function SuccessPage() {
   }, []);
 
   return (
-    <div className="min-h-[100dvh] min-h-screen bg-[#5A012A] flex flex-col relative">
+    <div className="h-[100dvh] bg-[#5A012A] flex flex-col relative overflow-hidden">
       {/* Text Content - oben, fester Bereich */}
       <div className="w-full max-w-sm mx-auto flex flex-col items-start pt-[24px] px-[24px] pb-[24px] flex-shrink-0">
         {/* Titel – 3 Zeilen, Font skaliert mit Bildschirmgrösse */}
@@ -45,14 +59,27 @@ export default function SuccessPage() {
       </div>
 
       {/* Bild – skaliert und flexibel über den ganzen Screen */}
-      <div className="flex-1 relative w-full overflow-hidden">
+      <div className="flex-1 relative w-full min-h-0 flex items-center justify-center bg-white" style={{ flex: '1 1 auto', overflow: 'visible' }}>
         <Image
           src="/images/isolierbecher-01.jpg"
           alt="Kaffeebecher"
           fill
-          className="object-cover"
+          className="object-contain"
           priority
           sizes="100vw"
+          style={{ 
+            objectFit: 'contain', 
+            objectPosition: 'center',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            width: '100%',
+            height: '100%',
+            maxWidth: '100%',
+            maxHeight: '100%'
+          }}
         />
       </div>
 

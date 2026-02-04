@@ -181,6 +181,8 @@ export default function RequestApprovedPage() {
 
       if (response.ok) {
         sessionStorage.removeItem(STORAGE_KEY);
+        // Token setzen, um Zugriff auf SuccessPage zu validieren
+        sessionStorage.setItem("success-token", "valid");
         router.push("/success");
       } else {
         const errorData = await response.json();
