@@ -25,7 +25,7 @@ export default function Wochenkalender1Page() {
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
       {/* Header Toolbar – z-index über Overlay, damit Zurück-Button immer klickbar */}
-      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[450]">
+      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[550]">
         <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
           {/* Base Header */}
           <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">

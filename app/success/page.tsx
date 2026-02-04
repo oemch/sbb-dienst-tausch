@@ -2,27 +2,50 @@
 
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useEffect } from "react";
 
 export default function SuccessPage() {
   const router = useRouter();
 
+  // Zoom zurücksetzen beim Laden der Seite
+  useEffect(() => {
+    // Viewport-Meta-Tag zurücksetzen, um Zoom-Status von vorherigen Seiten zu löschen
+    const viewport = document.querySelector('meta[name="viewport"]');
+    if (viewport) {
+      // Temporär entfernen und neu setzen, um Browser-Cache zu umgehen
+      viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+      
+      // Kurz warten und erneut setzen, um sicherzustellen, dass es angewendet wird
+      setTimeout(() => {
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+      }, 100);
+    }
+  }, []);
+
   return (
-    <div className="bg-[#5A012A] flex flex-col min-h-[100dvh] min-h-screen w-full overflow-hidden">
-      {/* Content Container */}
-      <div className="flex flex-col gap-[9px] items-center relative shrink-0 w-full mt-[48px] px-[24px] pb-[24px]">
-        {/* Title Container */}
-        <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-white w-full">
-          <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
-            Das ZESAM-Team dankt Ihnen herzlich für die Teilnahme.
-          </p>
-          <p className="font-normal leading-tight relative shrink-0 text-[20px] w-full">
-            Holen Sie sich Ihren Kaffeebecher am Stand 999 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
-          </p>
+    <div className="min-h-[100dvh] min-h-screen bg-[#5A012A] flex flex-col relative">
+      {/* Text Content - oben, fester Bereich */}
+      <div className="w-full max-w-sm mx-auto flex flex-col items-start pt-[24px] px-[24px] pb-[24px] flex-shrink-0">
+        {/* Titel – 3 Zeilen, Font skaliert mit Bildschirmgrösse */}
+        <div className="flex flex-col items-start gap-[8px] mb-[16px]">
+          <div
+            className="flex flex-col items-start font-bold text-white leading-tight [&>span]:whitespace-nowrap"
+            style={{ fontSize: 'clamp(1.25rem, 4vw + 1rem, 1.875rem)' }}
+          >
+            <span>Das ZESAM-Team</span>
+            <span>dankt Ihnen herzlich</span>
+            <span>für die Teilnahme</span>
+          </div>
         </div>
+
+        {/* Sub-headline */}
+        <p className="text-[18px] text-white leading-relaxed">
+          Holen Sie sich Ihren Kaffeebecher am <span className="font-bold">Stand F61</span> in Halle 5 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
+        </p>
       </div>
 
       {/* Bild – skaliert und flexibel über den ganzen Screen */}
-      <div className="flex-1 relative w-full overflow-hidden min-h-0">
+      <div className="flex-1 relative w-full overflow-hidden">
         <Image
           src="/images/isolierbecher-01.jpg"
           alt="Kaffeebecher"
@@ -33,13 +56,13 @@ export default function SuccessPage() {
         />
       </div>
 
-      {/* Weißer Hintergrund mit Link */}
-      <div className="bg-white flex flex-col items-center justify-center py-[24px] relative shrink-0 w-full">
+      {/* Weißer Hintergrund mit Link - unten, fester Bereich */}
+      <div className="bg-white flex flex-col items-center justify-center py-[24px] flex-shrink-0 w-full">
         <button
           onClick={() => router.push("/welcome")}
-          className="flex h-[32px] items-center justify-center px-[12px] relative shrink-0 cursor-pointer"
+          className="flex h-[32px] items-center justify-center px-[12px] cursor-pointer"
         >
-          <span className="font-normal leading-[1.4] not-italic relative shrink-0 text-black text-[14px] text-center">
+          <span className="font-normal leading-[1.4] text-black text-[14px] text-center">
             Zurück zum Anfang
           </span>
         </button>

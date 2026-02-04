@@ -192,15 +192,54 @@ export default function RequestDeniedPage() {
   };
 
   return (
-    <div className="bg-[#5A012A] flex flex-col gap-[48px] items-center pb-[104px] px-[24px] pt-0 min-h-screen w-full relative">
+    <div 
+      className="bg-[#5A012A] flex flex-col gap-[48px] items-center pb-[104px] pt-0 min-h-screen relative w-full overflow-x-hidden"
+      style={{
+        paddingLeft: '24px',
+        paddingRight: '24px',
+        boxSizing: 'border-box',
+      }}
+    >
       {/* Content Container */}
-      <div className="flex flex-col items-start min-h-px min-w-px pb-[104px] relative w-full mt-[48px]">
+      <div 
+        className="flex flex-col items-start min-h-px min-w-px pb-[104px] relative mt-[48px]"
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          boxSizing: 'border-box',
+        }}
+      >
         {/* Title Container */}
-        <div className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-white w-full">
-          <p className="font-bold leading-tight relative shrink-0 text-[32px] w-full">
+        <div 
+          className="flex flex-col gap-[21px] items-start not-italic relative shrink-0 text-white"
+          style={{
+            width: '100%',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+          }}
+        >
+          <p 
+            className="font-bold leading-tight relative shrink-0 text-[32px] break-words"
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              boxSizing: 'border-box',
+            }}
+          >
             Sie haben Mias Anfrage abgelehnt.
           </p>
-          <div className="font-normal leading-[0] relative shrink-0 text-[18px] w-full">
+          <div 
+            className="font-normal leading-[0] relative shrink-0 text-[18px] break-words"
+            style={{
+              width: '100%',
+              maxWidth: '100%',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+              boxSizing: 'border-box',
+            }}
+          >
             <p className="leading-normal mb-0">
               Kein Problem – ein Diensttausch ist jederzeit möglich.
               <br />
@@ -211,7 +250,14 @@ export default function RequestDeniedPage() {
         </div>
 
         {/* Form – 24px Abstand unter Firma-Inputfeld */}
-        <div className="mt-[24px] mb-[24px] flex flex-col gap-[8px] items-start relative shrink-0 w-full">
+        <div 
+          className="mt-[24px] mb-[24px] flex flex-col gap-[8px] items-start relative shrink-0"
+          style={{
+            width: '100%',
+            maxWidth: '100%',
+            boxSizing: 'border-box',
+          }}
+        >
           {/* Vorname */}
           <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
             <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-white w-full">
@@ -223,7 +269,7 @@ export default function RequestDeniedPage() {
               value={formData.first_name}
               onChange={(e) => handleInputChange("first_name", e.target.value)}
               onBlur={() => handleFieldBlur("first_name")}
-              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px] ${
                 touched.first_name && errors.first_name ? "border-2 border-red-500" : ""
               }`}
               style={{ backgroundColor: '#CFCBC7' }}
@@ -247,7 +293,7 @@ export default function RequestDeniedPage() {
               value={formData.last_name}
               onChange={(e) => handleInputChange("last_name", e.target.value)}
               onBlur={() => handleFieldBlur("last_name")}
-              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px] ${
                 touched.last_name && errors.last_name ? "border-2 border-red-500" : ""
               }`}
               style={{ backgroundColor: '#CFCBC7' }}
@@ -271,7 +317,7 @@ export default function RequestDeniedPage() {
               value={formData.email}
               onChange={(e) => handleInputChange("email", e.target.value)}
               onBlur={() => handleFieldBlur("email")}
-              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px] ${
+              className={`border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px] ${
                 touched.email && errors.email ? "border-2 border-red-500" : ""
               }`}
               style={{ backgroundColor: '#CFCBC7' }}
@@ -293,7 +339,7 @@ export default function RequestDeniedPage() {
               type="text"
               value={formData.firma}
               onChange={(e) => handleInputChange("firma", e.target.value)}
-              className="border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[14px] text-[#100c08] rounded-[4px]"
+              className="border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px]"
               style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""
             />

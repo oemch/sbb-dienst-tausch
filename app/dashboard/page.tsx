@@ -24,7 +24,7 @@ export default function DashboardPage() {
   return (
     <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
       {/* Header Toolbar – z-index über Overlay, damit ZESAM/Mitarbeiterportal immer klickbar */}
-      <div className="flex flex-col items-start relative shrink-0 w-full z-[450]">
+      <div className="flex flex-col items-start relative shrink-0 w-full z-[550]">
         {/* Base Header - Status Bar entfernt */}
         <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
           {/* Header */}
