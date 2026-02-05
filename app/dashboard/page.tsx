@@ -6,15 +6,18 @@ import Link from "next/link";
 import DashboardOverlay from "../components/DashboardOverlay";
 
 export default function DashboardPage() {
-  const [overlayState, setOverlayState] = useState<0 | 1 | 2>(0);
+  const [overlayState, setOverlayState] = useState<0 | 1>(0);
 
-  // Overlay 1 nach 5 Sekunden einblenden – startet neu wenn overlayState auf 0 zurückgesetzt wird
+  // Overlay 1 nach 5 Sekunden einblenden – erscheint nach jedem Reload neu
   useEffect(() => {
-    if (overlayState === 0) {
-      const timer = setTimeout(() => setOverlayState(1), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [overlayState]);
+    // SessionStorage-Wert beim Laden löschen, damit Overlay nach Reload wieder erscheint
+    sessionStorage.removeItem("dashboard-overlay-closed");
+    
+    const timer = setTimeout(() => {
+      setOverlayState(1);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []); // Nur beim Mount ausführen
 
   const handleHeaderLinkClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -344,9 +347,9 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Overlay – nur bei Status 1 oder 2 */}
-      {overlayState > 0 && (
-        <DashboardOverlay overlayState={overlayState as 1 | 2} setOverlayState={setOverlayState} />
+      {/* Overlay – nur bei Status 1 */}
+      {overlayState === 1 && (
+        <DashboardOverlay overlayState={overlayState} setOverlayState={setOverlayState} />
       )}
     </div>
   );

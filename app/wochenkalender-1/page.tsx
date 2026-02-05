@@ -10,6 +10,8 @@ export default function Wochenkalender1Page() {
   const [overlayState, setOverlayState] = useState<0 | 1>(0);
   const [requestState, setRequestState] = useState<'pending' | 'approved' | 'denied'>('pending');
   const [showApprovedOverlay, setShowApprovedOverlay] = useState(false);
+  const [hideFirstCard, setHideFirstCard] = useState(false);
+  const [hideSecondCard, setHideSecondCard] = useState(false);
 
   // Overlay Logic: Overlay verstecken wenn request approved oder denied
   useEffect(() => {
@@ -30,6 +32,30 @@ export default function Wochenkalender1Page() {
       return () => clearTimeout(timer);
     } else {
       setShowApprovedOverlay(false);
+    }
+  }, [requestState]);
+
+  // Erste Kachel nach Animation aus DOM entfernen
+  useEffect(() => {
+    if (requestState === 'approved') {
+      const timer = setTimeout(() => {
+        setHideFirstCard(true);
+      }, 700);
+      return () => clearTimeout(timer);
+    } else {
+      setHideFirstCard(false);
+    }
+  }, [requestState]);
+
+  // Zweite Kachel nach Animation aus DOM entfernen (bei denied)
+  useEffect(() => {
+    if (requestState === 'denied') {
+      const timer = setTimeout(() => {
+        setHideSecondCard(true);
+      }, 700);
+      return () => clearTimeout(timer);
+    } else {
+      setHideSecondCard(false);
     }
   }, [requestState]);
 
@@ -152,192 +178,194 @@ export default function Wochenkalender1Page() {
           </div>
         </div>
 
-        {/* DI 07 - Erste Kachel (Frei, identisch zu FR-10) - verschwindet bei approved, bleibt bei denied */}
-        {requestState !== 'approved' && (
-          <div className="flex items-start relative shrink-0 w-full">
-            {/* Short Date */}
-            <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
-              <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
-                DI
-              </p>
-              <p className="font-bold relative shrink-0 text-[#100c08] text-[20px] w-[32px]">
-                07
-              </p>
-            </div>
+        {/* DI 07 - Container mit Datum und beiden Kacheln */}
+        <div className="flex items-start relative shrink-0 w-full">
+          {/* Short Date - bleibt IMMER sichtbar, wird nie ausgeblendet oder verschoben */}
+          <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
+            <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
+              DI
+            </p>
+            <p className="font-bold relative shrink-0 text-[#100c08] text-[20px] w-[32px]">
+              07
+            </p>
+          </div>
 
-            {/* Content Card */}
-            <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-              {/* Header */}
-              <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
-                {/* Icon */}
-                <div className="flex flex-row items-center self-stretch">
-                  <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                    <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
-                      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
-                        15
+          {/* Container für beide Kacheln */}
+          <div 
+            className="flex flex-col items-start relative shrink-0 flex-1 w-full"
+            style={{
+              transition: 'all 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+            }}
+          >
+            {/* Erste Kachel (Frei, identisch zu FR-10) - verschwindet bei approved, bleibt bei denied */}
+            {!hideFirstCard && (
+              <div 
+                className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[700ms] ease-in-out w-full"
+                style={{
+                  opacity: requestState === 'approved' ? 0 : 1,
+                  maxHeight: requestState === 'approved' ? '0px' : '500px',
+                  height: requestState === 'approved' ? '0px' : 'auto',
+                  padding: requestState === 'approved' ? '0px' : '16px',
+                  overflow: requestState === 'approved' ? 'hidden' : 'visible',
+                  marginBottom: (requestState === 'approved' || requestState === 'denied') ? '0px' : '12px',
+                }}
+              >
+                {/* Header */}
+                <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
+                  {/* Icon */}
+                  <div className="flex flex-row items-center self-stretch">
+                    <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                      <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
+                        <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
+                          15
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Text */}
+                  <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
+                      Ganzer Tag
+                    </p>
+                    <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
+                      <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
+                        Frei
                       </p>
                     </div>
                   </div>
                 </div>
-                {/* Text */}
-                <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
-                    Ganzer Tag
-                  </p>
-                  <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                    <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                      Frei
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* DI 07 - Zweite Kachel (Tausch -> normale Spätdienst-Kachel bei approved, ausgeblendet bei denied) */}
-        <div 
-          className="flex items-start relative shrink-0 w-full transition-all duration-[2500ms] ease-out"
-          style={{
-            opacity: requestState === 'denied' ? 0 : 1,
-            maxHeight: requestState === 'denied' ? '0px' : '500px',
-            marginBottom: requestState === 'denied' ? '-12px' : '0px',
-            overflow: requestState === 'denied' ? 'hidden' : 'visible',
-          }}
-        >
-          {/* Short Date - leerer Platzhalter nur wenn pending, sonst mit Datum (nur bei approved, nicht bei denied) */}
-          {requestState === 'pending' ? (
-            <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
-            </div>
-          ) : requestState === 'approved' ? (
-            <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
-              <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
-                DI
-              </p>
-              <p className="font-bold relative shrink-0 text-[#100c08] text-[20px] w-[32px]">
-                07
-              </p>
-            </div>
-          ) : (
-            <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
-            </div>
-          )}
-
-          {/* Content Card */}
-          <div 
-            className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
-            style={{ 
-              backgroundColor: requestState === 'pending' ? '#FEFBE9' : 'white',
-              border: requestState === 'pending' ? '2px solid #F7D526' : '2px solid transparent',
-              transition: 'background-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-width 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            }}
-          >
-            {/* Neu Tag - nur wenn pending */}
-            {requestState === 'pending' && (
-              <div className="absolute z-20 bg-[#F7D526] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px] transition-opacity duration-[1200ms] ease-in-out" style={{ opacity: requestState === 'pending' ? 1 : 0 }}>
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-black whitespace-nowrap">
-                  Neu
-                </p>
               </div>
             )}
-            {/* Neu Tag - nur wenn approved */}
-            <div 
-              className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px] transition-opacity duration-[3000ms] ease-out"
-              style={{ 
-                opacity: requestState === 'approved' ? 1 : 0,
-                pointerEvents: requestState === 'approved' ? 'auto' : 'none'
-              }}
-            >
-              <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
-                Neu
-              </p>
-            </div>
 
-            {/* Header */}
-            <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
-              {/* Icon */}
-              <div className="flex flex-row items-center self-stretch">
-                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                  <Image
-                    src="/images/icon-spaetschicht.svg"
-                    alt="Spätdienst"
-                    width={40}
-                    height={40}
-                    className="size-[40px]"
-                  />
+            {/* Zweite Kachel (Tausch -> normale Spätdienst-Kachel bei approved, ausgeblendet bei denied) */}
+            {!hideSecondCard && (
+              <div 
+                className="w-full"
+                style={{
+                  opacity: requestState === 'denied' ? 0 : 1,
+                  maxHeight: requestState === 'denied' ? '0px' : '500px',
+                  overflow: requestState === 'denied' ? 'hidden' : 'visible',
+                  transition: 'opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), max-height 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+                }}
+              >
+                <div 
+                  className="bg-white flex flex-col gap-[8px] items-start relative rounded-[8px] w-full p-[16px]"
+                  style={{
+                    backgroundColor: requestState === 'pending' ? '#FEFBE9' : 'white',
+                    border: requestState === 'pending' ? '2px solid #F7D526' : '2px solid transparent',
+                    boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)',
+                    transition: 'background-color 700ms cubic-bezier(0.4, 0, 0.2, 1), border-color 700ms cubic-bezier(0.4, 0, 0.2, 1), border-width 700ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  }}
+                >
+                {/* Neu Tag - nur wenn pending */}
+                {requestState === 'pending' && (
+                  <div className="absolute z-20 bg-[#F7D526] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px] transition-opacity duration-[1200ms] ease-in-out" style={{ opacity: requestState === 'pending' ? 1 : 0 }}>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-black whitespace-nowrap">
+                      Neu
+                    </p>
+                  </div>
+                )}
+                {/* Neu Tag - nur wenn approved */}
+                <div 
+                  className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[19px] transition-opacity duration-[3000ms] ease-out"
+                  style={{ 
+                    opacity: requestState === 'approved' ? 1 : 0,
+                    pointerEvents: requestState === 'approved' ? 'auto' : 'none'
+                  }}
+                >
+                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[14px] text-center text-white whitespace-nowrap">
+                    Neu
+                  </p>
+                </div>
+
+                {/* Header */}
+                <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
+                  {/* Icon */}
+                  <div className="flex flex-row items-center self-stretch">
+                    <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                      <Image
+                        src="/images/icon-spaetschicht.svg"
+                        alt="Spätdienst"
+                        width={40}
+                        height={40}
+                        className="size-[40px]"
+                      />
+                    </div>
+                  </div>
+                  {/* Text */}
+                  <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
+                      14:00 - 22:00
+                    </p>
+                    <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
+                      <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
+                        Spätdienst
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+                  <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                    Dauer: 8:00 h    Pause: 0:20 h
+                  </p>
+                </div>
+
+                {/* Tausch Section und Buttons - nur wenn pending */}
+                <div 
+                  className="w-full"
+                  style={{ 
+                    opacity: requestState === 'pending' ? 1 : 0,
+                    maxHeight: requestState === 'pending' ? '500px' : '0px',
+                    overflow: 'hidden',
+                    transition: 'opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), max-height 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    pointerEvents: requestState === 'pending' ? 'auto' : 'none'
+                  }}
+                >
+                  {/* Tausch Section */}
+                  <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#FDF2BE' }}>
+                    {/* Zeile 1: Mia Steiner übernimmt dafür: */}
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                      Mia Steiner übernimmt dafür:
+                    </p>
+                    {/* Zeile 2: Spätdienst (fett) vom Mi, 08. April, 14:00 - 22:00 */}
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
+                      <span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00
+                    </p>
+                  </div>
+
+                  {/* Buttons */}
+                  <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[10]">
+                    {/* Ablehnen Button */}
+                    <button
+                      onClick={() => {
+                        setOverlayState(0);
+                        setRequestState('denied');
+                      }}
+                      className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px] cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                      <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                        Ablehnen
+                      </p>
+                    </button>
+                    {/* Annehmen Button */}
+                    <button
+                      onClick={() => {
+                        setOverlayState(0);
+                        setRequestState('approved');
+                      }}
+                      className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-px px-[24px] relative rounded-[8px] cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                      <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
+                        Annehmen
+                      </p>
+                    </button>
+                  </div>
+                </div>
                 </div>
               </div>
-              {/* Text */}
-              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
-                  14:00 - 22:00
-                </p>
-                <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                  <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                    Spätdienst
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* Body */}
-            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
-                Dauer: 8:00 h    Pause: 0:20 h
-              </p>
-            </div>
-
-            {/* Tausch Section und Buttons - nur wenn pending */}
-            <div 
-              className="w-full"
-              style={{ 
-                opacity: requestState === 'pending' ? 1 : 0,
-                maxHeight: requestState === 'pending' ? '500px' : '0px',
-                overflow: 'hidden',
-                transition: 'opacity 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), max-height 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-                pointerEvents: requestState === 'pending' ? 'auto' : 'none'
-              }}
-            >
-              {/* Tausch Section */}
-              <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#FDF2BE' }}>
-                  {/* Zeile 1: Mia Steiner übernimmt dafür: */}
-                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
-                    Mia Steiner übernimmt dafür:
-                  </p>
-                  {/* Zeile 2: Spätdienst (fett) vom Mi, 08. April, 14:00 - 22:00 */}
-                  <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
-                    <span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00
-                  </p>
-                </div>
-
-                {/* Buttons */}
-                <div className="flex gap-[16px] items-start pr-[0px] pt-[8px] relative shrink-0 w-full z-[10]">
-                  {/* Ablehnen Button */}
-                  <button
-                    onClick={() => {
-                      setOverlayState(0);
-                      setRequestState('denied');
-                    }}
-                    className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-[112px] px-[24px] relative rounded-[8px] cursor-pointer hover:opacity-80 transition-opacity"
-                  >
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
-                      Ablehnen
-                    </p>
-                  </button>
-                  {/* Annehmen Button */}
-                  <button
-                    onClick={() => {
-                      setOverlayState(0);
-                      setRequestState('approved');
-                    }}
-                    className="bg-white border-[#100c08] border-[1.5px] border-solid flex flex-[1_0_0] h-[40px] items-center justify-center min-h-[32px] min-w-px px-[24px] relative rounded-[8px] cursor-pointer hover:opacity-80 transition-opacity"
-                  >
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[14px] text-center">
-                      Annehmen
-                    </p>
-                  </button>
-                </div>
-            </div>
+            )}
           </div>
         </div>
 
@@ -355,7 +383,7 @@ export default function Wochenkalender1Page() {
 
           {/* Content Card */}
           <div 
-            className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[3000ms] ease-out"
+            className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[650ms] ease-out"
             style={{ 
               backgroundColor: requestState === 'pending' ? '#BEBAB6' : 'white',
             }}
