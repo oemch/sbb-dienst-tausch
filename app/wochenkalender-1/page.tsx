@@ -9,7 +9,7 @@ export default function Wochenkalender1Page() {
   const router = useRouter();
   const [overlayState, setOverlayState] = useState<0 | 1>(0);
   const [requestState, setRequestState] = useState<'pending' | 'approved' | 'denied'>('pending');
-  const [isFadingOut, setIsFadingOut] = useState(false);
+  const [showApprovedOverlay, setShowApprovedOverlay] = useState(false);
 
   // Overlay Logic: Overlay verstecken wenn request approved oder denied
   useEffect(() => {
@@ -21,23 +21,18 @@ export default function Wochenkalender1Page() {
     }
   }, [requestState, overlayState]);
 
-  // Automatische Umleitung nach 5 Sekunden wenn approved mit Fade-Out
+  // Approved/Denied Overlay nach 4 Sekunden einblenden
   useEffect(() => {
-    if (requestState === 'approved') {
-      const fadeTimer = setTimeout(() => {
-        setIsFadingOut(true);
-      }, 5000);
-      
-      const redirectTimer = setTimeout(() => {
-        router.push("/request-approved");
-      }, 6000); // 5 Sekunden Wartezeit + 1 Sekunde Fade-Out
-      
-      return () => {
-        clearTimeout(fadeTimer);
-        clearTimeout(redirectTimer);
-      };
+    if (requestState === 'approved' || requestState === 'denied') {
+      const timer = setTimeout(() => {
+        setShowApprovedOverlay(true);
+      }, 4000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowApprovedOverlay(false);
     }
-  }, [requestState, router]);
+  }, [requestState]);
+
 
   // Beim Laden: Scroll-Position auf -40px setzen, damit MO-06 nicht sichtbar ist
   useEffect(() => {
@@ -47,10 +42,7 @@ export default function Wochenkalender1Page() {
   }, []);
 
   return (
-    <div 
-      className="bg-white flex flex-col items-start min-h-screen w-full relative transition-opacity duration-1000 ease-in-out"
-      style={{ opacity: isFadingOut ? 0 : 1 }}
-    >
+    <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
       {/* Header Toolbar – z-index über Overlay, damit Zurück-Button immer klickbar */}
       <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[550]">
         <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
@@ -160,17 +152,9 @@ export default function Wochenkalender1Page() {
           </div>
         </div>
 
-        {/* DI 07 - Erste Kachel (Frei, identisch zu FR-10) - verschwindet bei approved */}
-        {requestState === 'pending' && (
-          <div
-            className="flex items-start relative shrink-0 w-full transition-all duration-[1200ms] ease-in-out overflow-hidden"
-            style={{
-              opacity: requestState === 'pending' ? 1 : 0,
-              transform: requestState === 'pending' ? 'translateY(0)' : 'translateY(-20px)',
-              maxHeight: requestState === 'pending' ? '500px' : '0px',
-              marginBottom: requestState === 'pending' ? '0px' : '-12px',
-            }}
-          >
+        {/* DI 07 - Erste Kachel (Frei, identisch zu FR-10) - verschwindet bei approved, bleibt bei denied */}
+        {requestState !== 'approved' && (
+          <div className="flex items-start relative shrink-0 w-full">
             {/* Short Date */}
             <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
               <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
@@ -188,7 +172,7 @@ export default function Wochenkalender1Page() {
                 {/* Icon */}
                 <div className="flex flex-row items-center self-stretch">
                   <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                    <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[32px]">
+                    <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
                       <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
                         15
                       </p>
@@ -211,13 +195,21 @@ export default function Wochenkalender1Page() {
           </div>
         )}
 
-        {/* DI 07 - Zweite Kachel (Tausch -> normale Spätdienst-Kachel bei approved) */}
-        <div className="flex items-start relative shrink-0 w-full">
-          {/* Short Date - leerer Platzhalter nur wenn pending, sonst mit Datum */}
+        {/* DI 07 - Zweite Kachel (Tausch -> normale Spätdienst-Kachel bei approved, ausgeblendet bei denied) */}
+        <div 
+          className="flex items-start relative shrink-0 w-full transition-all duration-[2500ms] ease-out"
+          style={{
+            opacity: requestState === 'denied' ? 0 : 1,
+            maxHeight: requestState === 'denied' ? '0px' : '500px',
+            marginBottom: requestState === 'denied' ? '-12px' : '0px',
+            overflow: requestState === 'denied' ? 'hidden' : 'visible',
+          }}
+        >
+          {/* Short Date - leerer Platzhalter nur wenn pending, sonst mit Datum (nur bei approved, nicht bei denied) */}
           {requestState === 'pending' ? (
             <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
             </div>
-          ) : (
+          ) : requestState === 'approved' ? (
             <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
               <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
                 DI
@@ -226,15 +218,18 @@ export default function Wochenkalender1Page() {
                 07
               </p>
             </div>
+          ) : (
+            <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
+            </div>
           )}
 
           {/* Content Card */}
           <div 
-            className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
+            className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
             style={{ 
               backgroundColor: requestState === 'pending' ? '#FEFBE9' : 'white',
               border: requestState === 'pending' ? '2px solid #F7D526' : '2px solid transparent',
-              transition: 'background-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-width 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+              transition: 'background-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-color 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), border-width 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 2500ms cubic-bezier(0.25, 0.46, 0.45, 0.94)',
             }}
           >
             {/* Neu Tag - nur wenn pending */}
@@ -362,7 +357,7 @@ export default function Wochenkalender1Page() {
           <div 
             className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[3000ms] ease-out"
             style={{ 
-              backgroundColor: requestState === 'approved' ? 'white' : '#BEBAB6',
+              backgroundColor: requestState === 'pending' ? '#BEBAB6' : 'white',
             }}
           >
             {/* Tag "Entfällt" – nur wenn pending */}
@@ -374,44 +369,13 @@ export default function Wochenkalender1Page() {
               </div>
             )}
 
-            {/* Header - Conditional: Spätdienst wenn pending, Ganzer Tag Frei wenn approved */}
-            {requestState === 'pending' ? (
+            {/* Header - Conditional: Spätdienst wenn pending/denied, Ganzer Tag Frei wenn approved */}
+            {requestState === 'approved' ? (
               <div>
                 <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch">
                     <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                      <Image
-                        src="/images/icon-spaetschicht.svg"
-                        alt="Spätdienst"
-                        width={40}
-                        height={40}
-                        className="size-[40px]"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
-                      14:00 - 22:00
-                    </p>
-                    <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
-                      <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[14px]">
-                        Spätdienst
-                      </p>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
-                  <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
-                    Dauer: 8:00 h    Pause: 0:20 h
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch">
-                    <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                      <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[32px]">
+                      <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
                         <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
                           15
                         </p>
@@ -430,6 +394,40 @@ export default function Wochenkalender1Page() {
                   </div>
                 </div>
               </div>
+            ) : (
+              <>
+                {/* Header */}
+                <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
+                  <div className="flex flex-row items-center self-stretch">
+                    <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                      <Image
+                        src="/images/icon-spaetschicht.svg"
+                        alt="Spätdienst"
+                        width={40}
+                        height={40}
+                        className="size-[40px]"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">
+                      14:00 - 22:00
+                    </p>
+                    <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
+                      <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
+                        Spätdienst
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Body */}
+                <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+                  <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                    Dauer: 8:00 h    Pause: 0:20 h
+                  </p>
+                </div>
+              </>
             )}
 
             {/* Neu Tag - nur wenn approved */}
@@ -516,7 +514,7 @@ export default function Wochenkalender1Page() {
               {/* Icon */}
               <div className="flex flex-row items-center self-stretch">
                 <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
-                  <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[32px]">
+                  <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">
                       15
                     </p>
@@ -542,6 +540,26 @@ export default function Wochenkalender1Page() {
       {/* Overlay – nur bei Status 1 */}
       {overlayState === 1 && (
         <WochenkalenderOverlay overlayState={overlayState} setOverlayState={setOverlayState} />
+      )}
+
+      {/* Approved Overlay – nach 3 Sekunden wenn approved */}
+      {showApprovedOverlay && (
+        <div
+          className="fixed left-[24px] right-[24px] z-[510] pointer-events-auto cursor-pointer"
+          style={{
+            bottom: "calc(24px + env(safe-area-inset-bottom, 0px))",
+            transition: "opacity 500ms ease-out, transform 500ms ease-out",
+            opacity: showApprovedOverlay ? 1 : 0,
+            transform: showApprovedOverlay ? "translateY(0)" : "translateY(20px)",
+          }}
+          onClick={() => router.push(requestState === 'approved' ? "/request-approved" : "/request-denied")}
+        >
+          <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] h-[48px] flex items-center justify-center relative">
+            <p className="font-bold leading-[1.4] not-italic text-[#100c08] text-[14px] text-center">
+              Test abschliessen
+            </p>
+          </div>
+        </div>
       )}
     </div>
   );

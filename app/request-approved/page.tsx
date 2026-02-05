@@ -230,7 +230,7 @@ export default function RequestApprovedPage() {
               boxSizing: 'border-box',
             }}
           >
-            Sie haben Mias Anfrage angenommen.
+            Sie haben die Dienst-Tausch-Anfrage erfolgreich angenommen.
           </p>
           <div 
             className="font-normal leading-[0] relative shrink-0 text-[18px] break-words"
@@ -243,10 +243,7 @@ export default function RequestApprovedPage() {
             }}
           >
             <p className="leading-normal mb-0">
-              Der Diensttausch wurde erfolgreich bestätigt.
-              <br />
-              <span className="leading-normal">Hinterlassen Sie Ihren Namen und Ihre E-Mail-Adresse und </span>
-              <span className="font-bold leading-normal not-italic">holen Sie sich Ihren Kaffeebecher ab.</span>
+              Hinterlassen Sie uns Ihren Namen und Ihre E-Mail-Adresse und <span className="font-bold leading-normal not-italic">holen Sie sich Ihr Geschenk ab.</span>
             </p>
           </div>
         </div>

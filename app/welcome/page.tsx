@@ -30,7 +30,7 @@ export default function WelcomePage() {
 
         {/* Sub-headline */}
         <p className="text-[18px] text-white leading-relaxed">
-          Der Test dauert nur 2 Minuten. Als Dankeschön erhalten Sie von uns einen Kaffeebecher.
+          Der Test dauert nur 2 Minuten. Als Dankeschön erhalten Sie von uns einen Geschenk.
         </p>
       </div>
 

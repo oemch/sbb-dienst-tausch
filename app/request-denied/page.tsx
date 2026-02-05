@@ -230,7 +230,7 @@ export default function RequestDeniedPage() {
               boxSizing: 'border-box',
             }}
           >
-            Sie haben Mias Anfrage abgelehnt.
+            Sie haben die Dienst-Tausch-Anfrage abgelehnt.
           </p>
           <div 
             className="font-normal leading-[0] relative shrink-0 text-[18px] break-words"
@@ -246,7 +246,7 @@ export default function RequestDeniedPage() {
               Kein Problem – ein Diensttausch ist jederzeit möglich.
               <br />
               <span className="leading-normal">Hinterlassen Sie Ihren Namen und Ihre E-Mail-Adresse und </span>
-              <span className="font-bold leading-normal not-italic">holen Sie sich Ihren Kaffeebecher ab.</span>
+              <span className="font-bold leading-normal not-italic">holen Sie sich Ihr Geschenk ab.</span>
             </p>
           </div>
         </div>

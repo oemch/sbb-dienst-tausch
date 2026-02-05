@@ -54,7 +54,7 @@ export default function SuccessPage() {
 
         {/* Sub-headline */}
         <p className="text-[18px] text-white leading-relaxed">
-          Holen Sie sich Ihren Kaffeebecher am <span className="font-bold">Stand F61</span> in Halle 5 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
+          Holen Sie sich Ihr Geschenk am <span className="font-bold">Stand F61</span> in Halle 5 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
         </p>
       </div>
 
@@ -62,7 +62,7 @@ export default function SuccessPage() {
       <div className="flex-1 relative w-full min-h-0 flex items-center justify-center bg-white" style={{ flex: '1 1 auto', overflow: 'visible' }}>
         <Image
           src="/images/isolierbecher-01.jpg"
-          alt="Kaffeebecher"
+          alt="Geschenk"
           fill
           className="object-contain"
           priority
