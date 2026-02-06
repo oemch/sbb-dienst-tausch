@@ -7,9 +7,9 @@ export default function WelcomePage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-[100dvh] min-h-screen bg-[#5A012A] flex flex-col relative">
+    <div className="min-h-[100dvh] min-h-screen bg-[#5A012A] flex flex-col relative overflow-x-hidden">
       {/* Text Content - oben, fester Bereich */}
-      <div className="w-full max-w-sm mx-auto flex flex-col items-start pt-6 px-[24px] pb-[24px] flex-shrink-0">
+      <div className="w-full max-w-sm mx-auto flex flex-col items-start pt-6 px-[24px] pb-[24px] flex-shrink-0 min-w-0 box-border">
         {/* Übertitel + Titel – 3 Zeilen, Font skaliert mit Bildschirmgrösse */}
         <div className="flex flex-col items-start gap-[8px] mb-[16px]">
           <span
@@ -19,8 +19,8 @@ export default function WelcomePage() {
             ZESAM-APP
           </span>
           <div
-            className="flex flex-col items-start font-bold text-white leading-tight [&>span]:whitespace-nowrap"
-            style={{ fontSize: 'clamp(1.25rem, 4vw + 1rem, 1.875rem)' }}
+            className="flex flex-col items-start font-bold text-white leading-tight [&>span]:whitespace-normal sm:[&>span]:whitespace-nowrap"
+            style={{ fontSize: 'clamp(1.25rem, 4vw + 1rem, 1.875rem)', maxWidth: '100%' }}
           >
             <span>Willkommen</span>
             <span>zum Test der</span>
@@ -29,7 +29,7 @@ export default function WelcomePage() {
         </div>
 
         {/* Sub-headline */}
-        <p className="text-[18px] text-white leading-relaxed">
+        <p className="text-[18px] text-white leading-relaxed break-words" style={{ maxWidth: '100%', wordWrap: 'break-word' }}>
           Der Test dauert nur zwei Minuten. Als Dankeschön erhalten Sie von uns ein Geschenk.
         </p>
       </div>
