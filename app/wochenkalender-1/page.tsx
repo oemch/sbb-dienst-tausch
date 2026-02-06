@@ -13,15 +13,18 @@ export default function Wochenkalender1Page() {
   const [hideFirstCard, setHideFirstCard] = useState(false);
   const [hideSecondCard, setHideSecondCard] = useState(false);
 
-  // Overlay Logic: Overlay verstecken wenn request approved oder denied
+  // Overlay Logic: Overlay nach 5 Sekunden einblenden – erscheint nach jedem Reload neu
   useEffect(() => {
+    // SessionStorage-Wert beim Laden löschen, damit Overlay nach Reload wieder erscheint
+    sessionStorage.removeItem("wochenkalender-overlay-closed");
+    
     if (requestState === 'approved' || requestState === 'denied') {
       setOverlayState(0);
-    } else if (overlayState === 0) {
+    } else if (requestState === 'pending') {
       const timer = setTimeout(() => setOverlayState(1), 5000);
       return () => clearTimeout(timer);
     }
-  }, [requestState, overlayState]);
+  }, [requestState]); // Nur abhängig von requestState, nicht von overlayState
 
   // Approved/Denied Overlay nach 4 Sekunden einblenden
   useEffect(() => {
@@ -312,6 +315,34 @@ export default function Wochenkalender1Page() {
                   </p>
                 </div>
 
+                {/* Hellgelber Bereich - nur wenn approved */}
+                <div 
+                  className="w-full"
+                  style={{
+                    opacity: requestState === 'approved' ? 1 : 0,
+                    maxHeight: requestState === 'approved' ? '60px' : '0px',
+                    overflow: 'hidden',
+                    transition: 'opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), max-height 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    marginBottom: requestState === 'approved' ? '0px' : '0px',
+                  }}
+                >
+                  <div 
+                    className="flex gap-[16px] items-center w-full p-[8px] rounded-[4px]"
+                    style={{ backgroundColor: '#FFFCDE' }}
+                  >
+                    <Image
+                      src="/images/icon-tausch.svg"
+                      alt="Tausch"
+                      width={16}
+                      height={16}
+                      className="shrink-0"
+                    />
+                    <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                      Spätdienst für Mia übernommen.
+                    </p>
+                  </div>
+                </div>
+
                 {/* Tausch Section und Buttons - nur wenn pending */}
                 <div 
                   className="w-full"
@@ -320,7 +351,8 @@ export default function Wochenkalender1Page() {
                     maxHeight: requestState === 'pending' ? '500px' : '0px',
                     overflow: 'hidden',
                     transition: 'opacity 700ms cubic-bezier(0.4, 0, 0.2, 1), max-height 700ms cubic-bezier(0.4, 0, 0.2, 1)',
-                    pointerEvents: requestState === 'pending' ? 'auto' : 'none'
+                    pointerEvents: requestState === 'pending' ? 'auto' : 'none',
+                    marginTop: requestState === 'approved' ? '-8px' : '0px',
                   }}
                 >
                   {/* Tausch Section */}
@@ -457,6 +489,34 @@ export default function Wochenkalender1Page() {
                 </div>
               </>
             )}
+
+            {/* Hellgelber Bereich - nur wenn approved */}
+            <div 
+              className="w-full"
+              style={{
+                opacity: requestState === 'approved' ? 1 : 0,
+                maxHeight: requestState === 'approved' ? '60px' : '0px',
+                overflow: 'hidden',
+                transition: 'opacity 650ms cubic-bezier(0.4, 0, 0.2, 1), max-height 650ms cubic-bezier(0.4, 0, 0.2, 1)',
+                marginBottom: requestState === 'approved' ? '1px' : '0px',
+              }}
+            >
+              <div 
+                className="flex gap-[16px] items-center w-full p-[8px] rounded-[4px]"
+                style={{ backgroundColor: '#FFFCDE' }}
+              >
+                <Image
+                  src="/images/icon-tausch.svg"
+                  alt="Tausch"
+                  width={16}
+                  height={16}
+                  className="shrink-0"
+                />
+                <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                  Spätdienst von Mia übernommen.
+                </p>
+              </div>
+            </div>
 
             {/* Neu Tag - nur wenn approved */}
             <div 

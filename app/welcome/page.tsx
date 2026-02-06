@@ -24,13 +24,13 @@ export default function WelcomePage() {
           >
             <span>Willkommen</span>
             <span>zum Test der</span>
-            <span>Dienst-Tausch-Funktion</span>
+            <span>Diensttausch-Funktion</span>
           </div>
         </div>
 
         {/* Sub-headline */}
         <p className="text-[18px] text-white leading-relaxed">
-          Der Test dauert nur 2 Minuten. Als Dankeschön erhalten Sie von uns einen Geschenk.
+          Der Test dauert nur zwei Minuten. Als Dankeschön erhalten Sie von uns ein Geschenk.
         </p>
       </div>
 

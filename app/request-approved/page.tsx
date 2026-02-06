@@ -230,7 +230,7 @@ export default function RequestApprovedPage() {
               boxSizing: 'border-box',
             }}
           >
-            Sie haben die Dienst-Tausch-Anfrage erfolgreich angenommen.
+            Sie haben die Diensttausch-Anfrage erfolgreich angenommen.
           </p>
           <div 
             className="font-normal leading-[0] relative shrink-0 text-[18px] break-words"

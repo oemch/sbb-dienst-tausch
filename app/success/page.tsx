@@ -47,14 +47,14 @@ export default function SuccessPage() {
             style={{ fontSize: 'clamp(1.25rem, 4vw + 1rem, 1.875rem)' }}
           >
             <span>Das ZESAM-Team</span>
-            <span>dankt Ihnen herzlich</span>
-            <span>für die Teilnahme</span>
+            <span>bedankt sich herzlich</span>
+            <span>für Ihre Teilnahme</span>
           </div>
         </div>
 
         {/* Sub-headline */}
         <p className="text-[18px] text-white leading-relaxed">
-          Holen Sie sich Ihr Geschenk am <span className="font-bold">Stand F61</span> in Halle 5 ab. Wir freuen uns dort auch über Ihr Feedback zur getesteten App.
+          Holen Sie sich Ihr Geschenk am <span className="font-bold">Stand F61</span> in Halle 5 ab. Wir würden uns auch über ein kurzes Feedback zur getesteten App freuen.
         </p>
       </div>
 

@@ -70,7 +70,7 @@ export default function DashboardOverlay({ overlayState, setOverlayState }: Dash
                 Das ZESAM-Dashboard
               </p>
               <p className="font-normal leading-normal text-[#100c08] text-[18px] text-left pr-[28px]">
-                Hier sehen Mitarbeitende ihre Einsätze und Ferien und können Dienste direkt tauschen. <span className="font-bold">Prüfen Sie die Dienst-Tausch-Anfrage.</span>
+                Hier sehen Mitarbeitende ihre Einsätze und Ferien und können Dienste direkt tauschen. <span className="font-bold">Prüfen Sie die Diensttausch-Anfrage.</span>
               </p>
             </div>
         </div>

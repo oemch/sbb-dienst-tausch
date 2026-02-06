@@ -230,7 +230,7 @@ export default function RequestDeniedPage() {
               boxSizing: 'border-box',
             }}
           >
-            Sie haben die Dienst-Tausch-Anfrage abgelehnt.
+            Sie haben die Diensttausch-Anfrage abgelehnt.
           </p>
           <div 
             className="font-normal leading-[0] relative shrink-0 text-[18px] break-words"
