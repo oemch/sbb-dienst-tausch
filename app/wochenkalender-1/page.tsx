@@ -487,6 +487,25 @@ export default function Wochenkalender1Page() {
                     Dauer: 8:00 h    Pause: 0:20 h
                   </p>
                 </div>
+
+                {/* Infobox - nur wenn pending */}
+                <div 
+                  className="w-full"
+                  style={{
+                    opacity: requestState === 'pending' ? 1 : 0,
+                    maxHeight: requestState === 'pending' ? '100px' : '0px',
+                    overflow: 'hidden',
+                    transition: 'opacity 650ms cubic-bezier(0.4, 0, 0.2, 1), max-height 650ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    pointerEvents: requestState === 'pending' ? 'auto' : 'none',
+                    marginBottom: requestState === 'pending' ? '-8px' : '0px',
+                  }}
+                >
+                  <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#CFCBC7' }}>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-black text-[16px]">
+                      Wird von Mia Steiner übernommen.
+                    </p>
+                  </div>
+                </div>
               </>
             )}
 
