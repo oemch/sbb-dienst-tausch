@@ -13,7 +13,7 @@ export default function Wochenkalender1Page() {
   const [hideFirstCard, setHideFirstCard] = useState(false);
   const [hideSecondCard, setHideSecondCard] = useState(false);
 
-  // Overlay Logic: Overlay nach 5 Sekunden einblenden – erscheint nach jedem Reload neu
+  // Overlay Logic: Overlay nach 4 Sekunden einblenden – erscheint nach jedem Reload neu
   useEffect(() => {
     // SessionStorage-Wert beim Laden löschen, damit Overlay nach Reload wieder erscheint
     sessionStorage.removeItem("wochenkalender-overlay-closed");
@@ -21,7 +21,7 @@ export default function Wochenkalender1Page() {
     if (requestState === 'approved' || requestState === 'denied') {
       setOverlayState(0);
     } else if (requestState === 'pending') {
-      const timer = setTimeout(() => setOverlayState(1), 5000);
+      const timer = setTimeout(() => setOverlayState(1), 4000);
       return () => clearTimeout(timer);
     }
   }, [requestState]); // Nur abhängig von requestState, nicht von overlayState
@@ -327,7 +327,7 @@ export default function Wochenkalender1Page() {
                   }}
                 >
                   <div 
-                    className="flex gap-[16px] items-center w-full p-[8px] rounded-[4px]"
+                    className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]"
                     style={{ backgroundColor: '#FFFCDE' }}
                   >
                     <Image
@@ -335,11 +335,16 @@ export default function Wochenkalender1Page() {
                       alt="Tausch"
                       width={16}
                       height={16}
-                      className="shrink-0"
+                      className="shrink-0 mt-[2px]"
                     />
-                    <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
-                      Spätdienst für Mia übernommen.
-                    </p>
+                    <div className="flex flex-col gap-0">
+                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                        Dienst übernommen
+                      </p>
+                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                        (für Mia Steiner)
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -521,7 +526,7 @@ export default function Wochenkalender1Page() {
               }}
             >
               <div 
-                className="flex gap-[16px] items-center w-full p-[8px] rounded-[4px]"
+                className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]"
                 style={{ backgroundColor: '#FFFCDE' }}
               >
                 <Image
@@ -529,11 +534,16 @@ export default function Wochenkalender1Page() {
                   alt="Tausch"
                   width={16}
                   height={16}
-                  className="shrink-0"
+                  className="shrink-0 mt-[2px]"
                 />
-                <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
-                  Spätdienst von Mia übernommen.
-                </p>
+                <div className="flex flex-col gap-0">
+                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                    Dienst entfällt
+                  </p>
+                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                    (von Mia Steiner übernommen)
+                  </p>
+                </div>
               </div>
             </div>
 

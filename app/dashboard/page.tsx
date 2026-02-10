@@ -8,14 +8,14 @@ import DashboardOverlay from "../components/DashboardOverlay";
 export default function DashboardPage() {
   const [overlayState, setOverlayState] = useState<0 | 1>(0);
 
-  // Overlay 1 nach 5 Sekunden einblenden – erscheint nach jedem Reload neu
+  // Overlay 1 nach 4 Sekunden einblenden – erscheint nach jedem Reload neu
   useEffect(() => {
     // SessionStorage-Wert beim Laden löschen, damit Overlay nach Reload wieder erscheint
     sessionStorage.removeItem("dashboard-overlay-closed");
     
     const timer = setTimeout(() => {
       setOverlayState(1);
-    }, 5000);
+    }, 4000);
     return () => clearTimeout(timer);
   }, []); // Nur beim Mount ausführen
 

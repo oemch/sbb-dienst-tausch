@@ -36,7 +36,7 @@ export default function DashboardOverlay({ overlayState, setOverlayState }: Dash
         className="fixed left-[24px] right-[24px] z-[510] pointer-events-auto"
         style={{
           bottom: "calc(24px + env(safe-area-inset-bottom, 0px))",
-          overflowX: "hidden",
+          overflowX: "visible",
           overflowY: "visible",
         }}
       >
@@ -51,7 +51,10 @@ export default function DashboardOverlay({ overlayState, setOverlayState }: Dash
             marginTop: "150px",
           }}
         >
-            <div className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative">
+            <div 
+              className="bg-[#FDC3EE] border-2 border-black rounded-[8px] p-[16px] flex flex-col gap-0 relative"
+              style={{ boxShadow: '0px 2px 8px 0px rgba(0,0,0,0.1)' }}
+            >
               {/* Schließen-Button oben rechts */}
               <button
                 onClick={handleCloseClick}
