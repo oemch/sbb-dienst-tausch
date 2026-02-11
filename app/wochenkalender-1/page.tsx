@@ -26,12 +26,12 @@ export default function Wochenkalender1Page() {
     }
   }, [requestState]); // Nur abhängig von requestState, nicht von overlayState
 
-  // Approved/Denied Overlay nach 4 Sekunden einblenden
+  // Approved/Denied Overlay nach 3 Sekunden einblenden
   useEffect(() => {
     if (requestState === 'approved' || requestState === 'denied') {
       const timer = setTimeout(() => {
         setShowApprovedOverlay(true);
-      }, 4000);
+      }, 3000);
       return () => clearTimeout(timer);
     } else {
       setShowApprovedOverlay(false);
