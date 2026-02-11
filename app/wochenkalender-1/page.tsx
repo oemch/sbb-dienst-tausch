@@ -182,7 +182,7 @@ export default function Wochenkalender1Page() {
         </div>
 
         {/* DI 07 - Container mit Datum und beiden Kacheln */}
-        <div className="flex items-start relative shrink-0 w-full">
+        <div className="flex items-start relative shrink-0 w-full min-w-0">
           {/* Short Date - bleibt IMMER sichtbar, wird nie ausgeblendet oder verschoben */}
           <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
             <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
@@ -195,7 +195,7 @@ export default function Wochenkalender1Page() {
 
           {/* Container für beide Kacheln */}
           <div 
-            className="flex flex-col items-start relative shrink-0 flex-1 w-full"
+            className="flex flex-col items-start relative shrink-0 flex-1 w-full min-w-0"
             style={{
               transition: 'all 700ms cubic-bezier(0.4, 0, 0.2, 1)',
             }}
@@ -252,12 +252,13 @@ export default function Wochenkalender1Page() {
                 }}
               >
                 <div 
-                  className="bg-white flex flex-col gap-[8px] items-start relative rounded-[8px] w-full p-[16px]"
+                  className="bg-white flex flex-col gap-[8px] items-start relative rounded-[8px] w-full p-[16px] min-w-0"
                   style={{
                     backgroundColor: requestState === 'pending' ? '#FEFBE9' : 'white',
                     border: requestState === 'pending' ? '2px solid #F7D526' : '2px solid transparent',
                     boxShadow: '2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)',
                     transition: 'background-color 700ms cubic-bezier(0.4, 0, 0.2, 1), border-color 700ms cubic-bezier(0.4, 0, 0.2, 1), border-width 700ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 700ms cubic-bezier(0.4, 0, 0.2, 1)',
+                    boxSizing: 'border-box',
                   }}
                 >
                 {/* Neu Tag - nur wenn pending */}
@@ -327,8 +328,8 @@ export default function Wochenkalender1Page() {
                   }}
                 >
                   <div 
-                    className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]"
-                    style={{ backgroundColor: '#FFFCDE' }}
+                    className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px] min-w-0"
+                    style={{ backgroundColor: '#FFFCDE', boxSizing: 'border-box' }}
                   >
                     <Image
                       src="/images/icon-tausch.svg"
@@ -337,11 +338,11 @@ export default function Wochenkalender1Page() {
                       height={16}
                       className="shrink-0 mt-[2px]"
                     />
-                    <div className="flex flex-col gap-0">
-                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                    <div className="flex flex-col gap-0 min-w-0 flex-1">
+                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                         Dienst übernommen
                       </p>
-                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                      <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                         (für Mia Steiner)
                       </p>
                     </div>
@@ -407,7 +408,7 @@ export default function Wochenkalender1Page() {
         </div>
 
         {/* MI 08 - Termin Card (grau/deaktiviert -> Ganzer Tag frei bei approved) */}
-        <div className="flex items-start relative shrink-0 w-full">
+        <div className="flex items-start relative shrink-0 w-full min-w-0">
           {/* Short Date */}
           <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
             <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center">
@@ -420,9 +421,10 @@ export default function Wochenkalender1Page() {
 
           {/* Content Card */}
           <div 
-            className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[650ms] ease-out"
+            className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-0 p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] transition-all duration-[650ms] ease-out"
             style={{ 
               backgroundColor: requestState === 'pending' ? '#BEBAB6' : 'white',
+              boxSizing: 'border-box',
             }}
           >
             {/* Tag "Entfällt" – nur wenn pending */}
@@ -519,15 +521,15 @@ export default function Wochenkalender1Page() {
               className="w-full"
               style={{
                 opacity: requestState === 'approved' ? 1 : 0,
-                maxHeight: requestState === 'approved' ? '60px' : '0px',
+                maxHeight: requestState === 'approved' ? '80px' : '0px',
                 overflow: 'hidden',
                 transition: 'opacity 650ms cubic-bezier(0.4, 0, 0.2, 1), max-height 650ms cubic-bezier(0.4, 0, 0.2, 1)',
                 marginBottom: requestState === 'approved' ? '1px' : '0px',
               }}
             >
               <div 
-                className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]"
-                style={{ backgroundColor: '#FFFCDE' }}
+                className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px] min-w-0"
+                style={{ backgroundColor: '#FFFCDE', boxSizing: 'border-box' }}
               >
                 <Image
                   src="/images/icon-tausch.svg"
@@ -536,11 +538,11 @@ export default function Wochenkalender1Page() {
                   height={16}
                   className="shrink-0 mt-[2px]"
                 />
-                <div className="flex flex-col gap-0">
-                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                <div className="flex flex-col gap-0 min-w-0 flex-1">
+                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                     Dienst entfällt
                   </p>
-                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px]">
+                  <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
                     (von Mia Steiner übernommen)
                   </p>
                 </div>

@@ -70,6 +70,7 @@ export default function RequestApprovedPage() {
   const [formData, setFormData] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState<{ first_name?: string; last_name?: string; email?: string }>({});
   const [touched, setTouched] = useState<{ first_name?: boolean; last_name?: boolean; email?: boolean }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const skipFirstSaveRef = useRef(true);
 
   // Nach Hydration: gespeicherte Daten aus sessionStorage laden
@@ -150,6 +151,11 @@ export default function RequestApprovedPage() {
   };
 
   const handleSubmit = async () => {
+    // Verhindere mehrfaches Klicken
+    if (isSubmitting) {
+      return;
+    }
+
     // Alle Felder als touched markieren und validieren
     const fieldsToValidate: Array<"first_name" | "last_name" | "email"> = ["first_name", "last_name", "email"];
     const newTouched: typeof touched = {};
@@ -170,27 +176,24 @@ export default function RequestApprovedPage() {
       return;
     }
 
-    try {
-      const response = await fetch("/api/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+    setIsSubmitting(true);
 
-      if (response.ok) {
-        sessionStorage.removeItem(STORAGE_KEY);
-        // Token setzen, um Zugriff auf SuccessPage zu validieren
-        sessionStorage.setItem("success-token", "valid");
-        router.push("/success");
-      } else {
-        const errorData = await response.json();
-        console.error("Fehler beim Speichern der Daten:", errorData.error || "Unbekannter Fehler");
-      }
-    } catch (error) {
-      console.error("Fehler beim Speichern der Daten:", error);
-    }
+    // Optimistische Weiterleitung: Sofort zur Success-Page
+    sessionStorage.removeItem(STORAGE_KEY);
+    sessionStorage.setItem("success-token", "valid");
+    router.push("/success");
+
+    // API-Anfrage im Hintergrund (nicht await, damit Weiterleitung nicht blockiert wird)
+    fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).catch((error) => {
+      // Fehler wird nur geloggt, Weiterleitung bleibt bestehen
+      console.error("Fehler beim Speichern der Daten im Hintergrund:", error);
+    });
   };
 
   return (
@@ -358,14 +361,14 @@ export default function RequestApprovedPage() {
         {/* Button Geschenk abholen */}
         <button
           onClick={handleSubmit}
-          disabled={!isFormValid()}
+          disabled={!isFormValid() || isSubmitting}
           className={`mt-[24px] flex h-[48px] min-h-[48px] w-full items-center justify-center rounded-[8px] font-bold leading-[1.4] not-italic text-[14px] text-center ${
-            isFormValid()
+            isFormValid() && !isSubmitting
               ? "bg-white text-black hover:bg-gray-100 cursor-pointer"
               : "bg-[#7a0140] text-white/90 cursor-not-allowed"
           }`}
         >
-          Geschenk abholen
+          {isSubmitting ? "Wird verarbeitet..." : "Geschenk abholen"}
         </button>
       </div>
     </div>
