@@ -5,6 +5,7 @@ export interface UserFormData {
   last_name: string;
   email: string;
   firma: string;
+  job_title: string;
 }
 
 export interface User {
@@ -13,6 +14,7 @@ export interface User {
   last_name: string;
   email: string;
   firma: string;
+  job_title: string | null;
   created_at: string;
 }
 

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const STORAGE_KEY = "request-approved-form";
 
-const INITIAL_FORM = { first_name: "", last_name: "", email: "", firma: "" };
+const INITIAL_FORM = { first_name: "", last_name: "", email: "", firma: "", job_title: "" };
 
 // E-Mail-Validierung
 const validateEmail = (email: string): string | null => {
@@ -341,6 +341,21 @@ export default function RequestApprovedPage() {
               type="text"
               value={formData.firma}
               onChange={(e) => handleInputChange("firma", e.target.value)}
+              className="border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px]"
+              style={{ backgroundColor: '#CFCBC7' }}
+              placeholder=""
+            />
+          </div>
+          
+          {/* Job-Titel (optional) */}
+          <div className="flex flex-col gap-[2px] items-start relative shrink-0 w-full">
+            <div className="flex flex-col font-bold h-[16px] justify-end leading-[0] not-italic relative shrink-0 text-[14px] text-white w-full">
+              <p className="leading-[1.4]">Job-Titel</p>
+            </div>
+            <input
+              type="text"
+              value={formData.job_title}
+              onChange={(e) => handleInputChange("job_title", e.target.value)}
               className="border-none outline-none flex h-[40px] items-center pl-[8px] pr-[8px] relative shrink-0 w-full text-[16px] text-[#100c08] rounded-[4px]"
               style={{ backgroundColor: '#CFCBC7' }}
               placeholder=""

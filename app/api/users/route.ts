@@ -6,6 +6,7 @@ interface UserRequestBody {
   last_name: string;
   email: string;
   firma: string;
+  job_title?: string;
 }
 
 function getSupabaseAdmin() {
@@ -29,6 +30,11 @@ export async function POST(req: Request) {
     const last_name = String(body.last_name ?? "").trim();
     const email = String(body.email ?? "").trim().toLowerCase();
     const firma = String(body.firma ?? "").trim();
+    const job_titleRaw = body.job_title;
+    const job_title =
+      job_titleRaw === undefined || job_titleRaw === null
+        ? null
+        : String(job_titleRaw).trim() || null;
 
     // Validation – firma ist optional
     if (!first_name || !last_name || !email) {
@@ -48,7 +54,7 @@ export async function POST(req: Request) {
 
     const { data, error } = await supabase
       .from("users")
-      .insert([{ first_name, last_name, email, firma }])
+      .insert([{ first_name, last_name, email, firma, job_title }])
       .select("id")
       .single();
 
