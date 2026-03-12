@@ -33,16 +33,16 @@ export default function DatenschutzPage() {
       {/* Content */}
       <div className="flex flex-col gap-[16px] items-start px-[24px] py-[24px] w-full">
         <p className="font-normal leading-[1.4] text-white text-[18px] w-full">
-          Ihre Angaben werden ausschliesslich dazu verwendet, um Sie persönlich zu kontaktieren. Die Daten werden nicht an Dritte weitergegeben. Weitere Informationen zu unseren Datenschutzrichtlinien finden Sie auf unserer{" "}
+          Mit dem Absenden des Formulars erkläre ich mich mit den{" "}
           <a
             href="https://www.ergon.ch/de/datenschutz"
             target="_blank"
             rel="noopener noreferrer"
             className="text-white underline hover:no-underline"
           >
-            Website
-          </a>
-          .
+            Datenschutzbestimmungen
+          </a>{" "}
+          einverstanden.
         </p>
       </div>
     </div>
