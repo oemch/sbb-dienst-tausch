@@ -1,0 +1,15 @@
+---
+description: Konventionen für Next.js App Router mit TypeScript und Tailwind
+globs: **/*.{ts,tsx}
+---
+
+# Next.js + TypeScript + Tailwind
+
+- **Framework:** Next.js (App Router), React 19, TypeScript, Tailwind CSS v4
+- **Sprache:** UI-Texte und Kommentare auf Deutsch
+- **Styling:** Tailwind-Klassen; Farben und Abstände konsistent (z. B. #5A012A, #100c08, #CFCBC7)
+- **Komponenten:** "use client" nur wo nötig (State, Events, Browser-APIs); Server Components bevorzugen
+- **Routen:** `app/`-Ordnerstruktur; Layouts pro Route nutzen wo sinnvoll
+- **Bilder:** `next/image` mit expliziten width/height; Assets unter `public/images/`
+- **Schriften:** Lokale Fonts über `next/font/local` (z. B. Coop), CSS-Variable für font-family
+- **API:** Route Handlers unter `app/api/`; keine sensiblen Keys im Client

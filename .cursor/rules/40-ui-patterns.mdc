@@ -1,0 +1,123 @@
+---
+description: Standard UI layout patterns (v0-style)
+alwaysApply: true
+---
+
+All UI must follow predictable SaaS-style layout patterns.
+
+Do not invent new layout structures unless explicitly requested.
+
+---
+
+# Page Layout Pattern
+
+All pages must follow this structure:
+
+Page
+ ├ PageHeader
+ │   ├ Title
+ │   └ Actions
+ │
+ └ Content
+     └ Card
+         └ Feature Content
+
+Rules:
+- PageHeader contains page title and primary actions
+- Main content must be wrapped inside Card components
+- Avoid multiple nested containers
+- Maintain clear visual hierarchy
+
+---
+
+# List Page Pattern
+
+Standard layout for list views:
+
+PageHeader
+Toolbar (filters / search / quick actions)
+
+Card
+ └ Table or list content
+
+List pages should include:
+- search or filter toolbar (if applicable)
+- row actions via DropdownMenu
+- loading state
+- empty state
+
+---
+
+# Detail Page Pattern
+
+Standard layout for entity details:
+
+PageHeader
+Card
+ ├ Section 1
+ ├ Section 2
+ └ Section 3
+
+Rules:
+- group related fields into sections
+- avoid long unstructured layouts
+- keep spacing consistent
+
+---
+
+# Create / Edit Pattern
+
+Entity editing must use:
+
+Sheet
+ └ Form
+
+Rules:
+- prefer Sheet instead of full-page forms
+- group related fields
+- keep form sections clear and readable
+
+---
+
+# Interaction Patterns
+
+Use consistent interaction rules:
+
+Create / Edit
+→ Sheet
+
+Delete / Destructive action
+→ Dialog confirmation
+
+Row actions
+→ DropdownMenu
+
+Navigation
+→ Buttons or links in PageHeader
+
+Avoid inventing new interaction paradigms.
+
+---
+
+# Visual Simplicity
+
+UI should follow a minimal SaaS style:
+
+- clean layouts
+- generous spacing
+- limited color usage
+- avoid visual noise
+
+Prefer clarity over decorative design.
+
+---
+
+# Component Reuse
+
+Always prefer existing components from:
+
+components/ui/
+components/
+
+Do not duplicate UI primitives.
+Extend existing components when possible.

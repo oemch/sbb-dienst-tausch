@@ -1,0 +1,18 @@
+---
+description: Implementation workflow (fast UI iterations)
+alwaysApply: true
+---
+
+Implementation order (do not skip):
+1) UI skeleton/layout
+2) Local state (useState/useMemo) + typed mock data if needed
+3) Loading/empty/error states
+4) Spacing/hierarchy polish
+
+Rules:
+- Do not connect to Supabase unless explicitly requested.
+- Do not introduce global state libraries (no Zustand/Redux).
+- Prefer extending existing components over creating new ones.
+- Create new files only when clearly justified (reuse first).
+- Keep output practical: produce complete code changes (no pseudo-code).
+

@@ -1,0 +1,635 @@
+"use client";
+
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
+
+type Dienstdaten = {
+  tag: string;
+  datum: string;
+  dienst: string;
+  uhrzeit: string;
+  relevant: boolean;
+};
+
+// --- Wiederverwendbare Sub-Komponenten ---
+
+function TagDatum({ tag, datum }: { tag: string; datum: string }) {
+  return (
+    <div className="flex flex-col items-start leading-[1.4] not-italic pr-[8px] relative shrink-0 w-[38px]">
+      <p className="font-normal relative shrink-0 text-[#55514d] text-[14px] text-center w-full">{tag}</p>
+      <p className="font-bold relative shrink-0 text-[#100c08] text-[20px] w-[32px]">{datum}</p>
+    </div>
+  );
+}
+
+function KwHeader({ zeitraum, stunden }: { zeitraum: string; stunden: string }) {
+  return (
+    <div className="flex items-center justify-between relative shrink-0 w-full pt-[4px] pb-[4px]">
+      <p className="font-bold leading-normal not-italic text-[#100c08] text-[16px]">{zeitraum}</p>
+      <div className="bg-[#e7e6e5] flex items-center justify-center px-[12px] py-[4px] relative rounded-[8px] shrink-0">
+        <p className="font-normal text-[#55514d] text-[14px]">{stunden}</p>
+      </div>
+    </div>
+  );
+}
+
+function IconFrei() {
+  return (
+    <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
+      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">15</p>
+    </div>
+  );
+}
+
+function IconFerien() {
+  return (
+    <div className="bg-[#174693] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
+      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-white text-[14px] text-center w-full">37</p>
+    </div>
+  );
+}
+
+function IconFruehdienst() {
+  return (
+    <div className="flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: '#F4A428' }}>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="4" fill="white" />
+        <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="white" strokeWidth="2" strokeLinecap="round" />
+      </svg>
+    </div>
+  );
+}
+
+function MenuDots({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-label="Aktionen öffnen"
+      className="self-start -mt-[2px] flex items-center justify-center cursor-pointer"
+    >
+      <span
+        className="material-symbols-rounded select-none"
+        style={{ fontSize: "24px", color: "#100c08", fontVariationSettings: "'wght' 600" }}
+        aria-hidden="true"
+      >
+        more_horiz
+      </span>
+    </button>
+  );
+}
+
+function TauschNotiz({ person }: { person: string }) {
+  return (
+    <div className="flex gap-[12px] items-start overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: "#CFCBC7" }}>
+      <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
+      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-black text-[14px]">
+        Abgabe an {person} angefragt.
+      </p>
+    </div>
+  );
+}
+
+const DIENST_INFO: Record<string, { zeit: string; dauer: string; pause: string }> = {
+  "Frühdienst":  { zeit: "06:00 – 15:00", dauer: "8:00 h", pause: "1:00 h" },
+  "Spätdienst":  { zeit: "13:00 – 22:00", dauer: "8:00 h", pause: "0:20 h" },
+  "Nachtdienst": { zeit: "22:00 – 06:00", dauer: "8:00 h", pause: "0:30 h" },
+};
+
+function IconNachtdienst() {
+  return (
+    <div className="flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#5B1F8A" }}>
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z" fill="white" />
+      </svg>
+    </div>
+  );
+}
+
+function DienstIcon({ dienst }: { dienst: string }) {
+  if (dienst === "Spätdienst") {
+    return <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-[40px]" />;
+  }
+  if (dienst === "Nachtdienst") {
+    return <IconNachtdienst />;
+  }
+  return <IconFruehdienst />;
+}
+
+function NeueKachel({ dienst }: { dienst: string }) {
+  const info = DIENST_INFO[dienst] ?? { zeit: "", dauer: "8:00 h", pause: "1:00 h" };
+  return (
+    <div
+      className="flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px]"
+      style={{
+        backgroundColor: "#FEFBE9",
+        border: "2px solid #F7D526",
+        boxShadow: "2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)",
+        boxSizing: "border-box",
+      }}
+    >
+      <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+        <div className="flex flex-row items-center self-stretch">
+          <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+            <DienstIcon dienst={dienst} />
+          </div>
+        </div>
+        <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+          <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">{info.zeit}</p>
+          <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">{dienst}</p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+        <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+          Dauer: {info.dauer}&nbsp;&nbsp;&nbsp;&nbsp;Pause: {info.pause}
+        </p>
+      </div>
+      <div className="flex gap-[12px] items-start w-full p-[8px] rounded-[4px]" style={{ backgroundColor: "#FFFCDE" }}>
+        <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
+        <p className="font-normal leading-[1.4] not-italic text-black text-[14px]">
+          Übernahme durch mich.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// --- Haupt-Komponente ---
+
+function EinsatzplanungInner() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const tauschTag    = searchParams.get("tauschTag")    ?? "";
+  const tauschDatum  = searchParams.get("tauschDatum")  ?? "";
+  const tauschPerson = searchParams.get("tauschPerson") ?? "";
+  const gewDatum     = searchParams.get("gewDatum")     ?? "";
+  const gewDienst    = searchParams.get("gewDienst")    ?? "";
+
+  const isTauschKarte = (tag: string, datum: string) =>
+    tauschTag === tag && tauschDatum === datum;
+
+  // Tagesnummer aus "Mittwoch, 08. April 2026" extrahieren → "08"
+  const neuesKachelDatum = gewDatum
+    ? (gewDatum.split(", ")[1]?.split(".")[0]?.trim() ?? "")
+    : "";
+
+  const [aktiveKarte, setAktiveKarte] = useState<Dienstdaten | null>(null);
+  const [sheetOffen, setSheetOffen] = useState(false);
+  const handleMenuClick = (daten: Dienstdaten) => {
+    setAktiveKarte(daten);
+    requestAnimationFrame(() => setSheetOffen(true));
+  };
+
+  const handleSchliessen = () => {
+    setSheetOffen(false);
+    setTimeout(() => setAktiveKarte(null), 300);
+  };
+
+  const handleDienstTauschen = () => {
+    if (aktiveKarte?.relevant) {
+      const params = new URLSearchParams({
+        tag: aktiveKarte.tag,
+        datum: aktiveKarte.datum,
+        dienst: aktiveKarte.dienst,
+        uhrzeit: aktiveKarte.uhrzeit,
+      });
+      setAktiveKarte(null);
+      setSheetOffen(false);
+      router.push(`/sbb-dienst-tausch?${params.toString()}`);
+    } else {
+      handleSchliessen();
+    }
+  };
+
+  return (
+    <div className="bg-white flex flex-col items-start min-h-screen w-full relative">
+
+      {/* Header – sticky */}
+      <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[550]">
+        <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
+          <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
+            <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full">
+              <button
+                onClick={() => router.push("/sbb-dashboard-mia")}
+                aria-label="Zurück"
+                className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
+              >
+                <div className="flex items-center justify-center relative shrink-0 size-[24px]">
+                  <Image src="/images/icon-pfeil-links.svg" alt="Zurück" width={24} height={24} className="w-full h-full" />
+                </div>
+              </button>
+              <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px] text-center">
+                Einsatzplanung
+              </p>
+              <button
+                aria-label="Weitere Optionen"
+                className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
+              >
+                <span
+                  className="material-symbols-rounded select-none"
+                  style={{ fontSize: "26px", color: "#100c08", fontVariationSettings: "'wght' 600" }}
+                  aria-hidden="true"
+                >
+                  more_horiz
+                </span>
+              </button>
+            </div>
+          </div>
+          <div className="bg-[#e7e6e5] h-[4px] shrink-0 w-full" />
+        </div>
+      </div>
+
+      {/* Inhalt */}
+      <div className="bg-[#f3f2f2] flex flex-col gap-[12px] items-start pb-[80px] pt-[16px] px-[24px] relative shrink-0 w-full flex-1">
+
+        {/* ── KW 15 ── */}
+        <KwHeader zeitraum="06. – 12. April 2026 (KW 15)" stunden="24.00 h" />
+
+        {/* MO 06 – Frei */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="MO" datum="06" />
+          {neuesKachelDatum === "06" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <IconFrei />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* DI 07 – Ferien */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="DI" datum="07" />
+          {neuesKachelDatum === "07" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <IconFerien />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Ferien</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* MI 08 – Frühdienst (relevant für Dienst tauschen) */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="MI" datum="08" />
+          {neuesKachelDatum === "08" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className={`flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] ${isTauschKarte("MI","08") ? "bg-[#f0efee]" : "bg-white"}`}>
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <IconFruehdienst />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "MI", datum: "08", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: true })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h
+              </p>
+            </div>
+            {isTauschKarte("MI","08") && tauschPerson && <TauschNotiz person={tauschPerson} />}
+          </div>
+          )}
+        </div>
+
+        {/* DO 09 – Frühdienst (relevant für Dienst tauschen) */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="DO" datum="09" />
+          {neuesKachelDatum === "09" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className={`flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] ${isTauschKarte("DO","09") ? "bg-[#f0efee]" : "bg-white"}`}>
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <IconFruehdienst />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "DO", datum: "09", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: true })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h
+              </p>
+            </div>
+            {isTauschKarte("DO","09") && tauschPerson && <TauschNotiz person={tauschPerson} />}
+          </div>
+          )}
+        </div>
+
+        {/* FR 10 – Frühdienst (relevant für Dienst tauschen) */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="FR" datum="10" />
+          {neuesKachelDatum === "10" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className={`flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)] ${isTauschKarte("FR","10") ? "bg-[#f0efee]" : "bg-white"}`}>
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <IconFruehdienst />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "FR", datum: "10", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: true })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+                Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h
+              </p>
+            </div>
+            {isTauschKarte("FR","10") && tauschPerson && <TauschNotiz person={tauschPerson} />}
+          </div>
+          )}
+        </div>
+
+        {/* SA 11 – Frei */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="SA" datum="11" />
+          {neuesKachelDatum === "11" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* SO 12 – Frei */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="SO" datum="12" />
+          {neuesKachelDatum === "12" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* ── KW 16 ── */}
+        <KwHeader zeitraum="13. – 19. April 2026 (KW 16)" stunden="40.00 h" />
+
+        {/* MO 13 – Frühdienst */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="MO" datum="13" />
+          {neuesKachelDatum === "13" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFruehdienst /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "MO", datum: "13", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: false })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h</p>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* DI 14 – Frühdienst */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="DI" datum="14" />
+          {neuesKachelDatum === "14" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFruehdienst /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "DI", datum: "14", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: false })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h</p>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* MI 15 – Spätdienst */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="MI" datum="15" />
+          {neuesKachelDatum === "15" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-[40px]" />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">14:00 – 22:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Spätdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "MI", datum: "15", dienst: "Spätdienst", uhrzeit: "14:00 – 22:00", relevant: false })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 0:20 h</p>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* DO 16 – Frühdienst */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="DO" datum="16" />
+          {neuesKachelDatum === "16" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFruehdienst /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "DO", datum: "16", dienst: "Frühdienst", uhrzeit: "06:00 – 15:00", relevant: false })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 1:00 h</p>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* FR 17 – Spätdienst */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="FR" datum="17" />
+          {neuesKachelDatum === "17" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+                  <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-[40px]" />
+                </div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">14:00 – 22:00</p>
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Spätdienst</p>
+              </div>
+              <MenuDots onClick={() => handleMenuClick({ tag: "FR", datum: "17", dienst: "Spätdienst", uhrzeit: "14:00 – 22:00", relevant: false })} />
+            </div>
+            <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+              <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">Dauer: 8:00 h&nbsp;&nbsp;&nbsp;&nbsp;Pause: 0:20 h</p>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* SA 18 – Frei */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="SA" datum="18" />
+          {neuesKachelDatum === "18" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* SO 19 – Frei */}
+        <div className="flex items-start relative shrink-0 w-full">
+          <TagDatum tag="SO" datum="19" />
+          {neuesKachelDatum === "19" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+            <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+              <div className="flex flex-row items-center self-stretch">
+                <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div>
+              </div>
+              <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+                <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+              </div>
+            </div>
+          </div>
+          )}
+        </div>
+
+        {/* Link: Nächste 2 Wochen */}
+        <div className="pt-[24px] pb-[24px] w-full text-center">
+          <button className="text-[14px] font-normal text-[#174693] cursor-pointer">
+            Nächste 2 Wochen anzeigen
+          </button>
+        </div>
+
+      </div>
+
+      {/* ── Action Sheet – Kartenmenü ── */}
+      {aktiveKarte && (
+        <>
+          {/* Transparentes Overlay */}
+          <div
+            className={`fixed inset-0 z-[600] bg-black/40 transition-opacity duration-300 ${sheetOffen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+            onClick={handleSchliessen}
+            aria-hidden="true"
+          />
+
+          {/* Bottom Sheet */}
+          <div className={`fixed inset-x-0 bottom-0 z-[700] mx-auto max-w-[390px] bg-white rounded-t-[20px] px-[24px] pb-[40px] pt-[16px] shadow-[0_-4px_24px_rgba(0,0,0,0.12)] transition-transform duration-300 ease-out ${sheetOffen ? "translate-y-0" : "translate-y-full"}`}>
+            {/* Handle */}
+            <div className="mx-auto mb-[16px] h-[4px] w-[40px] rounded-full bg-[#cfcbc7]" />
+
+            <p className="text-[18px] font-bold text-[#100c08] mb-[8px]">Aktionen</p>
+
+            {/* Tageskalender anzeigen */}
+            <button
+              className="flex items-center gap-[16px] w-full py-[16px] border-b border-[#e7e6e5] text-left"
+              onClick={handleSchliessen}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#100c08" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
+                <rect x="4" y="5" width="16" height="16" rx="2" />
+                <path d="M16 3v4M8 3v4M4 11h16" />
+                <path d="M8 15h.01M12 15h.01M16 15h.01M8 19h.01M12 19h.01" strokeWidth="2.5" />
+              </svg>
+              <span className="text-[16px] text-[#100c08]">Tageskalender anzeigen</span>
+            </button>
+
+            {/* Dienst tauschen / Diensttausch zurückziehen */}
+            {aktiveKarte && isTauschKarte(aktiveKarte.tag, aktiveKarte.datum) ? (
+              <button
+                className="flex items-center gap-[16px] w-full py-[16px] text-left"
+                onClick={handleSchliessen}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#100c08" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="shrink-0">
+                  <path d="M18 6L6 18M6 6l12 12" />
+                </svg>
+                <span className="text-[16px] text-[#100c08]">Diensttausch zurückziehen</span>
+              </button>
+            ) : (
+              <button
+                className="flex items-center gap-[16px] w-full py-[16px] text-left"
+                onClick={handleDienstTauschen}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#100c08" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="shrink-0">
+                  <path d="M7 16H3m0 0l3-3m-3 3l3 3" />
+                  <path d="M17 8h4m0 0l-3-3m3 3l-3 3" />
+                  <path d="M3 8h13a1 1 0 0 1 1 1v4" />
+                  <path d="M21 16H8a1 1 0 0 1-1-1v-4" />
+                </svg>
+                <span className="text-[16px] text-[#100c08]">Dienst tauschen</span>
+              </button>
+            )}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default function EinsatzplanungPage() {
+  return (
+    <Suspense>
+      <EinsatzplanungInner />
+    </Suspense>
+  );
+}

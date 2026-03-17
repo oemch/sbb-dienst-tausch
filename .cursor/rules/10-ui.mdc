@@ -1,0 +1,139 @@
+---
+description: UI design rules (v0-style consistency)
+alwaysApply: true
+---
+
+All UI must follow a consistent, minimal SaaS-style design using:
+
+- Tailwind CSS
+- shadcn/ui components from `components/ui/*`
+- lucide-react icons
+
+Do not introduce any other UI frameworks or styling systems.
+
+Forbidden:
+- custom CSS files
+- styled-components
+- MUI / Chakra / Ant Design / Bootstrap
+- inline style objects
+
+---
+
+# Layout Principles
+
+Use simple, predictable layouts.
+
+Default page structure:
+
+Page
+ ├ Page Header (title + actions)
+ └ Content
+    └ Card
+       └ Feature content
+
+Rules:
+- Avoid complex nested layouts
+- Prefer Card containers for grouped content
+- Maintain generous spacing and visual hierarchy
+
+Spacing guidelines:
+- gap-4 / gap-6 / gap-8
+- p-4 / p-6
+- space-y-4 / space-y-6
+
+Prefer readability over dense layouts.
+
+---
+
+# Standard UI Patterns
+
+Use consistent UI interaction patterns.
+
+Create / Edit
+→ use `Sheet`
+
+Delete / Destructive action
+→ use `Dialog` confirmation
+
+Row actions
+→ use `DropdownMenu`
+
+Filters
+→ place in a horizontal toolbar above lists
+
+Detail view
+→ use a `Sheet` or right-side panel
+
+Avoid creating new interaction paradigms.
+
+---
+
+# Component Composition
+
+Prefer composing from shadcn primitives:
+
+Card  
+Button  
+Input  
+Select  
+Tabs  
+Table  
+Badge  
+Dialog  
+Sheet  
+DropdownMenu
+
+Avoid custom-built primitives unless absolutely necessary.
+
+Reuse existing components in `/components` whenever possible.
+
+---
+
+# List Pages
+
+Standard list layout:
+
+Header (title + actions)
+Toolbar (filters / search)
+Card
+ └ Table or list
+
+Lists must include:
+- loading state
+- empty state
+- clear primary action if empty
+
+---
+
+# Forms
+
+Forms must:
+
+- use shadcn input primitives
+- maintain consistent spacing
+- group fields logically
+- avoid overly long vertical forms
+
+Prefer Sheet for editing existing entities.
+
+---
+
+# Responsiveness
+
+Design mobile-first.
+
+Rules:
+- layouts must not break on smaller screens
+- tables may collapse into stacked views
+- avoid fixed widths where possible
+
+---
+
+# Accessibility
+
+Minimum accessibility requirements:
+
+- buttons and inputs must have labels
+- dialogs must have titles
+- use semantic HTML elements
+

@@ -1,0 +1,12 @@
+---
+description: Projektweite Konventionen und Code-Stil
+globs: **/*
+---
+
+# Projekt-Konventionen
+
+- **Antworten:** Immer auf Deutsch
+- **Commit-Messages:** Deutsch, kurz und sachlich (z. B. "Datenschutz: Text angepasst")
+- **Formulare:** Optionale Felder nicht als Pflicht validieren; leere Werte als null/leer string in API senden
+- **Links:** Externe Links mit target="_blank" und rel="noopener noreferrer"
+- **Accessibility:** Sinnvolle aria-Labels bei Buttons/Icons; semantisches HTML

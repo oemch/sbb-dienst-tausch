@@ -1,0 +1,12 @@
+---
+description: Supabase integration rules (only when requested)
+alwaysApply: true
+---
+
+Supabase rules:
+- Only implement Supabase access when explicitly requested.
+- Put reusable data access helpers in lib/ (e.g., lib/supabase/*.ts or lib/db/*.ts).
+- Do not embed raw queries directly inside JSX render blocks.
+- Keep UI and data access separated (page/component calls helper functions).
+- Never print or request environment secrets.
+

@@ -51,9 +51,19 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,600,0,0"
+          rel="stylesheet"
+        />
       </head>
       <body
         className={`${coopFont.variable} font-sans antialiased`}
+        style={{
+          maxWidth: "390px",
+          marginLeft: "auto",
+          marginRight: "auto",
+          minHeight: "100vh",
+        }}
       >
         <ThemeColorSync />
         {children}
