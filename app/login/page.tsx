@@ -10,7 +10,7 @@ type Benutzer = {
 };
 
 const BENUTZER: Benutzer[] = [
-  { email: "mia.steiner@sbb.ch", ziel: "/sbb-dashboard-mia" },
+  { email: "luca.meier@sbb.ch", ziel: "/sbb-dashboard-mia" },
   { email: "jonas.baumgartner@sbb.ch", ziel: "/sbb-dashboard" },
 ];
 
@@ -26,8 +26,12 @@ export default function LoginPage() {
 
   const handleAnmelden = () => {
     if (!ausgewaehlter) return;
-    if (ausgewaehlter.email === "mia.steiner@sbb.ch") {
-      localStorage.removeItem("diensttausch_anfrage");
+    if (ausgewaehlter.email === "luca.meier@sbb.ch") {
+      // Nur löschen wenn Mia das Ergebnis bereits gesehen hat (zweiter Login)
+      if (localStorage.getItem("mia_result_acknowledged") === "true") {
+        localStorage.removeItem("diensttausch_anfrage");
+        localStorage.removeItem("mia_result_acknowledged");
+      }
     }
     router.push(ausgewaehlter.ziel);
   };

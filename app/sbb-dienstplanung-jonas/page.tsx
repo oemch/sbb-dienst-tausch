@@ -13,7 +13,7 @@ type DiensttauschAnfrage = {
 
 const DIENST_ZEITEN: Record<string, string> = {
   "Frühdienst":  "06:00 – 15:00",
-  "Spätdienst":  "13:00 – 22:00",
+  "BE Mo-Do (15)":  "13:00 – 22:00",
   "Nachtdienst": "22:00 – 06:00",
 };
 
@@ -50,8 +50,13 @@ function KwHeader({ zeitraum, stunden }: { zeitraum: string; stunden: string }) 
   return (
     <div className="flex items-center justify-between relative shrink-0 w-full pt-[4px] pb-[4px]">
       <p className="font-bold leading-normal not-italic text-[#100c08] text-[16px]">{zeitraum}</p>
-      <div className="bg-[#e7e6e5] flex items-center justify-center px-[12px] py-[4px] relative rounded-[8px] shrink-0">
-        <p className="font-normal text-[#55514d] text-[14px]">{stunden}</p>
+      <div className="flex items-center gap-[8px]">
+        <div className="bg-[#e7e6e5] flex items-center justify-center px-[12px] py-[4px] relative rounded-[8px] shrink-0">
+          <p className="font-normal text-[#55514d] text-[14px]">{stunden}</p>
+        </div>
+        <button className="flex items-center justify-center shrink-0" aria-label="Optionen">
+          <span className="material-symbols-rounded select-none" style={{ fontSize: "20px", color: "#55514d", fontVariationSettings: "'wght' 600" }}>more_vert</span>
+        </button>
       </div>
     </div>
   );
@@ -110,7 +115,7 @@ function DienstIcon({ dienst }: { dienst: string }) {
   if (dienst === "Nachtdienst") return <IconNachtdienst />;
   if (dienst === "Frühdienst") return <IconFruehdienst />;
   return (
-    <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-[40px]" />
+    <Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-[40px]" />
   );
 }
 
@@ -164,7 +169,7 @@ function AnfrageCard({
       {/* Tausch-Info */}
       <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: "#FDF2BE" }}>
         <p className="font-normal leading-[1.4] text-[16px] text-black">
-          Mia Steiner übernimmt dafür:
+          Luca Meier übernimmt dafür:
         </p>
         <p className="font-normal leading-[1.4] text-[16px] text-black">
           <span className="font-bold">{anfrage.gewDienst}</span>
@@ -203,7 +208,7 @@ function FreiKachel() {
           </div>
         </div>
         <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-          <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+          <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
           <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
         </div>
       </div>
@@ -246,7 +251,7 @@ function ApprovedDienstCard({ dienst, uhrzeit }: { dienst: string; uhrzeit: stri
         <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
         <div className="flex flex-col gap-0 min-w-0 flex-1">
           <p className="font-normal leading-[1.4] text-black text-[16px]">Dienst übernommen</p>
-          <p className="font-normal leading-[1.4] text-black text-[16px]">(für Mia Steiner)</p>
+          <p className="font-normal leading-[1.4] text-black text-[16px]">(für Luca Meier)</p>
         </div>
       </div>
     </div>
@@ -275,7 +280,7 @@ function ApprovedFreiCard() {
           </div>
         </div>
         <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-          <p className="font-bold leading-[1.4] text-[#100c08] text-[16px]">Frei</p>
+          <p className="font-bold leading-[1.4] text-[#100c08] text-[16px]">Kein Einsatz</p>
           <p className="font-normal leading-[1.4] text-[#100c08] text-[16px]">Ganzer Tag</p>
         </div>
       </div>
@@ -283,7 +288,7 @@ function ApprovedFreiCard() {
         <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
         <div className="flex flex-col gap-0 min-w-0 flex-1">
           <p className="font-normal leading-[1.4] text-black text-[16px]">Kein Dienst</p>
-          <p className="font-normal leading-[1.4] text-black text-[16px]">(von Mia Steiner übernommen)</p>
+          <p className="font-normal leading-[1.4] text-black text-[16px]">(von Luca Meier übernommen)</p>
         </div>
       </div>
     </div>
@@ -343,7 +348,7 @@ function EntfaelltCard({
         style={{ backgroundColor: "#CFCBC7" }}
       >
         <p className="font-normal leading-[1.4] text-black text-[16px]">
-          Wird von Mia Steiner übernommen.
+          Wird von Luca Meier übernommen.
         </p>
       </div>
     </div>
@@ -422,31 +427,28 @@ export default function DienstplanungJonasPage() {
       <div className="bg-[#f3f2f2] flex flex-col items-start overflow-clip sticky top-0 shrink-0 w-full z-[550]">
         <div className="flex flex-col items-start overflow-clip relative shrink-0 w-full">
           <div className="bg-white flex flex-col items-start justify-center overflow-clip relative shrink-0 w-full">
-            <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full">
+            <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full gap-[8px]">
+              {/* Links: Pfeil + Titel */}
               <button
                 onClick={() => router.push("/sbb-dashboard")}
                 aria-label="Zurück"
-                className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
+                className="flex items-center justify-center shrink-0 size-[24px]"
               >
-                <div className="flex items-center justify-center relative shrink-0 size-[24px]">
-                  <Image src="/images/icon-pfeil-links.svg" alt="Zurück" width={24} height={24} className="w-full h-full" />
-                </div>
+                <Image src="/images/icon-pfeil-links.svg" alt="Zurück" width={24} height={24} className="w-full h-full" />
               </button>
-              <p className="flex-1 font-bold leading-normal min-h-px min-w-px text-[#100c08] text-[16px] text-center">
-                Dienstplan
+              <p className="font-bold leading-normal text-[16px]" style={{ color: "#04775B" }}>
+                Einsatzplanung
               </p>
-              <button
-                aria-label="Weitere Optionen"
-                className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
-              >
-                <span
-                  className="material-symbols-rounded select-none"
-                  style={{ fontSize: "26px", color: "#100c08", fontVariationSettings: "'wght' 600" }}
-                  aria-hidden="true"
-                >
-                  more_horiz
-                </span>
-              </button>
+              {/* Rechts: Name + Sprachauswahl */}
+              <div className="flex items-center gap-[10px] ml-auto shrink-0">
+                <p className="text-[14px] font-normal text-[#100c08] whitespace-nowrap">Jonas Baumgartner</p>
+                <button className="flex items-center gap-[3px] shrink-0 bg-[#f0efee] rounded-[6px] px-[8px] py-[5px]">
+                  <span className="text-[13px] font-bold text-[#100c08]">DE</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M6 9l6 6 6-6" stroke="#100c08" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
           <div className="bg-[#e7e6e5] h-[4px] shrink-0 w-full" />
@@ -510,7 +512,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -644,7 +646,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -673,7 +675,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -727,7 +729,7 @@ export default function DienstplanungJonasPage() {
           </div>
         </div>
 
-        {/* DI 14 – Spätdienst */}
+        {/* DI 14 – BE Mo-Do (15) */}
         <div id="tag-14" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="DI" datum="14" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -740,10 +742,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-[40px]" /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-[40px]" /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">13:00 – 22:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Spätdienst</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -775,7 +777,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Ganzer Tag</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
@@ -812,7 +814,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -841,7 +843,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -870,7 +872,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>
@@ -899,7 +901,7 @@ export default function DienstplanungJonasPage() {
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
                   <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frei</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
                   </div>
                 </div>

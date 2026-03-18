@@ -25,7 +25,14 @@ export default function DashboardMiaPage() {
   useEffect(() => {
     const raw = localStorage.getItem("diensttausch_anfrage");
     if (raw) {
-      try { setAnfrage(JSON.parse(raw)); } catch { /* ignore */ }
+      try {
+        const parsed = JSON.parse(raw);
+        setAnfrage(parsed);
+        // Wenn Mia das Ergebnis sieht, Flag setzen → beim nächsten Login wird geleert
+        if (parsed.status === "approved" || parsed.status === "denied") {
+          localStorage.setItem("mia_result_acknowledged", "true");
+        }
+      } catch { /* ignore */ }
     }
   }, []);
 
@@ -73,7 +80,7 @@ export default function DashboardMiaPage() {
           <div className="relative flex w-full flex-col items-start gap-2 pb-4">
 
             {/* Name */}
-            <p className="text-[13px] font-normal leading-normal text-black -mb-1">Mia Steiner</p>
+            <p className="text-[13px] font-normal leading-normal text-black -mb-1">Luca Meier</p>
 
             {/* Datum-Zeile */}
             <div className="relative h-10 w-full shrink-0">
@@ -111,17 +118,17 @@ export default function DashboardMiaPage() {
                 </div>
               )}
 
-              {/* Spätdienst */}
+              {/* BE Mo-Do (15) */}
               <div className="relative flex w-full shrink-0 flex-col items-start gap-2 overflow-clip rounded-lg bg-white pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="relative flex w-full shrink-0 items-start pr-3">
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-10" />
+                        <Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-10" />
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
                         <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">14:00 - 22:00</p>
-                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Spätdienst</p>
+                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">BE Mo-Do (15)</p>
                       </div>
                     </div>
                   </div>
@@ -141,7 +148,7 @@ export default function DashboardMiaPage() {
               <div className="relative flex w-full shrink-0 items-start gap-2">
                 <Link href="/sbb-dienstplanung-mia" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
-                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Dienstplanung</p>
+                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
                 </Link>
                 <div className="flex flex-1 shrink-0 flex-col items-start gap-3 rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-ferien.svg" alt="Ferien" width={24} height={24} className="relative shrink-0" />

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 const DIENST_ZEITEN: Record<string, string> = {
   "Frühdienst":  "06:00 – 15:00",
-  "Spätdienst":  "13:00 – 22:00",
+  "BE Mo-Do (15)":  "13:00 – 22:00",
   "Nachtdienst": "22:00 – 06:00",
 };
 
@@ -149,7 +149,7 @@ function BestaetigungInner() {
           }}
           className="w-full h-[40px] rounded-[12px] border border-[#100c08] text-[#100c08] font-bold text-[15px] bg-transparent cursor-pointer hover:bg-[#f0efee] transition-colors"
         >
-          Dienstplanung
+          Einsatzplanung
         </button>
       </div>
 

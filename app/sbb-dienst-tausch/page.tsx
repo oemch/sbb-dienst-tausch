@@ -91,7 +91,7 @@ function DienstTauschInner() {
 
   const DIENSTE = [
     { label: "Frühdienst",  zeit: "06:00 – 15:00" },
-    { label: "Spätdienst",  zeit: "13:00 – 22:00" },
+    { label: "BE Mo-Do (15)",  zeit: "13:00 – 22:00" },
     { label: "Nachtdienst", zeit: "22:00 – 06:00" },
   ];
   const PERSONEN = ["Jonas Baumgartner", "Sofia Novak", "Maximilian Schmidt"];

@@ -142,7 +142,7 @@ export default function Wochenkalender1Page() {
                 <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
                   <Image
                     src="/images/icon-spaetschicht.svg"
-                    alt="Spätdienst"
+                    alt="BE Mo-Do (15)"
                     width={40}
                     height={40}
                     className="size-[40px]"
@@ -156,7 +156,7 @@ export default function Wochenkalender1Page() {
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
                   <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                    Spätdienst
+                    BE Mo-Do (15)
                   </p>
                 </div>
               </div>
@@ -230,7 +230,7 @@ export default function Wochenkalender1Page() {
               </div>
             )}
 
-            {/* Zweite Kachel (Tausch -> normale Spätdienst-Kachel bei approved, ausgeblendet bei denied) */}
+            {/* Zweite Kachel (Tausch -> normale BE Mo-Do (15)-Kachel bei approved, ausgeblendet bei denied) */}
             {!hideSecondCard && (
               <div 
                 className="w-full"
@@ -279,7 +279,7 @@ export default function Wochenkalender1Page() {
                     <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
                       <Image
                         src="/images/icon-spaetschicht.svg"
-                        alt="Spätdienst"
+                        alt="BE Mo-Do (15)"
                         width={40}
                         height={40}
                         className="size-[40px]"
@@ -293,7 +293,7 @@ export default function Wochenkalender1Page() {
                     </p>
                     <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
                       <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                        Spätdienst
+                        BE Mo-Do (15)
                       </p>
                     </div>
                   </div>
@@ -333,7 +333,7 @@ export default function Wochenkalender1Page() {
                         Dienst übernommen
                       </p>
                       <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-                        (für Mia Steiner)
+                        (für Luca Meier)
                       </p>
                     </div>
                   </div>
@@ -354,7 +354,7 @@ export default function Wochenkalender1Page() {
                   {/* Tausch Section */}
                   <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#FDF2BE' }}>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
-                      Mia Steiner übernimmt dafür:
+                      Luca Meier übernimmt dafür:
                     </p>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
                       {anfrage ? (
@@ -363,7 +363,7 @@ export default function Wochenkalender1Page() {
                           {" vom "}{TAG_KURZ[anfrage.tag] ?? anfrage.tag}, {anfrage.datum}. April, {anfrage.uhrzeit}
                         </>
                       ) : (
-                        <><span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00</>
+                        <><span className="font-bold text-[#100c08]">BE Mo-Do (15)</span> vom Mi, 08. April, 14:00 - 22:00</>
                       )}
                     </p>
                   </div>
@@ -429,7 +429,7 @@ export default function Wochenkalender1Page() {
               </div>
             )}
 
-            {/* Header - Conditional: Spätdienst wenn pending/denied, Ganzer Tag Frei wenn approved */}
+            {/* Header - Conditional: BE Mo-Do (15) wenn pending/denied, Ganzer Tag Frei wenn approved */}
             {requestState === 'approved' ? (
               <div>
                 <div className="flex gap-[12px] items-center justify-center relative shrink-0 w-full">
@@ -462,7 +462,7 @@ export default function Wochenkalender1Page() {
                     <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
                       <Image
                         src="/images/icon-spaetschicht.svg"
-                        alt="Spätdienst"
+                        alt="BE Mo-Do (15)"
                         width={40}
                         height={40}
                         className="size-[40px]"
@@ -475,7 +475,7 @@ export default function Wochenkalender1Page() {
                     </p>
                     <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
                       <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                        Spätdienst
+                        BE Mo-Do (15)
                       </p>
                     </div>
                   </div>
@@ -502,7 +502,7 @@ export default function Wochenkalender1Page() {
                 >
                   <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#CFCBC7' }}>
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-black text-[16px]">
-                      Wird von Mia Steiner übernommen.
+                      Wird von Luca Meier übernommen.
                     </p>
                   </div>
                 </div>
@@ -536,7 +536,7 @@ export default function Wochenkalender1Page() {
                     Dienst entfällt
                   </p>
                   <p className="font-normal leading-[1.4] not-italic text-black text-[16px] break-words" style={{ wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-                    (von Mia Steiner übernommen)
+                    (von Luca Meier übernommen)
                   </p>
                 </div>
               </div>
@@ -578,7 +578,7 @@ export default function Wochenkalender1Page() {
                 <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
                   <Image
                     src="/images/icon-spaetschicht.svg"
-                    alt="Spätdienst"
+                    alt="BE Mo-Do (15)"
                     width={40}
                     height={40}
                     className="size-[40px]"
@@ -592,7 +592,7 @@ export default function Wochenkalender1Page() {
                 </p>
                 <div className="flex gap-[4px] items-center justify-center relative shrink-0 w-full">
                   <p className="flex-1 font-bold leading-[1.4] min-h-px min-w-px not-italic relative text-[#100c08] text-[16px]">
-                    Spätdienst
+                    BE Mo-Do (15)
                   </p>
                 </div>
               </div>
