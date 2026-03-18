@@ -124,10 +124,10 @@ export default function DashboardMiaPage() {
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-10" />
+                        <div className="rounded-[32px] size-10 shrink-0" style={{ backgroundColor: "#FFD09D" }} />
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">14:00 - 22:00</p>
+                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">07:00 – 16:30</p>
                         <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">BE Mo-Do (15)</p>
                       </div>
                     </div>

@@ -90,9 +90,9 @@ function DienstTauschInner() {
   const alleOk = gewDatum && gewDienst && gewPerson;
 
   const DIENSTE = [
-    { label: "Frühdienst",  zeit: "06:00 – 15:00" },
-    { label: "BE Mo-Do (15)",  zeit: "13:00 – 22:00" },
-    { label: "Nachtdienst", zeit: "22:00 – 06:00" },
+    { label: "BE Mo-Do (15)", zeit: "07:00 – 16:30" },
+    { label: "BE Fr-Sa (5)",  zeit: "06:30 – 16:30" },
+    { label: "BE So (2)",     zeit: "07:00 – 16:30" },
   ];
   const PERSONEN = ["Jonas Baumgartner", "Sofia Novak", "Maximilian Schmidt"];
   const persGefiltert = PERSONEN.filter((n) =>
@@ -347,21 +347,25 @@ function DienstTauschInner() {
               <div className="pb-[32px]">
                 <p className="px-[24px] pt-[8px] pb-[12px] font-bold text-[#100c08] text-[18px]">Dienst wählen</p>
                 <div className="h-px bg-[#e7e6e5]" />
-                {DIENSTE.map((d) => (
+                {DIENSTE.map((d) => {
+                  const deaktiviert = d.label !== "BE Fr-Sa (5)";
+                  return (
                   <button
                     key={d.label}
-                    onClick={() => { setGewDienst(d.label); schliesse(); }}
-                    className={`flex items-center w-full px-[24px] py-[16px] border-b border-[#e7e6e5] cursor-pointer hover:bg-[#f6f5f5] active:bg-[#efeeee] ${gewDienst === d.label ? "text-[#174693]" : "text-[#100c08]"}`}
+                    disabled={deaktiviert}
+                    onClick={() => { if (!deaktiviert) { setGewDienst(d.label); schliesse(); } }}
+                    className={`flex items-center w-full px-[24px] py-[16px] border-b border-[#e7e6e5] ${deaktiviert ? "cursor-not-allowed opacity-35" : `cursor-pointer hover:bg-[#f6f5f5] active:bg-[#efeeee] ${gewDienst === d.label ? "text-[#174693]" : "text-[#100c08]"}`}`}
                   >
-                    <span className={`text-[16px] ${gewDienst === d.label ? "font-bold" : "font-normal"}`}>{d.label}</span>
-                    <span className="ml-1 text-[16px] font-normal text-[#55514d]">({d.zeit})</span>
-                    {gewDienst === d.label && (
+                    <span className={`text-[16px] ${!deaktiviert && gewDienst === d.label ? "font-bold" : "font-normal"}`}>{d.label}</span>
+                    <span className={`text-[16px] font-normal ${!deaktiviert && gewDienst === d.label ? "text-[#174693]" : "text-[#100c08]"}`}>, {d.zeit}</span>
+                    {!deaktiviert && gewDienst === d.label && (
                       <svg className="ml-auto" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#174693" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M20 6L9 17l-5-5" />
                       </svg>
                     )}
                   </button>
-                ))}
+                  );
+                })}
               </div>
             )}
 

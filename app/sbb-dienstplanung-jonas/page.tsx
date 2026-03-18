@@ -65,7 +65,7 @@ function KwHeader({ zeitraum, stunden }: { zeitraum: string; stunden: string }) 
 function IconFrei() {
   return (
     <div className="bg-[#bacbed] flex flex-col items-center justify-center overflow-clip relative rounded-[32px] shrink-0 size-[40px]">
-      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">15</p>
+      <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#1a1a1a] text-[14px] text-center w-full">11</p>
     </div>
   );
 }
@@ -114,8 +114,10 @@ function MenuDots({ onClick }: { onClick: () => void }) {
 function DienstIcon({ dienst }: { dienst: string }) {
   if (dienst === "Nachtdienst") return <IconNachtdienst />;
   if (dienst === "Frühdienst") return <IconFruehdienst />;
+  if (dienst === "BE Mo-Do (15)") return <div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} />;
+  if (dienst === "BE Fr-Sa (5)") return <div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FCEEA8" }} />;
   return (
-    <Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-[40px]" />
+    <Image src="/images/icon-spaetschicht.svg" alt={dienst} width={40} height={40} className="size-[40px]" />
   );
 }
 
@@ -462,9 +464,9 @@ export default function DienstplanungJonasPage() {
         {/* Jede Zeile: <TagDatum> + <div flex-col> mit Original-Card + optional AnfrageCard */}
 
         {/* ── KW 15 ── */}
-        <KwHeader zeitraum="06. – 12. April 2026 (KW 15)" stunden="41.00 h" />
+        <KwHeader zeitraum="06. – 12. April 2026 (KW 15)" stunden="32.00 h" />
 
-        {/* MO 06 – Nachtdienst */}
+        {/* MO 06 – BE Mo-Do (15) */}
         <div id="tag-06" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="MO" datum="06" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -477,10 +479,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconNachtdienst /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">22:00 – 06:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Nachtdienst</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">07:00 – 16:30</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -528,7 +530,7 @@ export default function DienstplanungJonasPage() {
           </div>
         </div>
 
-        {/* MI 08 – Frühdienst */}
+        {/* MI 08 – BE Mo-Do (15) */}
         <div id="tag-08" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="MI" datum="08" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -541,10 +543,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFruehdienst /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">07:00 – 16:30</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -563,7 +565,7 @@ export default function DienstplanungJonasPage() {
           </div>
         </div>
 
-        {/* DO 09 – Frühdienst */}
+        {/* DO 09 – BE Mo-Do (15) */}
         <div id="tag-09" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="DO" datum="09" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -576,10 +578,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFruehdienst /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:00 – 15:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Frühdienst</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">07:00 – 16:30</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -598,7 +600,7 @@ export default function DienstplanungJonasPage() {
           </div>
         </div>
 
-        {/* FR 10 – Nachtdienst */}
+        {/* FR 10 – BE Fr-Sa (5) */}
         <div id="tag-10" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="FR" datum="10" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -611,10 +613,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconNachtdienst /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FCEEA8" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">22:00 – 06:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Nachtdienst</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">06:30 – 16:30</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Fr-Sa (5)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -692,9 +694,9 @@ export default function DienstplanungJonasPage() {
         </div>
 
         {/* ── KW 16 ── */}
-        <KwHeader zeitraum="13. – 19. April 2026 (KW 16)" stunden="41.00 h" />
+        <KwHeader zeitraum="13. – 19. April 2026 (KW 16)" stunden="16.00 h" />
 
-        {/* MO 13 – Nachtdienst */}
+        {/* MO 13 – BE Mo-Do (15) */}
         <div id="tag-13" className="flex items-start relative shrink-0 w-full scroll-mt-[64px]">
           <TagDatum tag="MO" datum="13" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
@@ -707,10 +709,10 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconNachtdienst /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">22:00 – 06:00</p>
-                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Nachtdienst</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">07:00 – 16:30</p>
+                    <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />
                 </div>
@@ -742,9 +744,9 @@ export default function DienstplanungJonasPage() {
             ) : (
               <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="flex gap-[12px] items-center relative shrink-0 w-full">
-                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><Image src="/images/icon-spaetschicht.svg" alt="BE Mo-Do (15)" width={40} height={40} className="size-[40px]" /></div></div>
+                  <div className="flex flex-row items-center self-stretch"><div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><div className="rounded-[32px] shrink-0 size-[40px]" style={{ backgroundColor: "#FFD09D" }} /></div></div>
                   <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
-                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">13:00 – 22:00</p>
+                    <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">07:00 – 16:30</p>
                     <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">BE Mo-Do (15)</p>
                   </div>
                   <MenuDots onClick={handleMenuClick} />

@@ -107,22 +107,17 @@ export default function DashboardPage() {
                 </div>
               </Link>}
 
-              {/* Frühdienst */}
+              {/* BE Mo-Do (15) */}
               <div className="relative flex w-full shrink-0 flex-col items-start gap-2 overflow-clip rounded-lg bg-white pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="relative flex w-full shrink-0 items-start pr-3">
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <div className="flex size-10 items-center justify-center rounded-full" style={{ backgroundColor: "#F4A428" }}>
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <circle cx="12" cy="12" r="4" fill="white" />
-                            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                          </svg>
-                        </div>
+                        <div className="rounded-[32px] size-10 shrink-0" style={{ backgroundColor: "#FFD09D" }} />
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">06:00 – 15:00</p>
-                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Frühdienst</p>
+                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">07:00 – 16:30</p>
+                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">BE Mo-Do (15)</p>
                       </div>
                     </div>
                   </div>
