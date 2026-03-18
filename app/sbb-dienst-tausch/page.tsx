@@ -99,6 +99,10 @@ function DienstTauschInner() {
     n.toLowerCase().includes(suche.toLowerCase())
   );
 
+  // Auswählbarer Bereich: 18. März – 19. April 2026
+  const MIN_DATUM = new Date(2026, 2, 18);
+  const MAX_DATUM = new Date(2026, 3, 19);
+
   // Kalender aufbauen
   const erstWT = ersterWT(kalJahr, kalMonat);
   const anzTage = anzahlTage(kalJahr, kalMonat);
@@ -108,13 +112,17 @@ function DienstTauschInner() {
   ];
 
   const vorMonat = () => {
+    if (kalMonat === 2 && kalJahr === 2026) return; // Kein Monat vor März 2026
     if (kalMonat === 0) { setKalMonat(11); setKalJahr((j) => j - 1); }
     else setKalMonat((m) => m - 1);
   };
   const naechsterMonat = () => {
+    if (kalMonat === 3 && kalJahr === 2026) return; // Kein Monat nach April 2026
     if (kalMonat === 11) { setKalMonat(0); setKalJahr((j) => j + 1); }
     else setKalMonat((m) => m + 1);
   };
+  const kannVorMonat = !(kalMonat === 2 && kalJahr === 2026);
+  const kannNaechsterMonat = !(kalMonat === 3 && kalJahr === 2026);
 
   return (
     <div className="bg-[#f3f2f2] flex flex-col min-h-screen w-full pb-[96px]">
@@ -271,7 +279,7 @@ function DienstTauschInner() {
             {aktivesSheet === "kalender" && (
               <div className="px-[20px] pb-[32px]">
                 <div className="flex items-center justify-between py-[10px]">
-                  <button onClick={vorMonat} className="p-[8px] cursor-pointer" aria-label="Vorheriger Monat">
+                  <button onClick={vorMonat} disabled={!kannVorMonat} className={`p-[8px] ${kannVorMonat ? "cursor-pointer" : "cursor-not-allowed opacity-30"}`} aria-label="Vorheriger Monat">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#100c08" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M15 18l-6-6 6-6" />
                     </svg>
@@ -279,7 +287,7 @@ function DienstTauschInner() {
                   <p className="font-bold text-[#100c08] text-[16px]">
                     {MONATE_DE[kalMonat]} {kalJahr}
                   </p>
-                  <button onClick={naechsterMonat} className="p-[8px] cursor-pointer" aria-label="Nächster Monat">
+                  <button onClick={naechsterMonat} disabled={!kannNaechsterMonat} className={`p-[8px] ${kannNaechsterMonat ? "cursor-pointer" : "cursor-not-allowed opacity-30"}`} aria-label="Nächster Monat">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#100c08" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M9 18l6-6-6-6" />
                     </svg>
@@ -297,28 +305,39 @@ function DienstTauschInner() {
 
                 {/* Tage */}
                 <div className="grid grid-cols-7 gap-y-[2px]">
-                  {zellen.map((tag, i) => (
-                    <div key={i} className="flex items-center justify-center h-[40px]">
-                      {tag ? (
-                        <button
-                          onClick={() => {
-                            setSelTag(tag);
-                            setSelMonat(kalMonat);
-                            setSelJahr(kalJahr);
-                            setGewDatum(datumLabel(tag, kalMonat, kalJahr));
-                            schliesse();
-                          }}
-                          className={`w-[36px] h-[36px] rounded-full text-[14px] cursor-pointer transition-colors
-                            ${selTag === tag && selMonat === kalMonat && selJahr === kalJahr
-                              ? "bg-[#174693] text-white font-bold"
-                              : "text-[#100c08] hover:bg-[#e7e6e5]"
-                            }`}
-                        >
-                          {tag}
-                        </button>
-                      ) : null}
-                    </div>
-                  ))}
+                  {zellen.map((tag, i) => {
+                    const tagDatum = tag ? new Date(kalJahr, kalMonat, tag) : null;
+                    const gesperrt = tagDatum ? tagDatum > MAX_DATUM || tagDatum < MIN_DATUM : false;
+                    const gewaehlt = selTag === tag && selMonat === kalMonat && selJahr === kalJahr;
+                    return (
+                      <div key={i} className="flex items-center justify-center h-[40px]">
+                        {tag ? (
+                          gesperrt ? (
+                            <span className="w-[36px] h-[36px] flex items-center justify-center rounded-full text-[14px] text-[#c5c3c0] cursor-not-allowed select-none">
+                              {tag}
+                            </span>
+                          ) : (
+                            <button
+                              onClick={() => {
+                                setSelTag(tag);
+                                setSelMonat(kalMonat);
+                                setSelJahr(kalJahr);
+                                setGewDatum(datumLabel(tag, kalMonat, kalJahr));
+                                schliesse();
+                              }}
+                              className={`w-[36px] h-[36px] rounded-full text-[14px] cursor-pointer transition-colors
+                                ${gewaehlt
+                                  ? "bg-[#174693] text-white font-bold"
+                                  : "text-[#100c08] hover:bg-[#e7e6e5]"
+                                }`}
+                            >
+                              {tag}
+                            </button>
+                          )
+                        ) : null}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

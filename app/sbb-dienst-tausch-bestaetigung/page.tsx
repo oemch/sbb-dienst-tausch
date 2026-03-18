@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 const DIENST_ZEITEN: Record<string, string> = {
@@ -46,6 +46,14 @@ function BestaetigungInner() {
   const abgabeDatum = urlTag
     ? `${TAG_LANG[urlTag] ?? urlTag}, ${urlDatum}. April 2026`
     : "";
+
+  // Anfrage in localStorage speichern, damit Jonas sie in seinem Flow sieht
+  useEffect(() => {
+    if (urlTag && urlDatum && gewPerson) {
+      const anfrage = { tag: urlTag, datum: urlDatum, dienst, uhrzeit, gewDatum, gewDienst, gewPerson };
+      localStorage.setItem("diensttausch_anfrage", JSON.stringify(anfrage));
+    }
+  }, [urlTag, urlDatum, dienst, uhrzeit, gewDatum, gewDienst, gewPerson]);
 
   return (
     <div className="bg-[#f3f2f2] flex flex-col min-h-screen w-full">
@@ -137,11 +145,11 @@ function BestaetigungInner() {
               gewDatum,
               gewDienst,
             });
-            router.push(`/sbb-einsatzplanung?${params.toString()}`);
+            router.push(`/sbb-dienstplanung-mia?${params.toString()}`);
           }}
           className="w-full h-[40px] rounded-[12px] border border-[#100c08] text-[#100c08] font-bold text-[15px] bg-transparent cursor-pointer hover:bg-[#f0efee] transition-colors"
         >
-          Einsatzplanung
+          Dienstplanung
         </button>
       </div>
 

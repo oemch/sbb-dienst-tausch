@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileSheet from "../components/ProfileSheet";
@@ -9,6 +12,18 @@ export default function DashboardPage() {
     month: "2-digit",
     year: "numeric",
   }).format(new Date());
+
+  const [hasPendingAnfrage, setHasPendingAnfrage] = useState(false);
+  useEffect(() => {
+    const raw = localStorage.getItem("diensttausch_anfrage");
+    if (!raw) { setHasPendingAnfrage(false); return; }
+    try {
+      const data = JSON.parse(raw);
+      setHasPendingAnfrage(!data.status || data.status === "pending");
+    } catch {
+      setHasPendingAnfrage(true);
+    }
+  }, []);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-start bg-white">
@@ -71,8 +86,8 @@ export default function DashboardPage() {
             {/* Karten */}
             <div className="flex w-full shrink-0 flex-col items-start gap-2">
 
-              {/* Dienst tauschen */}
-              <Link href="/sbb-cal" className="block w-full shrink-0">
+              {/* Dienst tauschen – nur anzeigen wenn offene Anfrage vorhanden */}
+              {hasPendingAnfrage && <Link href="/sbb-dienstplanung-jonas" className="block w-full shrink-0">
                 <div className="flex h-[87px] w-full cursor-pointer flex-col items-start overflow-clip rounded-lg bg-[#f7d526] pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <div className="relative flex h-[61px] w-full shrink-0 items-start pr-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
@@ -90,19 +105,24 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </Link>}
 
-              {/* Spätschicht */}
+              {/* Frühdienst */}
               <div className="relative flex w-full shrink-0 flex-col items-start gap-2 overflow-clip rounded-lg bg-white pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="relative flex w-full shrink-0 items-start pr-3">
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <Image src="/images/icon-spaetschicht.svg" alt="Spätschicht" width={40} height={40} className="size-10" />
+                        <div className="flex size-10 items-center justify-center rounded-full" style={{ backgroundColor: "#F4A428" }}>
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="4" fill="white" />
+                            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12" stroke="white" strokeWidth="2" strokeLinecap="round" />
+                          </svg>
+                        </div>
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">14:00 - 22:00</p>
-                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Spätschicht</p>
+                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">06:00 – 15:00</p>
+                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Frühdienst</p>
                       </div>
                     </div>
                   </div>
@@ -120,10 +140,10 @@ export default function DashboardPage() {
 
               {/* Einsatzplanung + Ferien */}
               <div className="relative flex w-full shrink-0 items-start gap-2">
-                <div className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+                <Link href="/sbb-dienstplanung-jonas" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
-                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
-                </div>
+                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Dienstplanung</p>
+                </Link>
                 <div className="flex flex-1 shrink-0 flex-col items-start gap-3 rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-ferien.svg" alt="Ferien" width={24} height={24} className="relative shrink-0" />
                   <p className="relative min-w-full shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Ferien und Absenzen</p>
@@ -143,7 +163,7 @@ export default function DashboardPage() {
                     <p className="relative shrink-0 text-sm font-bold leading-normal text-black">5</p>
                   </div>
                   {/* Verfügbar: 8 Tage */}
-                  <div className="flex min-h-px min-w-px flex-1 items-center justify-end overflow-clip rounded bg-[#A8D5A2] px-2 py-1">
+                  <div className="flex min-h-px min-w-px flex-1 items-center justify-end overflow-clip rounded bg-[#AFE7B2] px-2 py-1">
                     <p className="relative shrink-0 text-sm font-bold leading-normal text-black">8</p>
                   </div>
                 </div>
@@ -157,7 +177,7 @@ export default function DashboardPage() {
                     <p className="relative shrink-0 text-xs font-normal leading-[1.4] text-[#100c08]">Beantragt</p>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    <div className="h-3 w-5 shrink-0 rounded-sm bg-[#A8D5A2]" />
+                    <div className="h-3 w-5 shrink-0 rounded-sm bg-[#AFE7B2]" />
                     <p className="relative shrink-0 text-xs font-normal leading-[1.4] text-[#100c08]">Verfügbar</p>
                   </div>
                 </div>

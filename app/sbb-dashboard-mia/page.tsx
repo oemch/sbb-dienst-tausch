@@ -1,6 +1,16 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ProfileSheet from "../components/ProfileSheet";
+
+type TauschAnfrage = {
+  dienst: string;
+  tag: string;
+  datum: string;
+  status?: string;
+};
 
 export default function DashboardMiaPage() {
   const today = new Intl.DateTimeFormat("de-CH", {
@@ -9,6 +19,15 @@ export default function DashboardMiaPage() {
     month: "2-digit",
     year: "numeric",
   }).format(new Date());
+
+  const [anfrage, setAnfrage] = useState<TauschAnfrage | null>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem("diensttausch_anfrage");
+    if (raw) {
+      try { setAnfrage(JSON.parse(raw)); } catch { /* ignore */ }
+    }
+  }, []);
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-start bg-white">
@@ -71,17 +90,38 @@ export default function DashboardMiaPage() {
             {/* Karten */}
             <div className="flex w-full shrink-0 flex-col items-start gap-2">
 
-              {/* Spätschicht */}
+              {/* Dienst-Tausch Status-Card (angenommen / abgelehnt) */}
+              {(anfrage?.status === "approved" || anfrage?.status === "denied") && (
+                <div
+                  className="flex w-full shrink-0 items-center gap-3 rounded-lg pl-4 pr-5 py-3 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
+                  style={{ backgroundColor: anfrage.status === "approved" ? "#AFE7B2" : "#FFD09D" }}
+                >
+                  <div className="flex size-10 shrink-0 items-center justify-center overflow-clip rounded-[32px] bg-white">
+                    <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="size-4" />
+                  </div>
+                  <div className="flex flex-1 min-w-0 flex-col items-start justify-center">
+                    <p className="text-base font-bold leading-[1.4] text-[#100c08]">Dienst tauschen</p>
+                    <p className="text-sm font-normal leading-[1.4] text-[#100c08]">
+                      Jonas Baumgartner hat{" "}
+                      <span className="font-bold">{anfrage.dienst}</span>
+                      {` (${anfrage.tag}, ${anfrage.datum}. April) `}
+                      {anfrage.status === "approved" ? "angenommen." : "abgelehnt."}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Spätdienst */}
               <div className="relative flex w-full shrink-0 flex-col items-start gap-2 overflow-clip rounded-lg bg-white pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="relative flex w-full shrink-0 items-start pr-3">
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <Image src="/images/icon-spaetschicht.svg" alt="Spätschicht" width={40} height={40} className="size-10" />
+                        <Image src="/images/icon-spaetschicht.svg" alt="Spätdienst" width={40} height={40} className="size-10" />
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
                         <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">14:00 - 22:00</p>
-                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Spätschicht</p>
+                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Spätdienst</p>
                       </div>
                     </div>
                   </div>
@@ -99,9 +139,9 @@ export default function DashboardMiaPage() {
 
               {/* Einsatzplanung + Ferien */}
               <div className="relative flex w-full shrink-0 items-start gap-2">
-                <Link href="/sbb-einsatzplanung" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+                <Link href="/sbb-dienstplanung-mia" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
-                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
+                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Dienstplanung</p>
                 </Link>
                 <div className="flex flex-1 shrink-0 flex-col items-start gap-3 rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-ferien.svg" alt="Ferien" width={24} height={24} className="relative shrink-0" />
@@ -119,7 +159,7 @@ export default function DashboardMiaPage() {
                   <div className="flex shrink-0 items-center justify-center overflow-clip rounded border-2 border-dashed border-[#174693] bg-white px-2 py-1 w-[calc((100%-16px)*5/31)]">
                     <p className="relative shrink-0 text-sm font-bold leading-normal text-black">5</p>
                   </div>
-                  <div className="flex min-h-px min-w-px flex-1 items-center justify-end overflow-clip rounded bg-[#A8D5A2] px-2 py-1">
+                  <div className="flex min-h-px min-w-px flex-1 items-center justify-end overflow-clip rounded bg-[#AFE7B2] px-2 py-1">
                     <p className="relative shrink-0 text-sm font-bold leading-normal text-black">8</p>
                   </div>
                 </div>
@@ -133,7 +173,7 @@ export default function DashboardMiaPage() {
                     <p className="relative shrink-0 text-xs font-normal leading-[1.4] text-[#100c08]">Beantragt</p>
                   </div>
                   <div className="flex shrink-0 items-center gap-2">
-                    <div className="h-3 w-5 shrink-0 rounded-sm bg-[#A8D5A2]" />
+                    <div className="h-3 w-5 shrink-0 rounded-sm bg-[#AFE7B2]" />
                     <p className="relative shrink-0 text-xs font-normal leading-[1.4] text-[#100c08]">Verfügbar</p>
                   </div>
                 </div>

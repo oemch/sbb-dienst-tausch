@@ -4,11 +4,29 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+type DiensttauschAnfrage = {
+  tag: string; datum: string; dienst: string; uhrzeit: string;
+  gewDatum: string; gewDienst: string; gewPerson: string;
+};
+
+const TAG_KURZ: Record<string, string> = {
+  MO: "Mo", DI: "Di", MI: "Mi", DO: "Do", FR: "Fr", SA: "Sa", SO: "So",
+};
+
 export default function Wochenkalender1Page() {
   const router = useRouter();
   const [requestState, setRequestState] = useState<'pending' | 'approved' | 'denied'>('pending');
   const [hideFirstCard, setHideFirstCard] = useState(false);
   const [hideSecondCard, setHideSecondCard] = useState(false);
+  const [anfrage, setAnfrage] = useState<DiensttauschAnfrage | null>(null);
+
+  // Diensttausch-Anfrage von Mia aus localStorage laden
+  useEffect(() => {
+    const raw = localStorage.getItem("diensttausch_anfrage");
+    if (raw) {
+      try { setAnfrage(JSON.parse(raw)); } catch { /* ignore */ }
+    }
+  }, []);
 
   // Erste Kachel nach Animation aus DOM entfernen
   useEffect(() => {
@@ -335,13 +353,18 @@ export default function Wochenkalender1Page() {
                 >
                   {/* Tausch Section */}
                   <div className="flex flex-col gap-[2px] overflow-clip p-[8px] relative rounded-[8px] shrink-0 w-full" style={{ backgroundColor: '#FDF2BE' }}>
-                    {/* Zeile 1: Mia Steiner übernimmt dafür: */}
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
                       Mia Steiner übernimmt dafür:
                     </p>
-                    {/* Zeile 2: Spätdienst (fett) vom Mi, 08. April, 14:00 - 22:00 */}
                     <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[16px] text-black">
-                      <span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00
+                      {anfrage ? (
+                        <>
+                          <span className="font-bold text-[#100c08]">{anfrage.dienst}</span>
+                          {" vom "}{TAG_KURZ[anfrage.tag] ?? anfrage.tag}, {anfrage.datum}. April, {anfrage.uhrzeit}
+                        </>
+                      ) : (
+                        <><span className="font-bold text-[#100c08]">Spätdienst</span> vom Mi, 08. April, 14:00 - 22:00</>
+                      )}
                     </p>
                   </div>
 

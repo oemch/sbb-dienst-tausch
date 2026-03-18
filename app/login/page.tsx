@@ -25,7 +25,11 @@ export default function LoginPage() {
   };
 
   const handleAnmelden = () => {
-    if (ausgewaehlter) router.push(ausgewaehlter.ziel);
+    if (!ausgewaehlter) return;
+    if (ausgewaehlter.email === "mia.steiner@sbb.ch") {
+      localStorage.removeItem("diensttausch_anfrage");
+    }
+    router.push(ausgewaehlter.ziel);
   };
 
   const handleEmailBlur = () => {
