@@ -145,33 +145,6 @@ export default function LoginPage() {
           </div>
         </div>
 
-        {/* Trennlinie */}
-        <div className="flex w-full items-center gap-3">
-          <div className="h-px flex-1 bg-[#cfcbc7]" />
-          <span className="text-sm font-normal text-[#55514d]">oder</span>
-          <div className="h-px flex-1 bg-[#cfcbc7]" />
-        </div>
-
-        {/* Gesichtserkennung */}
-        <div className="w-full rounded-xl bg-white px-6 py-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-          <div className="flex items-center gap-4">
-            {/* Tabler face-id Icon */}
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#174693" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" className="shrink-0">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-              <path d="M4 8v-2a2 2 0 0 1 2 -2h2" />
-              <path d="M4 16v2a2 2 0 0 0 2 2h2" />
-              <path d="M16 4h2a2 2 0 0 1 2 2v2" />
-              <path d="M16 20h2a2 2 0 0 0 2 -2v-2" />
-              <path d="M9 10l.01 0" strokeWidth="2.5" />
-              <path d="M15 10l.01 0" strokeWidth="2.5" />
-              <path d="M9.5 15a3.5 3.5 0 0 0 5 0" />
-            </svg>
-            <div className="flex flex-col gap-0.5">
-              <p className="text-sm font-bold text-[#100c08]">Mit Gesichtserkennung</p>
-              <p className="text-xs font-normal text-[#55514d]">Sicher per Face ID anmelden</p>
-            </div>
-          </div>
-        </div>
 
       </main>
 

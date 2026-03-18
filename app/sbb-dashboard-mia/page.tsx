@@ -99,7 +99,8 @@ export default function DashboardMiaPage() {
 
               {/* Dienst-Tausch Status-Card (angenommen / abgelehnt) */}
               {(anfrage?.status === "approved" || anfrage?.status === "denied") && (
-                <div
+                <Link
+                  href={anfrage.status === "approved" ? "/sbb-dienstplanung-mia" : "#"}
                   className="flex w-full shrink-0 items-center gap-3 rounded-lg pl-4 pr-5 py-3 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
                   style={{ backgroundColor: anfrage.status === "approved" ? "#AFE7B2" : "#FFD09D" }}
                 >
@@ -107,7 +108,9 @@ export default function DashboardMiaPage() {
                     <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="size-4" />
                   </div>
                   <div className="flex flex-1 min-w-0 flex-col items-start justify-center">
-                    <p className="text-base font-bold leading-[1.4] text-[#100c08]">Dienst tauschen</p>
+                    <p className="text-base font-bold leading-[1.4] text-[#100c08]">
+                      {anfrage.status === "approved" ? "Einsatz tauschen" : "Dienst tauschen"}
+                    </p>
                     <p className="text-sm font-normal leading-[1.4] text-[#100c08]">
                       Jonas Baumgartner hat{" "}
                       <span className="font-bold">{anfrage.dienst}</span>
@@ -115,7 +118,7 @@ export default function DashboardMiaPage() {
                       {anfrage.status === "approved" ? "angenommen." : "abgelehnt."}
                     </p>
                   </div>
-                </div>
+                </Link>
               )}
 
               {/* BE Mo-Do (15) */}

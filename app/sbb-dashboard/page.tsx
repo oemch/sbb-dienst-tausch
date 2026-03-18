@@ -98,7 +98,7 @@ export default function DashboardPage() {
                           </div>
                         </div>
                         <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                          <p className="relative min-w-full shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Dienst tauschen</p>
+                          <p className="relative min-w-full shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatz tauschen</p>
                           <p className="relative shrink-0 text-base font-normal leading-[1.4] text-[#100c08]">1 Anfrage an mich</p>
                         </div>
                       </div>

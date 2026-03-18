@@ -139,7 +139,7 @@ function DienstTauschInner() {
           </svg>
         </button>
         <p className="absolute left-1/2 -translate-x-1/2 font-bold text-[17px] text-[#100c08]">
-          Dienst tauschen
+          Einsatz tauschen
         </p>
       </div>
 
@@ -190,7 +190,7 @@ function DienstTauschInner() {
         {/* Feld 2 – Dienst wählen */}
         <div className="flex flex-col gap-[6px]">
           <p className="text-[14px] font-normal text-[#100c08]">
-            Ich möchte folgenden Dienst übernehmen *
+            Ich möchte folgenden Einsatz übernehmen *
           </p>
           <button
             onClick={() => oeffne("dienst")}
@@ -215,7 +215,7 @@ function DienstTauschInner() {
         {/* Feld 3 – Person wählen */}
         <div className="flex flex-col gap-[6px]">
           <p className={`text-[14px] font-normal ${gewDatum && gewDienst ? "text-[#100c08]" : "text-[#aaa9a6]"}`}>
-            Auf Basis Ihrer Angaben, werden Personen aufgeführt, für die eine Dienstübernahme in Frage kommen. *
+            Auf Basis Ihrer Angaben, werden Personen aufgeführt, für die eine Einsatzübernahme in Frage kommen. *
           </p>
           <button
             onClick={() => { if (gewDatum && gewDienst) oeffne("person"); }}
@@ -252,7 +252,7 @@ function DienstTauschInner() {
           }}
           className={`w-full h-[40px] rounded-[12px] font-bold text-[16px] text-white transition-colors ${alleOk ? "bg-[#100c08] cursor-pointer" : "bg-[#c5c3c0] cursor-not-allowed"}`}
         >
-          Diensttausch anfragen
+          Einsatztausch anfragen
         </button>
       </div>
 

@@ -12,9 +12,11 @@ type DiensttauschAnfrage = {
 };
 
 const DIENST_ZEITEN: Record<string, string> = {
-  "Frühdienst":  "06:00 – 15:00",
-  "BE Mo-Do (15)":  "13:00 – 22:00",
-  "Nachtdienst": "22:00 – 06:00",
+  "Frühdienst":    "06:00 – 15:00",
+  "BE Mo-Do (15)": "07:00 – 16:30",
+  "BE Fr-Sa (5)":  "06:30 – 16:30",
+  "BE So (2)":     "07:00 – 16:30",
+  "Nachtdienst":   "22:00 – 06:00",
 };
 
 const TAG_ABKUERZ: Record<string, string> = {

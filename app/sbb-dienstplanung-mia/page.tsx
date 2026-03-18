@@ -1,8 +1,20 @@
 "use client";
 
-import { useState, Suspense } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+
+type DiensttauschAnfrage = {
+  tag: string;
+  datum: string;
+  dienst: string;
+  uhrzeit: string;
+  person: string;
+  gewDienst: string;
+  gewDatum: string;
+  gewDatumNr: string;
+  status?: "pending" | "approved" | "denied";
+};
 
 type Dienstdaten = {
   tag: string;
@@ -96,9 +108,10 @@ function TauschNotiz({ person }: { person: string }) {
 }
 
 const DIENST_INFO: Record<string, { zeit: string; dauer: string; pause: string }> = {
-  "Frühdienst":  { zeit: "06:00 – 15:00", dauer: "8:00 h", pause: "1:00 h" },
-  "BE Mo-Do (15)":  { zeit: "07:00 – 16:30", dauer: "8:00 h", pause: "0:20 h" },
-  "Nachtdienst": { zeit: "22:00 – 06:00", dauer: "8:00 h", pause: "0:30 h" },
+  "Frühdienst":    { zeit: "06:00 – 15:00", dauer: "8:00 h", pause: "1:00 h" },
+  "BE Mo-Do (15)": { zeit: "07:00 – 16:30", dauer: "8:00 h", pause: "0:20 h" },
+  "BE Fr-Sa (5)":  { zeit: "06:30 – 16:30", dauer: "8:00 h", pause: "1:00 h" },
+  "Nachtdienst":   { zeit: "22:00 – 06:00", dauer: "8:00 h", pause: "0:30 h" },
 };
 
 function IconNachtdienst() {
@@ -169,6 +182,63 @@ function NeueKachel({ dienst }: { dienst: string }) {
   );
 }
 
+function ApprovedNeueKachel({ dienst }: { dienst: string }) {
+  const info = DIENST_INFO[dienst] ?? { zeit: "", dauer: "8:00 h", pause: "1:00 h" };
+  return (
+    <div
+      className="bg-white flex w-full flex-col gap-[8px] items-start p-[16px] relative rounded-[8px]"
+      style={{ boxShadow: "2px 4px 6px 0px rgba(0,0,0,0.1), -2px -2px 6px 0px rgba(0,0,0,0.1)", boxSizing: "border-box" }}
+    >
+      <div className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[16px]">
+        <p className="font-normal text-[14px] text-white whitespace-nowrap">Neu</p>
+      </div>
+      <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+        <div className="flex flex-row items-center self-stretch">
+          <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0">
+            <DienstIcon dienst={dienst} />
+          </div>
+        </div>
+        <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+          <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">{info.zeit}</p>
+          <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">{dienst}</p>
+        </div>
+      </div>
+      <div className="flex flex-col gap-[4px] items-start pl-[8px] pr-[24px] relative shrink-0 w-full">
+        <p className="font-normal leading-[1.4] min-w-full not-italic relative shrink-0 text-black text-[12px]">
+          Dauer: {info.dauer}&nbsp;&nbsp;&nbsp;&nbsp;Pause: {info.pause}
+        </p>
+      </div>
+      <div className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]" style={{ backgroundColor: "#F3F2F2" }}>
+        <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
+        <p className="font-normal leading-[1.4] text-black text-[16px]">Dienst übernommen</p>
+      </div>
+    </div>
+  );
+}
+
+function FreiKachelApproved() {
+  return (
+    <div className="bg-white flex flex-col gap-[8px] items-start w-full p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+      <div className="absolute z-20 bg-[#174693] flex h-[24px] items-center justify-center overflow-hidden rounded-[12px] right-[6px] top-[6px] px-[16px]">
+        <p className="font-normal text-[14px] text-white whitespace-nowrap">Neu</p>
+      </div>
+      <div className="flex gap-[12px] items-center relative shrink-0 w-full">
+        <div className="flex flex-row items-center self-stretch">
+          <div className="flex h-full items-start justify-center overflow-clip pt-[3px] relative shrink-0"><IconFrei /></div>
+        </div>
+        <div className="flex flex-[1_0_0] flex-col items-start justify-center min-h-px min-w-px relative">
+          <p className="font-bold leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">Kein Einsatz</p>
+          <p className="font-normal leading-[1.4] not-italic relative shrink-0 text-[#100c08] text-[16px]">ganzer Tag</p>
+        </div>
+      </div>
+      <div className="flex gap-[16px] items-start w-full p-[8px] rounded-[4px]" style={{ backgroundColor: "#F3F2F2" }}>
+        <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="shrink-0 mt-[2px]" />
+        <p className="font-normal leading-[1.4] text-black text-[16px]">Kein Dienst (abgegeben)</p>
+      </div>
+    </div>
+  );
+}
+
 function DienstKachel({
   dienst, uhrzeit, isTausch, tauschPerson, onMenuClick,
 }: {
@@ -224,13 +294,42 @@ function EinsatzplanungInner() {
   const gewDatum     = searchParams.get("gewDatum")     ?? "";
   const gewDienst    = searchParams.get("gewDienst")    ?? "";
 
+  const [anfrage, setAnfrage] = useState<DiensttauschAnfrage | null>(null);
+
+  useEffect(() => {
+    const raw = localStorage.getItem("diensttausch_anfrage");
+    if (raw) {
+      try { setAnfrage(JSON.parse(raw)); } catch { /* ignore */ }
+    }
+  }, []);
+
+  // URL-Params haben Priorität; Fallback auf localStorage
+  const effTauschTag    = tauschTag    || anfrage?.tag    || "";
+  const effTauschDatum  = tauschDatum  || anfrage?.datum  || "";
+  const effTauschPerson = tauschPerson || anfrage?.person || "";
+  const effGewDatum     = gewDatum     || anfrage?.gewDatum  || "";
+  const effGewDienst    = gewDienst    || anfrage?.gewDienst || "";
+
+  const requestState: "pending" | "approved" | "denied" | "" =
+    anfrage?.status ?? (effTauschTag ? "pending" : "");
+
   const isTauschKarte = (tag: string, datum: string) =>
-    tauschTag === tag && tauschDatum === datum;
+    effTauschTag === tag && effTauschDatum === datum;
 
   // Tagesnummer aus "Mittwoch, 08. April 2026" extrahieren → "08"
-  const neuesKachelDatum = gewDatum
-    ? (gewDatum.split(", ")[1]?.split(".")[0]?.trim() ?? "")
+  const neuesKachelDatum = effGewDatum
+    ? (effGewDatum.split(", ")[1]?.split(".")[0]?.trim() ?? "")
     : "";
+
+  const gleichesDatum = effTauschDatum === neuesKachelDatum;
+
+  // Hilfe: rendert NeueKachel oder ApprovedNeueKachel je nach Status
+  const renderNeueKachel = (datum: string) => {
+    if (neuesKachelDatum !== datum || !effGewDienst) return null;
+    return requestState === "approved"
+      ? <ApprovedNeueKachel dienst={effGewDienst} />
+      : <NeueKachel dienst={effGewDienst} />;
+  };
 
   const [aktiveKarte, setAktiveKarte] = useState<Dienstdaten | null>(null);
   const [sheetOffen, setSheetOffen] = useState(false);
@@ -304,7 +403,7 @@ function EinsatzplanungInner() {
         {/* MO 06 – Frei */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="MO" datum="06" />
-          {neuesKachelDatum === "06" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "06" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -324,7 +423,7 @@ function EinsatzplanungInner() {
         {/* DI 07 – Ferien */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="DI" datum="07" />
-          {neuesKachelDatum === "07" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "07" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -341,61 +440,69 @@ function EinsatzplanungInner() {
           )}
         </div>
 
-        {/* MI 08 – Frühdienst (relevant für Dienst tauschen) */}
+        {/* MI 08 – BE Mo-Do (15) (relevant für Dienst tauschen) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="MI" datum="08" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
-            {!(neuesKachelDatum === "08" && gewDienst && !isTauschKarte("MI","08")) && (
-              <DienstKachel
-                dienst="BE Mo-Do (15)"
-                uhrzeit="07:00 – 16:30"
-                isTausch={isTauschKarte("MI","08")}
-                tauschPerson={tauschPerson}
-                onMenuClick={() => handleMenuClick({ tag: "MI", datum: "08", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })}
-              />
+            {/* Gray/Frei card */}
+            {isTauschKarte("MI","08") && requestState === "approved" && !gleichesDatum && <FreiKachelApproved />}
+            {isTauschKarte("MI","08") && requestState !== "approved" && !(neuesKachelDatum === "08" && effGewDienst && !isTauschKarte("MI","08")) && (
+              <DienstKachel dienst="BE Mo-Do (15)" uhrzeit="07:00 – 16:30" isTausch={true} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "MI", datum: "08", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })} />
             )}
-            {neuesKachelDatum === "08" && gewDienst && <NeueKachel dienst={gewDienst} />}
+            {!isTauschKarte("MI","08") && !(neuesKachelDatum === "08" && effGewDienst) && (
+              <DienstKachel dienst="BE Mo-Do (15)" uhrzeit="07:00 – 16:30" isTausch={false} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "MI", datum: "08", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })} />
+            )}
+            {/* New card */}
+            {neuesKachelDatum === "08" && effGewDienst && (
+              requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />
+            )}
           </div>
         </div>
 
-        {/* DO 09 – Frühdienst (relevant für Dienst tauschen) */}
+        {/* DO 09 – BE Mo-Do (15) (relevant für Dienst tauschen) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="DO" datum="09" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
-            {!(neuesKachelDatum === "09" && gewDienst && !isTauschKarte("DO","09")) && (
-              <DienstKachel
-                dienst="BE Mo-Do (15)"
-                uhrzeit="07:00 – 16:30"
-                isTausch={isTauschKarte("DO","09")}
-                tauschPerson={tauschPerson}
-                onMenuClick={() => handleMenuClick({ tag: "DO", datum: "09", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })}
-              />
+            {isTauschKarte("DO","09") && requestState === "approved" && !gleichesDatum && <FreiKachelApproved />}
+            {isTauschKarte("DO","09") && requestState !== "approved" && !(neuesKachelDatum === "09" && effGewDienst && !isTauschKarte("DO","09")) && (
+              <DienstKachel dienst="BE Mo-Do (15)" uhrzeit="07:00 – 16:30" isTausch={true} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "DO", datum: "09", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })} />
             )}
-            {neuesKachelDatum === "09" && gewDienst && <NeueKachel dienst={gewDienst} />}
+            {!isTauschKarte("DO","09") && !(neuesKachelDatum === "09" && effGewDienst) && (
+              <DienstKachel dienst="BE Mo-Do (15)" uhrzeit="07:00 – 16:30" isTausch={false} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "DO", datum: "09", dienst: "BE Mo-Do (15)", uhrzeit: "07:00 – 16:30", relevant: true })} />
+            )}
+            {neuesKachelDatum === "09" && effGewDienst && (
+              requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />
+            )}
           </div>
         </div>
 
-        {/* FR 10 – Frühdienst (relevant für Dienst tauschen) */}
+        {/* FR 10 – BE Fr-Sa (5) (relevant für Dienst tauschen) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="FR" datum="10" />
           <div className="flex flex-col gap-[8px] flex-[1_0_0] min-w-0">
-            {!(neuesKachelDatum === "10" && gewDienst && !isTauschKarte("FR","10")) && (
-              <DienstKachel
-                dienst="BE Fr-Sa (5)"
-                uhrzeit="06:30 – 16:30"
-                isTausch={isTauschKarte("FR","10")}
-                tauschPerson={tauschPerson}
-                onMenuClick={() => handleMenuClick({ tag: "FR", datum: "10", dienst: "BE Fr-Sa (5)", uhrzeit: "06:30 – 16:30", relevant: true })}
-              />
+            {isTauschKarte("FR","10") && requestState === "approved" && !gleichesDatum && <FreiKachelApproved />}
+            {isTauschKarte("FR","10") && requestState !== "approved" && !(neuesKachelDatum === "10" && effGewDienst && !isTauschKarte("FR","10")) && (
+              <DienstKachel dienst="BE Fr-Sa (5)" uhrzeit="06:30 – 16:30" isTausch={true} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "FR", datum: "10", dienst: "BE Fr-Sa (5)", uhrzeit: "06:30 – 16:30", relevant: true })} />
             )}
-            {neuesKachelDatum === "10" && gewDienst && <NeueKachel dienst={gewDienst} />}
+            {!isTauschKarte("FR","10") && !(neuesKachelDatum === "10" && effGewDienst) && (
+              <DienstKachel dienst="BE Fr-Sa (5)" uhrzeit="06:30 – 16:30" isTausch={false} tauschPerson={effTauschPerson}
+                onMenuClick={() => handleMenuClick({ tag: "FR", datum: "10", dienst: "BE Fr-Sa (5)", uhrzeit: "06:30 – 16:30", relevant: true })} />
+            )}
+            {neuesKachelDatum === "10" && effGewDienst && (
+              requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />
+            )}
           </div>
         </div>
 
         {/* SA 11 – Frei */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="SA" datum="11" />
-          {neuesKachelDatum === "11" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "11" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -413,7 +520,7 @@ function EinsatzplanungInner() {
         {/* SO 12 – Frei */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="SO" datum="12" />
-          {neuesKachelDatum === "12" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "12" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -434,7 +541,7 @@ function EinsatzplanungInner() {
         {/* MO 13 – BE Mo-Do (15) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="MO" datum="13" />
-          {neuesKachelDatum === "13" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "13" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -456,7 +563,7 @@ function EinsatzplanungInner() {
         {/* DI 14 – BE Mo-Do (15) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="DI" datum="14" />
-          {neuesKachelDatum === "14" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "14" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -478,7 +585,7 @@ function EinsatzplanungInner() {
         {/* MI 15 – BE Mo-Do (15) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="MI" datum="15" />
-          {neuesKachelDatum === "15" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "15" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -500,7 +607,7 @@ function EinsatzplanungInner() {
         {/* DO 16 – BE Mo-Do (15) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="DO" datum="16" />
-          {neuesKachelDatum === "16" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "16" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -522,7 +629,7 @@ function EinsatzplanungInner() {
         {/* FR 17 – BE Mo-Do (15) */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="FR" datum="17" />
-          {neuesKachelDatum === "17" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "17" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -544,7 +651,7 @@ function EinsatzplanungInner() {
         {/* SA 18 – Frei */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="SA" datum="18" />
-          {neuesKachelDatum === "18" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "18" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -562,7 +669,7 @@ function EinsatzplanungInner() {
         {/* SO 19 – Frei */}
         <div className="flex items-start relative shrink-0 w-full">
           <TagDatum tag="SO" datum="19" />
-          {neuesKachelDatum === "19" && gewDienst ? <NeueKachel dienst={gewDienst} /> : (
+          {neuesKachelDatum === "19" && effGewDienst ? (requestState === "approved" ? <ApprovedNeueKachel dienst={effGewDienst} /> : <NeueKachel dienst={effGewDienst} />) : (
           <div className="bg-white flex flex-[1_0_0] flex-col gap-[8px] items-start min-h-px min-w-px p-[16px] relative rounded-[8px] shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
             <div className="flex gap-[12px] items-center relative shrink-0 w-full">
               <div className="flex flex-row items-center self-stretch">
@@ -638,7 +745,7 @@ function EinsatzplanungInner() {
                   <path d="M3 8h13a1 1 0 0 1 1 1v4" />
                   <path d="M21 16H8a1 1 0 0 1-1-1v-4" />
                 </svg>
-                <span className="text-[16px] text-[#100c08]">Dienst tauschen</span>
+                <span className="text-[16px] text-[#100c08]">Einsatz tauschen</span>
               </button>
             )}
           </div>

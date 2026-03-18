@@ -60,7 +60,7 @@ function BestaetigungInner() {
 
       {/* Header – kein Zurück-Pfeil */}
       <div className="bg-white sticky top-0 z-[550] flex items-center justify-center h-[48px] px-[24px] shadow-[0_1px_0_0_#e7e6e5]">
-        <p className="font-bold text-[17px] text-[#100c08]">Dienst tauschen</p>
+        <p className="font-bold text-[17px] text-[#100c08]">Einsatz tauschen</p>
       </div>
 
       {/* Content */}
@@ -77,7 +77,7 @@ function BestaetigungInner() {
               </svg>
             </div>
             <p className="text-[16px] font-normal text-black leading-[1.5] text-center">
-              Ihre Anfrage zum Diensttausch wurde an{" "}
+              Ihre Anfrage zum Einsatztausch wurde an{" "}
               <span className="font-bold">{gewPerson}</span>{" "}
               versendet.
             </p>
@@ -85,7 +85,7 @@ function BestaetigungInner() {
 
           {/* Abzugebender Dienst */}
           <div className="flex flex-col gap-[10px] px-[16px] pt-[16px] pb-[16px]">
-            <p className="text-[16px] font-bold text-black">Abzugebender Dienst</p>
+            <p className="text-[16px] font-bold text-black">Abzugebender Einsatz</p>
             {abgabeDatum && (
               <p className="text-[16px] font-normal text-black">{abgabeDatum}</p>
             )}
@@ -114,7 +114,7 @@ function BestaetigungInner() {
 
           {/* Gewünschter Dienst */}
           <div className="flex flex-col gap-[8px] px-[16px] pt-[16px] pb-[20px]">
-            <p className="text-[16px] font-bold text-black">Gewünschter Dienst zur Übernahme</p>
+            <p className="text-[16px] font-bold text-black">Gewünschter Einsatz zur Übernahme</p>
             {gewDatum && (
               <p className="text-[16px] font-normal text-black">{gewDatum}</p>
             )}
