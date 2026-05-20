@@ -131,7 +131,7 @@ function BestaetigungInner() {
       {/* Fixierte Buttons */}
       <div className="fixed bottom-0 inset-x-0 mx-auto max-w-[390px] px-6 pb-[32px] pt-[12px] bg-[#f3f2f2] flex flex-col gap-[10px]">
         <button
-          onClick={() => router.push("/sbb-dashboard-mia")}
+          onClick={() => router.push("/demo-dashboard-mia")}
           className="w-full h-[40px] rounded-[12px] border border-[#100c08] text-[#100c08] font-bold text-[15px] bg-transparent cursor-pointer hover:bg-[#f0efee] transition-colors"
         >
           Dashboard
@@ -145,7 +145,7 @@ function BestaetigungInner() {
               gewDatum,
               gewDienst,
             });
-            router.push(`/sbb-dienstplanung-mia?${params.toString()}`);
+            router.push(`/demo-dienstplanung-mia?${params.toString()}`);
           }}
           className="w-full h-[40px] rounded-[12px] border border-[#100c08] text-[#100c08] font-bold text-[15px] bg-transparent cursor-pointer hover:bg-[#f0efee] transition-colors"
         >

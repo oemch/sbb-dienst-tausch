@@ -353,7 +353,7 @@ function EinsatzplanungInner() {
       });
       setAktiveKarte(null);
       setSheetOffen(false);
-      router.push(`/sbb-dienst-tausch?${params.toString()}`);
+      router.push(`/demo-dienst-tausch?${params.toString()}`);
     } else {
       handleSchliessen();
     }
@@ -369,7 +369,7 @@ function EinsatzplanungInner() {
             <div className="flex h-[48px] items-center px-[24px] relative shrink-0 w-full gap-[8px]">
               {/* Links: Pfeil + Titel */}
               <button
-                onClick={() => router.push("/sbb-dashboard-mia")}
+                onClick={() => router.push("/demo-dashboard-mia")}
                 aria-label="Zurück"
                 className="flex items-center justify-center shrink-0 size-[24px]"
               >

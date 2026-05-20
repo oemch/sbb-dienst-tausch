@@ -33,13 +33,13 @@ export default function DashboardPage() {
         <div className="flex h-12 w-full items-center justify-center px-6">
           <div className="flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
             <Link
-              href="/sbb-dashboard"
+              href="/demo-dashboard"
               className="text-xs font-normal leading-normal text-[#100c08] hover:underline"
             >
               ZESAM
             </Link>
             <Link
-              href="/sbb-dashboard"
+              href="/demo-dashboard"
               className="-mt-1 text-base font-bold leading-normal text-[#100c08] hover:underline"
             >
               Mitarbeiterportal
@@ -87,7 +87,7 @@ export default function DashboardPage() {
             <div className="flex w-full shrink-0 flex-col items-start gap-2">
 
               {/* Dienst tauschen – nur anzeigen wenn offene Anfrage vorhanden */}
-              {hasPendingAnfrage && <Link href="/sbb-dienstplanung-jonas" className="block w-full shrink-0">
+              {hasPendingAnfrage && <Link href="/demo-dienstplanung-jonas" className="block w-full shrink-0">
                 <div className="flex h-[87px] w-full cursor-pointer flex-col items-start overflow-clip rounded-lg bg-[#f7d526] pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <div className="relative flex h-[61px] w-full shrink-0 items-start pr-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
@@ -135,7 +135,7 @@ export default function DashboardPage() {
 
               {/* Einsatzplanung + Ferien */}
               <div className="relative flex w-full shrink-0 items-start gap-2">
-                <Link href="/sbb-dienstplanung-jonas" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+                <Link href="/demo-dienstplanung-jonas" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
                   <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
                 </Link>

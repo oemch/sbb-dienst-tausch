@@ -44,13 +44,13 @@ export default function DashboardMiaPage() {
         <div className="flex h-12 w-full items-center justify-center px-6">
           <div className="flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
             <Link
-              href="/sbb-dashboard-mia"
+              href="/demo-dashboard-mia"
               className="text-xs font-normal leading-normal text-[#100c08] hover:underline"
             >
               ZESAM
             </Link>
             <Link
-              href="/sbb-dashboard-mia"
+              href="/demo-dashboard-mia"
               className="-mt-1 text-base font-bold leading-normal text-[#100c08] hover:underline"
             >
               Mitarbeiterportal
@@ -100,7 +100,7 @@ export default function DashboardMiaPage() {
               {/* Dienst-Tausch Status-Card (angenommen / abgelehnt) */}
               {(anfrage?.status === "approved" || anfrage?.status === "denied") && (
                 <Link
-                  href={anfrage.status === "approved" ? "/sbb-dienstplanung-mia" : "#"}
+                  href={anfrage.status === "approved" ? "/demo-dienstplanung-mia" : "#"}
                   className="flex w-full shrink-0 items-center gap-3 rounded-lg pl-4 pr-5 py-3 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]"
                   style={{ backgroundColor: anfrage.status === "approved" ? "#AFE7B2" : "#FFD09D" }}
                 >
@@ -149,7 +149,7 @@ export default function DashboardMiaPage() {
 
               {/* Einsatzplanung + Ferien */}
               <div className="relative flex w-full shrink-0 items-start gap-2">
-                <Link href="/sbb-dienstplanung-mia" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
+                <Link href="/demo-dienstplanung-mia" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
                   <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
                 </Link>

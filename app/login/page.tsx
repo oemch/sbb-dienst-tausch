@@ -10,8 +10,8 @@ type Benutzer = {
 };
 
 const BENUTZER: Benutzer[] = [
-  { email: "luca.meier@sbb.ch", ziel: "/sbb-dashboard-mia" },
-  { email: "jonas.baumgartner@sbb.ch", ziel: "/sbb-dashboard" },
+  { email: "luca.meier@sbb.ch", ziel: "/demo-dashboard-mia" },
+  { email: "jonas.baumgartner@sbb.ch", ziel: "/demo-dashboard" },
 ];
 
 export default function LoginPage() {

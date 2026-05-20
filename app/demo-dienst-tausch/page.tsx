@@ -248,7 +248,7 @@ function DienstTauschInner() {
               gewDienst: gewDienst!,
               gewPerson: gewPerson!,
             });
-            router.push(`/sbb-dienst-tausch-bestaetigung?${params.toString()}`);
+            router.push(`/demo-dienst-tausch-bestaetigung?${params.toString()}`);
           }}
           className={`w-full h-[40px] rounded-[12px] font-bold text-[16px] text-white transition-colors ${alleOk ? "bg-[#100c08] cursor-pointer" : "bg-[#c5c3c0] cursor-not-allowed"}`}
         >

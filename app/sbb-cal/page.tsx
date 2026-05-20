@@ -72,7 +72,7 @@ export default function Wochenkalender1Page() {
               {/* Back Button */}
               <button
                 onClick={() => {
-                  router.push("/sbb-dashboard");
+                  router.push("/demo-dashboard");
                 }}
                 className="flex items-center justify-center p-[8px] relative shrink-0 size-[40px]"
               >
