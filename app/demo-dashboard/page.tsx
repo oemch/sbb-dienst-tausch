@@ -13,17 +13,22 @@ export default function DashboardPage() {
     year: "numeric",
   }).format(new Date());
 
-  const [hasPendingAnfrage, setHasPendingAnfrage] = useState(false);
+  const TAG_LANG: Record<string, string> = {
+    MO: "Montag", DI: "Dienstag", MI: "Mittwoch", DO: "Donnerstag",
+    FR: "Freitag", SA: "Samstag", SO: "Sonntag",
+  };
+
+  const [anfrage, setAnfrage] = useState<{ dienst: string; datum: string; tag: string; grund?: string; status?: string } | null>(null);
   useEffect(() => {
     const raw = localStorage.getItem("diensttausch_anfrage");
-    if (!raw) { setHasPendingAnfrage(false); return; }
+    if (!raw) return;
     try {
       const data = JSON.parse(raw);
-      setHasPendingAnfrage(!data.status || data.status === "pending");
-    } catch {
-      setHasPendingAnfrage(true);
-    }
+      if (!data.status || data.status === "pending") setAnfrage(data);
+    } catch { /* ignore */ }
   }, []);
+
+  const anfrageDatum = anfrage ? `${TAG_LANG[anfrage.tag] ?? anfrage.tag}, ${anfrage.datum}. April 2026` : "";
 
   return (
     <div className="relative flex min-h-screen w-full flex-col items-start bg-white">
@@ -62,7 +67,7 @@ export default function DashboardPage() {
       </header>
 
       {/* Hauptinhalt */}
-      <main className="flex w-full flex-1 shrink-0 flex-col items-start justify-between bg-[#f6f5f5] px-6 pb-6 pt-6">
+      <main className="flex w-full flex-1 shrink-0 flex-col items-start justify-between bg-white px-6 pb-6 pt-6">
 
         {/* Datum + Karten */}
         <div className="relative w-full shrink-0">
@@ -87,37 +92,41 @@ export default function DashboardPage() {
             <div className="flex w-full shrink-0 flex-col items-start gap-2">
 
               {/* Dienst tauschen – nur anzeigen wenn offene Anfrage vorhanden */}
-              {hasPendingAnfrage && <Link href="/demo-dienstplanung-jonas" className="block w-full shrink-0">
-                <div className="flex h-[87px] w-full cursor-pointer flex-col items-start overflow-clip rounded-lg bg-[#f7d526] pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
-                  <div className="relative flex h-[61px] w-full shrink-0 items-start pr-3">
-                    <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
-                      <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
-                        <div className="flex shrink-0 items-start pt-[3px]">
-                          <div className="flex size-10 shrink-0 items-center justify-center overflow-clip rounded-[32px] bg-white">
-                            <Image src="/images/icon-tausch.svg" alt="Tausch" width={16} height={16} className="size-4" />
-                          </div>
-                        </div>
-                        <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                          <p className="relative min-w-full shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatz tauschen</p>
-                          <p className="relative shrink-0 text-base font-normal leading-[1.4] text-[#100c08]">1 Anfrage an mich</p>
-                        </div>
-                      </div>
-                    </div>
+              {anfrage && <Link href="/demo-dienstplanung-jonas" className="block w-full shrink-0">
+                <div className="flex w-full cursor-pointer items-center gap-3 px-4 py-4" style={{ backgroundColor: "#FEFBE9", border: "1px solid #F7D526" }}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="shrink-0 self-start mt-[2px]">
+                    <path d="M12.87 4.5l8.2 14.2a1 1 0 0 1-.87 1.5H3.8a1 1 0 0 1-.87-1.5l8.2-14.2a1 1 0 0 1 1.74 0z" fill="#F7D526" />
+                    <path d="M12 9.4v4.3" stroke="#1A1A1A" strokeWidth="2" strokeLinecap="round" />
+                    <circle cx="12" cy="17" r="1.15" fill="#1A1A1A" />
+                  </svg>
+                  <div className="flex flex-1 min-w-0 flex-col items-start justify-center">
+                    <p className="text-base font-bold leading-[1.4]" style={{ color: "#1A1A1A" }}>Dienst tauschen</p>
+                    <p className="text-sm font-normal leading-[1.4]" style={{ color: "#1A1A1A" }}>
+                      Luca Meier möchte die {anfrage.dienst} vom {anfrageDatum} mit Dir tauschen.
+                    </p>
+                    {anfrage.grund && (
+                      <p className="text-sm font-normal leading-[1.4] mt-[6px]" style={{ color: "#1A1A1A" }}>
+                        Grund: {anfrage.grund}
+                      </p>
+                    )}
                   </div>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0" aria-hidden="true">
+                    <path d="M9 6l6 6-6 6" />
+                  </svg>
                 </div>
               </Link>}
 
-              {/* BE Mo-Do (15) */}
+              {/* Spätschicht */}
               <div className="relative flex w-full shrink-0 flex-col items-start gap-2 overflow-clip rounded-lg bg-white pb-5 pl-4 pt-2 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                 <div className="relative flex w-full shrink-0 items-start pr-3">
                   <div className="relative flex min-h-px min-w-px flex-1 items-center pt-3">
                     <div className="relative flex min-h-px min-w-px flex-1 items-center justify-center gap-3">
                       <div className="flex shrink-0 items-start pt-[3px]">
-                        <div className="rounded-[32px] size-10 shrink-0" style={{ backgroundColor: "#FFD09D" }} />
+                        <Image src="/images/icon-spaetschicht.svg" alt="Spätschicht" width={40} height={40} className="size-10 shrink-0" />
                       </div>
                       <div className="relative flex min-h-px min-w-px flex-1 flex-col items-start justify-center">
-                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">07:00 – 16:30</p>
-                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">BE Mo-Do (15)</p>
+                        <p className="relative shrink-0 text-sm font-normal leading-[1.4] text-[#100c08]">14:00 – 22:00</p>
+                        <p className="relative min-h-px min-w-px flex-1 shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Spätschicht</p>
                       </div>
                     </div>
                   </div>
@@ -137,7 +146,7 @@ export default function DashboardPage() {
               <div className="relative flex w-full shrink-0 items-start gap-2">
                 <Link href="/demo-dienstplanung-jonas" className="flex flex-1 shrink-0 flex-col items-start gap-3 self-stretch rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-calendar.svg" alt="Kalender" width={24} height={24} className="relative shrink-0" />
-                  <p className="relative shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Einsatzplanung</p>
+                  <p className="relative min-w-full shrink-0 text-base font-bold leading-[1.4] text-[#100c08]">Dienstplanung &amp; Diensttausch</p>
                 </Link>
                 <div className="flex flex-1 shrink-0 flex-col items-start gap-3 rounded-xl bg-white p-5 shadow-[2px_4px_6px_0px_rgba(0,0,0,0.1),-2px_-2px_6px_0px_rgba(0,0,0,0.1)]">
                   <Image src="/images/icon-ferien.svg" alt="Ferien" width={24} height={24} className="relative shrink-0" />

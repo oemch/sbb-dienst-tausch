@@ -10,7 +10,7 @@ type Benutzer = {
 };
 
 const BENUTZER: Benutzer[] = [
-  { email: "luca.meier@sbb.ch", ziel: "/demo-dashboard-mia" },
+  { email: "luca.meier@sbb.ch", ziel: "/demo-dashboard-luca" },
   { email: "jonas.baumgartner@sbb.ch", ziel: "/demo-dashboard" },
 ];
 
@@ -18,6 +18,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [ausgewaehlter, setAusgewaehlter] = useState<Benutzer | null>(null);
   const [dropdownOffen, setDropdownOffen] = useState(false);
+  const [zurueckgesetzt, setZurueckgesetzt] = useState(false);
 
   const handleBenutzerWahl = (b: Benutzer) => {
     setAusgewaehlter(b);
@@ -38,6 +39,14 @@ export default function LoginPage() {
 
   const handleEmailBlur = () => {
     setTimeout(() => setDropdownOffen(false), 150);
+  };
+
+  // Demo-Reset: alle Tauschanfragen / Zustände leeren → Anfangszustand
+  const handleReset = () => {
+    localStorage.removeItem("diensttausch_anfrage");
+    localStorage.removeItem("mia_result_acknowledged");
+    setZurueckgesetzt(true);
+    setTimeout(() => setZurueckgesetzt(false), 1800);
   };
 
   return (
@@ -149,7 +158,7 @@ export default function LoginPage() {
       </main>
 
       {/* Footer */}
-      <footer className="flex items-center justify-center pb-8 pt-4">
+      <footer className="flex items-center justify-center gap-6 pb-8 pt-4">
         <Link
           href="#"
           className="text-sm font-normal text-[#174693] hover:underline"
@@ -157,6 +166,17 @@ export default function LoginPage() {
         >
           Hilfe
         </Link>
+        <button
+          onClick={handleReset}
+          aria-label="App zurücksetzen"
+          className="flex items-center gap-1.5 text-sm font-normal text-[#174693] hover:underline cursor-pointer"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
+          </svg>
+          {zurueckgesetzt ? "Zurückgesetzt ✓" : "Zurücksetzen"}
+        </button>
       </footer>
 
     </div>
